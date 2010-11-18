@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  fiber_id: 1
+  test_type: 1
+  ab_injected: 9.99
+  ab_rcv_opt_power: 9.99
+  ab_opt_link_loss: 9.99
+  ba_injected: 9.99
+  ba_rcv_opt_power: 9.99
+  ba_opt_link_loss: 9.99
+  mean_loss: 9.99
+  test_timestamp: 2010-11-09 16:31:15
+  equipment: MyString
+  technique: MyString
+  lambda: 1
+
+two:
+  fiber_id: 1
+  test_type: 1
+  ab_injected: 9.99
+  ab_rcv_opt_power: 9.99
+  ab_opt_link_loss: 9.99
+  ba_injected: 9.99
+  ba_rcv_opt_power: 9.99
+  ba_opt_link_loss: 9.99
+  mean_loss: 9.99
+  test_timestamp: 2010-11-09 16:31:15
+  equipment: MyString
+  technique: MyString
+  lambda: 1

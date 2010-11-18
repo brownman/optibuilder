@@ -1,0 +1,196 @@
+/* for all the system*/
+.ExtPage{
+	padding: 10px;
+}
+
+a {
+	color:#15428B;
+}
+
+a:hover {
+  color:#DA251D;
+}
+/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+
+
+/*Print Preview */
+
+p{
+	font-size: 11px;
+	padding: 5px 10px 5px 10px;
+}
+a{
+	font-size: 14px;
+}
+
+b{
+	font-size: 12px;
+
+}
+h1{
+	border-bottom:3px dotted #AEAEAE ;
+	width: 100%;
+	color: #5E5F5D;
+	font-size: 25px;
+	margin-bottom:10px;
+}
+hr {
+	border-bottom:2px solid #AEAEAE ;
+	color:#757575;
+}
+fieldset {
+ 	border: 0.5px solid #919191;
+ 	width:40%;/*tamanho do filedset*/;
+}
+legend {
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+
+}
+legend.name {
+ 	font-size: 15px;
+}
+div.action {
+	padding: 10px;
+ 	width: 50%;
+}
+
+table {
+	padding: 3px;
+	width:100%;
+	line-height: 155%;
+}
+th {
+	font-size: 12px;
+	font-weight: bold;
+	width:13%;
+	text-align: left;
+	border:transparent;
+	vertical-align:top;
+	line-height: 1.8em;
+}
+
+td {
+	font-size: 12px;
+	text-align: left;
+    width:87%;
+    height:100%;
+	border:transparent;
+	vertical-align:top;
+}
+
+table.addr th {
+	width:15%;
+	heigth:80%;
+}
+table.addr td {
+	width:85%;
+	heigth:80%;
+}
+
+span{
+	font-weight: bold;
+	font-size: 12px;
+}
+span.pipe
+{
+	color:#A8A3A3;
+}
+/*Span-show*/
+
+.ShowPage fieldset.spanview {
+ 	width:30%;/*tamanho do filedset*/;
+}
+.ShowPage table.spanview th {
+	width:23%;
+}
+
+.ShowPage table.spanview td {
+	width:77%;
+}
+
+/*User-show*/
+
+.ShowPage fieldset.user {
+ 	width:40%;/*tamanho do filedset*/;
+}
+.ShowPage table.user th {
+	width:35%;
+}
+
+.ShowPage table.user td {
+	width:65%;
+}
+/*Site-show*/
+
+.ShowPage fieldset.siteview {
+ 	width:40%;/*tamanho do filedset*/;
+}
+.ShowPage table.siteview th {
+	width:25%;
+}
+
+.ShowPage table.siteview td {
+	width:75%;
+}
+
+/*Subrack-show*/
+
+.ShowPage fieldset. {
+ 	width:50%;/*tamanho do filedset*/;
+}
+
+.ShowPage table.subrackview2  {
+	padding-bottom: 0px;
+
+}
+
+.ShowPage table.subrackview2 th {
+	width:23%;
+
+}
+
+.ShowPage table.subrackview2 td {
+	width:77%;
+
+}
+
+.ShowPage table.subrackview  {
+	width:52%;
+	float:left;
+	padding-top: 0px;
+}
+
+.ShowPage table.subrackview th {
+	width:72%;
+
+}
+
+.ShowPage table.subrackview td {
+	width:28%;
+
+}
+
+.ShowPage table.subrackview3  {
+	width:48%;
+	border-left:  0.5px solid #d0d0d0;
+	float:right;
+	padding-top: 0px;
+
+}
+.ShowPage table.subrackview3 th {
+	width:70%;
+
+}
+
+.ShowPage table.subrackview3 td {
+	width:30%;
+}
+.ShowPage div.table_container th {
+	margin:0 auto;
+	align:center;
+	width:100%;
+	padding-top: 0px;
+	padding-botton: 1px;
+}

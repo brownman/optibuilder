@@ -1,0 +1,26 @@
+<h1>Listing jumpers</h1>
+
+<table>
+  <tr>
+    <th>Connectors</th>
+    <th>Lenght</th>
+    <th>Description</th>
+    <th>Fiber</th>
+  </tr>
+
+<% @jumpers.each do |jumper| %>
+  <tr>
+    <td><%=h jumper.connectors %></td>
+    <td><%=h jumper.lenght %></td>
+    <td><%=h jumper.description %></td>
+    <td><%=h jumper.fiber_id %></td>
+    <td><%= link_to 'Show', jumper %></td>
+    <td><%= link_to 'Edit', edit_jumper_path(jumper) %></td>
+    <td><%= link_to 'Destroy', jumper, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New jumper', new_jumper_path %>

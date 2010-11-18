@@ -1,0 +1,161 @@
+<script type="text/javascript">
+
+	var networkTypeCombo =
+		new Ext.form.ComboBox ({
+		    fieldLabel: 'Network Type',
+		    store: [['1', 'Subterran'],['2', 'Aerial'],['3', 'Submarine'],['4', 'Other']],
+		    typeAhead: true,
+		    mode: 'local',
+		    forceSelection: true,
+		    triggerAction: 'all',
+		    selectOnFocus: true,
+		    hiddenName: 'subrack_name[network_type]',
+		    allowBlank: false,
+			editable: false,
+			emptyText: 'Set Network Type...',
+			width: 200
+		});
+
+    var store_combo_Diagrams = createStore('/diagrams/store/grid',
+                                               ['id', 'name'],
+                                               [{name: 'id',  mapping: 'id'},
+                                                {name: 'name',  mapping: 'name'}]
+                                            );
+
+	var store_combo_Site = createStore('/sites/store/grid',
+									   ['id', 'name'],
+									   [{name: 'id',  mapping: 'id'},
+									    {name: 'name',  mapping: 'name'}
+									   ]);
+
+    var comboDiagrams = new Ext.form.ComboBox({
+            fieldLabel: 'Diagram',
+            valueField: 'id',
+            displayField: 'name',
+            name: 'subrack_name[name]',
+            hiddenName: 'subrack_name[diagram_id]',
+            editable: true,
+            emptyText: 'select a Diagram...',
+            store: store_combo_Diagrams,
+            mode: 'remote',
+            selectOnFocus: true,
+            forceSelection: true,
+            triggerAction: 'all',
+            minChars: 3,
+            allowBlank: false,
+            width: 200
+        });
+
+	var comboSite = new Ext.form.ComboBox({
+			fieldLabel: 'Site',
+			labelWidth: 40,
+			valueField: 'id',
+			displayField: 'name',
+			name: 'subrack_name[subrack_name]',
+			hiddenName: 'subrack_name[site_id]',
+			emptyText: 'Select a Site...',
+			store: store_combo_Site,
+			mode: 'remote',
+			selectOnFocus: true,
+			forceSelection: true,
+			triggerAction: 'all',
+			allowBlank: false,
+            width: 300,
+			editable: true,
+			minChars: 3
+		});
+
+	var form_newSubrack_names =
+		new Ext.FormPanel({
+			frame:true,
+  			title: 'Create a new Subrack using the form below',
+	  		bodyStyle:'padding:5px 5px 0',
+	  		style: "margin: 0px auto 0px auto;",
+	  		width: 700,
+	  		monitorValid: true,
+            items:[{xtype:"fieldset",title:"Subrack",autoHeight:true,width: 680,labelWidth: 40,
+                    items:[
+                           {layout: 'column',
+                            items:[{labelWidth: 40, columnWidth:0.59, layout:'form'
+                                   ,items:[comboSite]
+                                    },
+                                   {labelWidth: 40, columnWidth:0.22, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Name', name: 'subrack_name[subrack_name]', allowBlank:false, width: 60}]
+                                    },
+                                   {labelWidth: 60, columnWidth:0.19, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Sequence', name: 'subrack_name[subrack_seq]', allowBlank:false, width: 40}]
+                                   }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 40, columnWidth:0.28, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Floor', name: 'subrack_name[floor]', allowBlank:false, width: 100}]
+                                    },
+                                   {labelWidth: 40, columnWidth:0.25, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Line', name: 'subrack_name[line]', allowBlank:false, width: 85}]
+                                    },
+                                   {labelWidth: 40, columnWidth:0.25, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Rack', name: 'subrack_name[rack]', allowBlank:false, width: 85}]
+                                    },
+                                   {labelWidth: 40, columnWidth:0.22, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Group', name: 'subrack_name[group]', allowBlank:true, width: 80}]
+                                   }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.33, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Room', name: 'subrack_name[room]', allowBlank:false, width: 130}]
+                                    },
+                                   {labelWidth: 70, columnWidth:0.38, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Connector', name: 'subrack_name[connector]', allowBlank:false, width: 140}]
+                                    },
+                                   {labelWidth: 45, columnWidth:0.29, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Cable', name: 'subrack_name[cable]', allowBlank:false, width: 120}]
+                                  }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 80, columnWidth:0.33, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Total Fibers', name: 'subrack_name[total_fibers]', allowBlank:false, width: 100}]
+                                    },
+                                   {labelWidth: 100, columnWidth:0.37, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Released Fibers', name: 'subrack_name[released_fibers]', allowBlank:false, width: 97}]
+                                    },
+                                   {labelWidth: 90, columnWidth:0.30, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Broken Fibers', name: 'subrack_name[broken_fibers]', allowBlank:false, width: 82}]
+                                  }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 100, columnWidth:0.55, layout:'form'
+                                   ,items:[networkTypeCombo]
+                                   },
+                                   {labelWidth: 71, columnWidth:0.45, layout:'form'
+                                   ,items:[comboDiagrams]
+                                  }]
+                          }]
+                  }],
+			buttons:[{text: 'Create Subrack_name',
+				      handler:function() {
+		        		if (form_newSubrack_names.getForm().isValid()){
+		          			form_newSubrack_names.getForm().submit({
+		            			url:'<%= url_for (:controller => 'subrack_names', :action => 'create') %>',
+		            			waitMsg:'Saving Data...',
+		            			success: function(){
+		              				Ext.Msg.alert('Subrack_name added','The subrack_name has been successfully created');
+		              				updateSubTab('tab_subrack_names','sub_tab_subrack_names','Subrack_names','<%= subrack_names_path %>');;
+		              				closeSubTab('tab_subrack_names','sub_tab_subrack_names_new');
+	            				},
+		            			failure: function()
+		            			   {Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
+		          			});
+        				}
+	      			  }
+				     },
+    			     {
+    				  text: 'Cancel',
+    				  handler:function(){closeSubTab('tab_subrack_names','sub_tab_subrack_names_new');}
+	  			    }]
+	});
+
+	form_newSubrack_names.render( 'area_form_newSubrack_names');
+
+</script>
+<br />
+<div id="area_form_newSubrack_names" style="float:left;"></div>

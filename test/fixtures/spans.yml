@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  site_a_id: 1
+  site_b_id: 1
+  company_id: 1
+  distance: 9.99
+  fiber_type_id: 1
+
+two:
+  site_a_id: 1
+  site_b_id: 1
+  company_id: 1
+  distance: 9.99
+  fiber_type_id: 1

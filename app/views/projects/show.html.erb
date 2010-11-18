@@ -1,0 +1,246 @@
+<div id="area_<%= @project.id %>"><!-- TabPanel area --></div>
+<div id="project_details_<%= @project.id %>" class="x-hide-display">
+	<p>
+	  <b>Customer:</b>
+	  <a href="#" onclick="showProjectCompany(<%= @project.customer.id %>, '<%= @project.customer.name %>');">
+	  	<%=h @project.customer.name %>
+	  </a>
+	</p>
+	<p>
+	  <b>Network owner:</b>
+	  <a href="#" onclick="showProjectCompany(<%= @project.owner.id %>, '<%= @project.owner.name %>');">
+	  	<%=h @project.owner.name %>
+	  </a>
+	</p>
+
+	<p>
+	  <b>Name:</b>
+	  <%=h @project.name %>
+	</p>
+
+	<p>
+	  <b>Description:</b>
+	  <%=h @project.description %>
+	</p>
+
+	<p>
+	  <b>Begin date:</b>
+	  <%=h @project.begin_date %>
+	</p>
+
+	<p>
+	  <b>End date:</b>
+	  <%=h @project.end_date %>
+	</p>
+
+	<p>
+	  <b>Status:</b>
+	  <%=h @project.status %>
+	</p>
+
+	<p>
+	  <b>Has test attenuation (1310):</b>
+	  <%=h @project.has_test_attenuation_1310 %>
+	</p>
+
+	<p>
+	  <b>Has test attenuation (1550):</b>
+	  <%=h @project.has_test_attenuation_1550 %>
+	</p>
+
+	<p>
+	  <b>Has test pmd (10 min):</b>
+	  <%=h @project.has_test_pmd_10_min %>
+	</p>
+
+	<p>
+	  <b>Has test pmd (1 hour):</b>
+	  <%=h @project.has_test_pmd_60_min %>
+	</p>
+
+	<p>
+	  <b>Has test otdr (Standard):</b>
+	  <%=h @project.has_test_otdr_standard %>
+	</p>
+
+	<p>
+	  <b>Has test otdr (Premium):</b>
+	  <%=h @project.has_test_otdr_premium %>
+	</p>
+
+	<p>
+	  <b>Has test dispersion chromatic:</b>
+	  <%=h @project.has_test_chromatic %>
+	</p>
+
+	<p>
+	  <b>Has test orl:</b>
+	  <%=h @project.has_test_orl %>
+	</p>
+	
+	<p>
+	  <b>Has test site survey:</b>
+	  <%=h @project.has_test_site_survey %>
+	</p>
+	
+</div>
+
+<div id="project_people_<%= @project.id %>" class="x-hide-display">
+	<% if @project.users_projects.size > 0 %>
+		<table class="simpleTable">
+			<th>Name</th>
+			<th>Role</th>
+			<% @project.users_projects.each do |u| %>
+				<tr>
+					<td>
+						<a href="#" onclick="showProjectUser(<%= u.user.id %>, '<%= u.user.name %>'); return false;">
+							<%= u.user.name %>
+						</a>
+					</td>
+					<td><%= u.role_name %></td>
+				</tr>
+			<% end %>
+		</table>
+	<% else %>
+		<h2><i>* No People Involved</i></h2>
+	<% end %>
+</div>
+
+<div id="project_sites_<%= @project.id %>" class="x-hide-display">
+	<table class="simpleTable">
+		<a<th>Site</th>
+		<th>Acronym</th>
+		<% @project.sites(:order => "name").each do |st| %>
+			<tr>
+				<td>
+					<a href="#" onclick="showProjectSites(<%= st.id %>, '<%= st.name %>');"><%= st.name %></a>
+				</td>
+				<td>
+					<%= st.acronym %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+<div id="project_spans_<%= @project.id %>" class="x-hide-display">
+	<div id="spans_table">
+		<table class="simpleTable">
+			<th>Company</th>
+			<th>Site A</th>
+			<th>Site B</th>
+			<th>Distance</th>
+			<th>Fiber Type</th>
+			<% @project.spans.each do |s| %>
+				<tr>
+					<td>
+						<%= s.company.name %>
+					</td>
+					<td>
+						<%= s.site_a.name %>
+					</td>
+					<td>
+						<%= s.site_b.name %>
+					</td>
+					<td>
+						<%= s.distance %>
+					</td>
+					<td>
+						<%= s.fiber_type_id %>
+					</td>				
+				</tr>
+			<% end %>
+		</table>
+		<br />
+		<h2>Network Diagram</h2>
+	</div>
+	<div id="spans_design_<%= @project.id %>"></div>
+</div>
+
+<br />
+
+<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_projects',
+												'sub_tab_projects_edit_" + @project.id.to_s + "',
+												'Editing "+@project.name.to_s+"' ,
+												'/projects/edit/"+@project.id.to_s+"' ,
+												'editIcon');" %> |
+<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_projects','sub_tab_projects_show_" + @project.id.to_s + "');" %>
+
+<script type="text/javascript">
+	var tabs = new Ext.TabPanel({
+	    renderTo: 'area_<%= @project.id %>',
+	    activeTab: 0,
+	    height: 400,
+
+	    items: [{
+		    autoWidth: true,
+    	    bodyCfg: {cls: 'tabContent'},
+	        title: 'Project Details',
+	        contentEl: 'project_details_<%= @project.id %>'
+	    },{
+    	    bodyCfg: {cls: 'tabContent'},
+	        title: 'People envolved',
+	        contentEl: 'project_people_<%= @project.id %>'
+	    },{
+    	    bodyCfg: {cls: 'tabContent'},
+	        title: 'Sites',
+	        contentEl: 'project_sites_<%= @project.id %>'
+	    },{
+    	    bodyCfg: {cls: 'tabContent'},
+	        title: 'Spans',
+	        contentEl: 'project_spans_<%= @project.id %>'
+	    }
+	    ]
+	});
+
+	function showProjectUser(id, name){
+		addTab('tab_users', 'Users', 'List', '<%= users_path %>', 'tabUsers');
+		addSubTab('tab_users', 'sub_tab_users_show_'+id, 'Showing ' + name, '/users/show/' + id, 'showIcon');
+		return false;
+	}
+
+	function showProjectCompany(id, name){
+		addTab('tab_companies', 'Companies', 'List', '<%= companies_path %>', 'tabCompanies');
+		addSubTab('tab_companies', 'sub_tab_companies_show_'+id, 'Showing ' + name, '/companies/show/' + id, 'showIcon');
+		return false;
+	}
+	
+	function showProjectSites(id, name){
+		addTab('tab_sites', 'Sites', 'List', '<%= sites_path %>', 'tabSites');
+		addSubTab('tab_sites', 'sub_tab_sites_show_'+id, 'Showing ' + name, '/sites/show/' + id, 'showIcon');
+		return false;
+	}
+	
+	// Define area to draw 2D
+	var paper = Raphael("spans_design_<%= @project.id %>", 500, 250, 200);
+	// Axis
+	var x = 5;
+	
+	<% @project.spans.each do |s| %>
+		/******
+	 	* Site A
+		*/
+		// Rectangle
+		paper.rect(x, 50, 50, 50, 10).attr('fill', '#E6E6FA').click(function(){ alert('<%= s.site_a.name %>'); });
+		// Site name text
+		paper.text(x+25, 40, "<%= s.site_a.name %>");
+		// Distance text
+		paper.text(x+75, 70, "<%= s.distance %>");
+		/********/
+		
+		x = x + 100;
+		
+		/******
+		* Site B 
+		*/
+		//Rectangle
+		paper.rect(x, 50, 50, 50, 10).attr('fill', '#E6E6FA');
+		// Site name text
+		paper.text(x+25, 40, "<%= s.site_b.name %>");
+		/********/
+
+		// Connection lines
+		paper.path("M"+x+" 75L"+(x-50)+" 75");		
+	<% end %>
+	
+</script>

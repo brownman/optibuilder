@@ -1,0 +1,44 @@
+<h1>Listing test_attenuations</h1>
+
+<table>
+  <tr>
+    <th>Fiber</th>
+    <th>Test type</th>
+    <th>Ab injected</th>
+    <th>Ab rcv opt power</th>
+    <th>Ab opt link loss</th>
+    <th>Ba injected</th>
+    <th>Ba rcv opt power</th>
+    <th>Ba opt link loss</th>
+    <th>Mean loss</th>
+    <th>Test timestamp</th>
+    <th>Equipment</th>
+    <th>Technique</th>
+    <th>Lambda</th>
+  </tr>
+
+<% @test_attenuations.each do |test_attenuation| %>
+  <tr>
+    <td><%=h test_attenuation.fiber_id %></td>
+    <td><%=h test_attenuation.test_type %></td>
+    <td><%=h test_attenuation.ab_injected %></td>
+    <td><%=h test_attenuation.ab_rcv_opt_power %></td>
+    <td><%=h test_attenuation.ab_opt_link_loss %></td>
+    <td><%=h test_attenuation.ba_injected %></td>
+    <td><%=h test_attenuation.ba_rcv_opt_power %></td>
+    <td><%=h test_attenuation.ba_opt_link_loss %></td>
+    <td><%=h test_attenuation.mean_loss %></td>
+    <td><%=h test_attenuation.test_timestamp %></td>
+    <td><%=h test_attenuation.equipment %></td>
+    <td><%=h test_attenuation.technique %></td>
+    <td><%=h test_attenuation.lambda %></td>
+    <td><%= link_to 'Show', test_attenuation %></td>
+    <td><%= link_to 'Edit', edit_test_attenuation_path(test_attenuation) %></td>
+    <td><%= link_to 'Destroy', test_attenuation, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New test_attenuation', new_test_attenuation_path %>

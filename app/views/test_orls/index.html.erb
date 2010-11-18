@@ -1,0 +1,24 @@
+<h1>Listing test_orls</h1>
+
+<table>
+  <tr>
+    <th>Fiber</th>
+    <th>Orl ab</th>
+    <th>Orl ba</th>
+  </tr>
+
+<% @test_orls.each do |test_orl| %>
+  <tr>
+    <td><%=h test_orl.fiber_id %></td>
+    <td><%=h test_orl.orl_ab %></td>
+    <td><%=h test_orl.orl_ba %></td>
+    <td><%= link_to 'Show', test_orl %></td>
+    <td><%= link_to 'Edit', edit_test_orl_path(test_orl) %></td>
+    <td><%= link_to 'Destroy', test_orl, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New test_orl', new_test_orl_path %>

@@ -1,0 +1,33 @@
+class LoginController < ApplicationController
+
+  before_filter :authorize, :except => [:authenticate, :login]
+#  layout "optibuilder", :except => :login
+
+  def login
+
+  end
+
+  def authenticate
+    session[:user_id] = nil
+    if request.post?
+      user = User.authenticate(params[:login], params[:password])
+      if user
+        session[:user_id] = user.id
+        redirect_to :controller => "home"
+        flash[:notice] = nil
+      else
+        flash[:notice] = "Invalid user/password combination"
+        render :login
+      end
+    end
+  end
+
+  def logout
+    session[:user_id] = nil
+    session[:new_perms] = nil
+    session[:user_map_enabled] = nil
+    flash[:notice] = "Logged out"
+    redirect_to :action => "login"
+  end
+
+end

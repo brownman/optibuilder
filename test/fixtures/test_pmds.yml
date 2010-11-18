@@ -1,0 +1,35 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  fiber_id: 9.99
+  pmd_set1_a: 9.99
+  pmd_set1_b: 9.99
+  pmd_set1_c: 9.99
+  pmd_set2_a: 9.99
+  pmd_set2_b: 9.99
+  pmd_set3_c: 9.99
+  pmd_set3_a: 9.99
+  pmd_set2_b: 9.99
+  pmd_set3_c: 9.99
+  pmd_mean: 9.99
+  pmd_max: 9.99
+  pmd_std: 9.99
+  pmd_span: 9.99
+  pmd_coef: 9.99
+
+two:
+  fiber_id: 9.99
+  pmd_set1_a: 9.99
+  pmd_set1_b: 9.99
+  pmd_set1_c: 9.99
+  pmd_set2_a: 9.99
+  pmd_set2_b: 9.99
+  pmd_set3_c: 9.99
+  pmd_set3_a: 9.99
+  pmd_set2_b: 9.99
+  pmd_set3_c: 9.99
+  pmd_mean: 9.99
+  pmd_max: 9.99
+  pmd_std: 9.99
+  pmd_span: 9.99
+  pmd_coef: 9.99

@@ -1,0 +1,18 @@
+<p>
+  <b>Log date:</b>
+  <%=h @log_book.log_date %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @log_book.notes %>
+</p>
+
+<p>
+  <b>Project:</b>
+  <%=h @log_book.project_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_log_book_path(@log_book) %> |
+<%= link_to 'Back', log_books_path %>

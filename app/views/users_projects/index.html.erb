@@ -1,0 +1,22 @@
+<h1>Listing users_projects</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Project</th>
+  </tr>
+
+<% @users_projects.each do |users_project| %>
+  <tr>
+    <td><%=h users_project.user_id %></td>
+    <td><%=h users_project.project_id %></td>
+    <td><%= link_to 'Show', users_project %></td>
+    <td><%= link_to 'Edit', edit_users_project_path(users_project) %></td>
+    <td><%= link_to 'Destroy', users_project, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New users_project', new_users_project_path %>

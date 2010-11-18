@@ -1,0 +1,153 @@
+<script type="text/javascript">
+	var form_editCompanies_<%= @company.id %> = new Ext.FormPanel
+        ({labelWidth: 80,
+          frame:true,
+          title: 'Edit the Company using the form below',
+          bodyStyle: 'padding:5px 5px 0',
+          style: "margin: 0px auto 0px auto;",
+          width: 700,
+          defaults: {width: 480},
+          defaultType: 'textfield',
+          monitorValid: true,
+          items:[{xtype:"fieldset",
+                  title:"Company",
+                  autoHeight:true,
+                  width: 590,
+                  items:[{xtype:"textfield", fieldLabel: 'Name', name: 'company[name]', allowBlank:false, width: 465, value: '<%= @company.name %>'},
+                         {xtype:"textfield", fieldLabel: 'Contact', name: 'company[contact]', allowBlank:false, width: 465, value: '<%= @company.contact %>'},
+                          {xtype:"textfield", fieldLabel: 'Code', name: 'company[code]', allowBlank:false,helpMsg:' Enter a CNPJ or SIC number', width: 465, value: '<%= @company.code %>'},
+                         {xtype:"textfield", fieldLabel: 'Phone', name: 'company[phone]', allowBlank:false, width: 465, value: '<%= @company.phone %>'},
+                         {xtype:"textfield", fieldLabel: 'Fax', name: 'company[fax]', allowBlank:true, width: 465, value: '<%= @company.fax %>'},
+                         {xtype:"textfield", fieldLabel: 'E-mail', name: 'company[email]', allowBlank:true, width: 465, value: '<%= @company.email %>'},
+                         {xtype:"textfield", fieldLabel: 'Website', name: 'company[website]', allowBlank:true, width: 465, value: '<%= @company.website %>'}
+                        ]
+                 },
+                 {xtype:"fieldset",
+                  title:" Company Address ",
+                  autoHeight:true,
+                  width: 680,
+				  collapsed: <%= @address.unfilled? ? true : false %>,
+           		  id: 'edit_company_address_fieldset_<%= @company.id %>',
+				  autoHeight:true,
+				  checkboxToggle:true,
+				  labelWidth: 80,
+					listeners:
+                   	{
+                   		expand: function(){
+							Ext.getCmp('edit_company_country_<%= @company.id %>').allowBlank = false;
+							Ext.getCmp('edit_company_state_<%= @company.id %>').allowBlank = false;
+							Ext.getCmp('edit_company_city_<%= @company.id %>').allowBlank = false;
+							Ext.getCmp('edit_company_street_<%= @company.id %>').allowBlank = false;
+							Ext.getCmp('edit_company_location_<%= @company.id %>').allowBlank = false;
+							Ext.getCmp('edit_company_zipcode_<%= @company.id %>').allowBlank = false;
+							Ext.getCmp('edit_company_complement_<%= @company.id %>').allowBlank = false;
+							this.doLayout();
+                    	},
+						collapse: function(){
+							Ext.getCmp('edit_company_country_<%= @company.id %>').allowBlank = true;
+							Ext.getCmp('edit_company_state_<%= @company.id %>').allowBlank = true;
+							Ext.getCmp('edit_company_city_<%= @company.id %>').allowBlank = true;
+							Ext.getCmp('edit_company_street_<%= @company.id %>').allowBlank = true;
+							Ext.getCmp('edit_company_location_<%= @company.id %>').allowBlank = true;
+							Ext.getCmp('edit_company_zipcode_<%= @company.id %>').allowBlank = true;
+							Ext.getCmp('edit_company_complement_<%= @company.id %>').allowBlank = true;
+							this.doLayout();
+                    	}
+                   	},
+                  	items:[{layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.4, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'edit_company_country_<%= @company.id %>', fieldLabel: 'Country', name: 'address[country]', width: 180
+                                   , value: '<%= @address ? @address.country : '' %>'}]
+                                    },
+                                   {labelWidth: 30, columnWidth:0.16, layout:'form'
+                                   ,items:[{xtype:'textfield', id: 'edit_company_state_<%= @company.id %>', fieldLabel:"State", name:"address[state]", width:50
+                                   , value: '<%= @address ? @address.state : '' %>'}]
+                                    },
+                                   {labelWidth: 30, columnWidth:0.44, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'edit_company_city_<%= @company.id %>', fieldLabel: 'City', name: 'address[city]', width: 230
+                                   , value: '<%= @address ? @address.city : '' %>'}]
+                                  }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 98, layout:'form'
+                                   ,items:[{xtype:'textfield', id: 'edit_company_street_<%= @company.id %>', fieldLabel: 'Street / Number', name: 'address[street]', width: 530
+                                   , value: '<%= @address ? @address.street : '' %>'}]
+                                  }]
+                          },
+                          {layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.4, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'edit_company_location_<%= @company.id %>', fieldLabel: 'location', name: 'address[location]', width: 180
+                                   , value: '<%= @address ? @address.location : '' %>'}]
+                                    },
+                                   {labelWidth: 55, columnWidth:0.25, layout:'form'
+                                   ,items:[{xtype:'textfield', id: 'edit_company_zipcode_<%= @company.id %>', fieldLabel:"Zip Code", name:"address[zip_code]", width:80
+                                   , value: '<%= @address ? @address.zip_code : '' %>'}]
+                                    },
+                                   {labelWidth: 75, columnWidth:0.35, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'edit_company_complement_<%= @company.id %>', fieldLabel: 'Complement', name: 'address[complement]', width: 126
+                                   , value: '<%= @address ? @address.complement : '' %>'}]
+                                  }]
+                           }]
+                 }
+          ],
+        buttons:[
+                {text: 'Update',
+                 handler:function() {
+                     	var noAddress_<%= @company.id %> = true;
+						if(	Ext.getCmp('edit_company_address_fieldset_<%= @company.id %>').collapsed &&
+							(
+								Ext.getCmp('edit_company_country_<%= @company.id %>').getValue() != '' ||
+								Ext.getCmp('edit_company_state_<%= @company.id %>').getValue() != '' ||
+								Ext.getCmp('edit_company_city_<%= @company.id %>').getValue() != '' ||
+								Ext.getCmp('edit_company_street_<%= @company.id %>').getValue() != '' ||
+								Ext.getCmp('edit_company_location_<%= @company.id %>').getValue() != '' ||
+								Ext.getCmp('edit_company_zipcode_<%= @company.id %>').getValue() != '' ||
+								Ext.getCmp('edit_company_complement_<%= @company.id %>').getValue() != ''
+							)
+						){
+							noAddress_<%= @company.id %> = false;
+							Ext.getCmp('edit_company_address_fieldset_<%= @company.id %>').expand();
+							form_editCompanies_<%= @company.id %>.getForm().isValid();
+							Ext.Msg.confirm('Validation Error', 'There are fields filled in the form of Address. Reset Address form?', function(btn){
+								if(btn == 'yes'){
+									Ext.getCmp('edit_company_country_<%= @company.id %>').setValue("");
+									Ext.getCmp('edit_company_state_<%= @company.id %>').setValue("");
+									Ext.getCmp('edit_company_city_<%= @company.id %>').setValue("");
+									Ext.getCmp('edit_company_street_<%= @company.id %>').setValue("");
+									Ext.getCmp('edit_company_location_<%= @company.id %>').setValue("");
+									Ext.getCmp('edit_company_zipcode_<%= @company.id %>').setValue("");
+									Ext.getCmp('edit_company_complement_<%= @company.id %>').setValue("");
+									Ext.getCmp('edit_company_address_fieldset_<%= @company.id %>').collapse();
+								}
+							}
+							);
+						}
+                    if (form_editCompanies_<%= @company.id %>.getForm().isValid() && noAddress_<%= @company.id %>){
+                          form_editCompanies_<%= @company.id %>.getForm().submit({
+                                url:'/companies/update/<%= @company.id %>',
+                                waitMsg:'Saving Data...',
+                                success: function(){
+                                      Ext.Msg.alert('User updated','The Company has been successfully updated');
+                                      updateSubTab('tab_companies','sub_tab_companies','Companies','<%= companies_path %>');
+                                      closeSubTab('tab_companies','sub_tab_companies_show_<%= @company.id %>');
+                                      closeSubTab('tab_companies','sub_tab_companies_edit_<%= @company.id %>');
+                            },
+                                failure: function(){Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
+                              }
+                          );
+                    }
+                  }
+            },
+            {
+                text: 'Cancel',
+                handler:function(){closeSubTab('tab_companies','sub_tab_companies_edit_<%= @company.id %>');}
+              }
+        ]
+    });
+
+    form_editCompanies_<%= @company.id %>.render('area_form_editCompanies_<%= @company.id %>');
+
+</script>
+<br />
+<div id="area_form_editCompanies_<%= @company.id %>" style="float:left;"></div>
+

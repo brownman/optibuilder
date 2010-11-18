@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Optibuilder</title>
+	<%= stylesheet_link_tag "essential", "optibuilder", "optibuilder_tabs", "custom.css", :media => "all" %>
+	<link REL="SHORTCUT ICON" HREF="favicon.png">
+	<%= javascript_include_tag :defaults %>
+	<%= stylesheet_link_tag "/ext-3.2.1/resources/css/ext-all.css" %>
+	<%= stylesheet_link_tag "/ext-3.2.1/resources/css/xtheme-gray.css" %>
+	<%= javascript_include_tag "/ext-3.2.1/adapter/ext/ext-base.js" %>
+	<%= javascript_include_tag "raphael-min.js" %>
+	<%= javascript_include_tag "/ext-3.2.1/ext-all.js" %>
+	<%= javascript_include_tag 'optibuilder_helpers' %>
+	<%= javascript_include_tag 'optibuilder' %>
+</head>
+
+
+<body>
+	<div id="west">
+	    	<img src="/images/optibuilder_logo.png" alt="Optibuilder Logo" />
+		<% if session_user %>
+			<p>You are logged in as
+			<strong>
+      		<%= link_to_function session_user.login, 
+					"addUserTab();addSubTab(
+						'userManager',
+						'userEdit_#{session_user.id}',
+						'User: #{session_user.name}',
+						'#{url_for :controller => 'users', :action => 'edit', :id => session_user.id}', 
+						'user-icon');" %>
+			</strong> | 
+			<strong><a href="#" onClick = "confirmLogout();">Help</a></strong> |
+			<strong><a href="#" onClick = "confirmLogout();">Sign out</a></strong>
+	    <% end %>
+		<br /><br />
+	</div>
+
+	<div id="north"></div>
+
+	<div id="main">
+		<div class="welcome_screen">
+		    <br />
+			<a href="http://www.fiberwork.net" target="_blank">
+		    <img src="/images/fiberwork_logo.gif" alt="FiberWork Optical Communications" border="0" />
+		    </a><br />
+			
+		    <h1 style="">Welcome to Optibuilder</h1>
+		    V. 1.0
+
+			<div align="center" style="align: center;">
+				<!-- <iframe frameborder="0" width="1000px" height="400px;" src="http://www.fiberwork.net"></iframe> -->
+			</div>
+	  	</div>
+	</div><!-- main -->
+
+	<div id="nview">
+		<ul></ul>
+	</div>
+
+	<div id="setup">
+		<ul>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_companies', 'Companies', 'List', '<%= companies_path %>', 'tabCompanies');" >Companies
+				</div>
+			</li>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_projects', 'Projects', 'List', '<%= projects_path %>', 'tabProjects');" >Projects
+				</div>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_sites', 'Sites', 'List', '<%= sites_path %>', 'tabSites');" >Sites
+				</div>
+			</li>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_subrack_names', 'Subrack_names', 'List', '<%= subrack_names_path %>', 'tabSubracks');" >Sub Racks
+				</div>
+			</li>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_spans', 'Spans', 'List', '<%= spans_path %>', 'tabSpans');" >Spans
+				</div>
+			</li>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_fibers', 'Fibers', 'List', '<%= fibers_path %>', 'tabFibers');" >Fibers
+				</div>
+			</li>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_diagrams', 'Diagrams', 'List', '<%= diagrams_path %>', 'tabDiagrams');" >Diagrams
+				</div>
+			</li>
+	   		<li>
+	   			<div 	style="cursor:default;"
+	    			onMouseOver="this.style.backgroundColor='#efefef'"
+	    			onMouseOut="this.style.backgroundColor='';"
+	    			onclick="addTab('tab_users', 'Users', 'List', '<%= users_path %>', 'tabUsers');" >Users
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<div id="tests">
+		<ul>
+			<li><div style="cursor:default;" onMouseOver="this.style.backgroundColor='#efefef'" onMouseOut="this.style.backgroundColor='';" onclick="addSearchTab('netElStatus', 'Net El. Status', 'searches/search_net_elements_status/0');" >Status de elementos de rede</div></li>
+		</ul>
+	</div>
+
+	<div id="reports">
+		<ul>
+			<li><div style="cursor:default;" onMouseOver="this.style.backgroundColor='#efefef'" onMouseOut="this.style.backgroundColor='';" onclick="addCRUDTab('regions', '');" >Regions</div></li>
+		</ul>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<h1>Listing test_chromatic_disps</h1>
+
+<table>
+  <tr>
+    <th>Fiber</th>
+    <th>Dsp lambda z</th>
+    <th>Dsp 1310</th>
+    <th>Dsp 1525</th>
+    <th>Dsp 1530</th>
+    <th>Dsp 1540</th>
+    <th>Dsp 1550</th>
+    <th>Dsp 1560</th>
+    <th>Dsp 1570</th>
+    <th>Dsp 1575</th>
+    <th>Dsp 1625</th>
+    <th>Dsp total</th>
+    <th>Dsp slopezero</th>
+    <th>Dsp slopeother</th>
+    <th>Dsp coef a</th>
+    <th>Dsp coef b</th>
+    <th>Dsp coef c</th>
+    <th>Test timestamp</th>
+  </tr>
+
+<% @test_chromatic_disps.each do |test_chromatic_disp| %>
+  <tr>
+    <td><%=h test_chromatic_disp.fiber_id %></td>
+    <td><%=h test_chromatic_disp.dsp_lambda_z %></td>
+    <td><%=h test_chromatic_disp.dsp_1310 %></td>
+    <td><%=h test_chromatic_disp.dsp_1525 %></td>
+    <td><%=h test_chromatic_disp.dsp_1530 %></td>
+    <td><%=h test_chromatic_disp.dsp_1540 %></td>
+    <td><%=h test_chromatic_disp.dsp_1550 %></td>
+    <td><%=h test_chromatic_disp.dsp_1560 %></td>
+    <td><%=h test_chromatic_disp.dsp_1570 %></td>
+    <td><%=h test_chromatic_disp.dsp_1575 %></td>
+    <td><%=h test_chromatic_disp.dsp_1625 %></td>
+    <td><%=h test_chromatic_disp.dsp_total %></td>
+    <td><%=h test_chromatic_disp.dsp_slopezero %></td>
+    <td><%=h test_chromatic_disp.dsp_slopeother %></td>
+    <td><%=h test_chromatic_disp.dsp_coef_a %></td>
+    <td><%=h test_chromatic_disp.dsp_coef_b %></td>
+    <td><%=h test_chromatic_disp.dsp_coef_c %></td>
+    <td><%=h test_chromatic_disp.test_timestamp %></td>
+    <td><%= link_to 'Show', test_chromatic_disp %></td>
+    <td><%= link_to 'Edit', edit_test_chromatic_disp_path(test_chromatic_disp) %></td>
+    <td><%= link_to 'Destroy', test_chromatic_disp, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New test_chromatic_disp', new_test_chromatic_disp_path %>

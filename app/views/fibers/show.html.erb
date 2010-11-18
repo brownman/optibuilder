@@ -1,0 +1,18 @@
+
+<p>
+  <b>Site A:</b>
+  <%=h @fiber.number %>
+</p>
+
+<p>
+  <b>Subrack Site A:</b>
+  <%=h @fiber.status %>
+</p>
+
+
+<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_fibers',
+												'sub_tab_fibers_edit_" + @fiber.id.to_s + "',
+												'Editing " + @fiber.number.to_s + "' ,
+												'/fibers/edit/"+@fiber.id.to_s+"' ,
+												'editIcon');" %> |
+<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_fibers','sub_tab_fibers_show_" + @fiber.id.to_s + "');" %>

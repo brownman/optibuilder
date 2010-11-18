@@ -1,0 +1,112 @@
+<script type="text/javascript">
+
+    var store_combo_SiteOwners = createStore('/companies/store/grid',
+                                               ['id', 'name'],
+                                               [{name: 'id',  mapping: 'id'},
+                                                {name: 'name',  mapping: 'name'}]
+                                            );
+
+    var comboSiteOwners = new Ext.form.ComboBox({
+            fieldLabel: 'Site Owner',
+            valueField: 'id',
+            displayField: 'name',
+            name: 'site[name]',
+            hiddenName: 'site[network_owner_id]',
+            editable: true,
+            emptyText: 'select an Owner...',
+            store: store_combo_SiteOwners,
+            mode: 'remote',
+            selectOnFocus: true,
+            forceSelection: true,
+            triggerAction: 'all',
+            minChars: 3,
+            allowBlank: false,
+            width: 267
+        });
+
+    var form_newSites = new Ext.FormPanel({
+            frame:true,
+            title: 'Create a new Site using the form below',
+            bodyStyle:'padding:5px 5px 0',
+            style: "margin: 0px auto 0px auto;",
+            width: 700,
+            monitorValid: true,
+            items:[{xtype:"fieldset", title:"Site", autoHeight:true, width: 680,
+                    items:[{layout: 'column',
+                            items:[{labelWidth: 40, columnWidth:0.75, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Name', name: 'site[name]', allowBlank:false, width: 420}]
+                                   },
+                                   {labelWidth: 60, columnWidth:0.25, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Acronym', name: 'site[acronym]', allowBlank:false, width: 80}]
+                                  }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 75, columnWidth:0.45, layout:'form'
+                                   ,items:[{xtype:"datefield", fieldLabel: 'Service Date', name: 'site[install_date]', allowBlank:false, width: 190}]
+                                   },
+                                   {labelWidth: 70, columnWidth:0.55, layout:'form'
+                                   ,items:[comboSiteOwners]
+                                  }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 90, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'General Notes', name: 'site[notes]', allowBlank:true, width: 543}]
+                                  }]
+                          }]
+                   },
+                   {xtype:"fieldset", title:" Address", autoHeight:true, width: 680,
+                    items:[{layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.4, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'new_site_country', fieldLabel: 'Country', name: 'address[country]', width: 180}]
+                                    },
+                                   {labelWidth: 30, columnWidth:0.16, layout:'form'
+                                   ,items:[{xtype:'textfield', id: 'new_site_state', fieldLabel:"State", name:"address[state]", width:50}]
+                                    },
+                                   {labelWidth: 30, columnWidth:0.44, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'new_site_city', fieldLabel: 'City', name: 'address[city]', width: 230}]
+                                  }]
+                           },
+                           {layout: 'column',
+                            items:[{labelWidth: 98, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Street / Number', name: 'address[street]', width: 530}]
+                                  }]
+                          },
+                          {layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.4, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'new_site_location', fieldLabel: 'location', name: 'address[location]', width: 180}]
+                                    },
+                                   {labelWidth: 55, columnWidth:0.25, layout:'form'
+                                   ,items:[{xtype:'textfield', id: 'new_site_zipcode', fieldLabel:"Zip Code", name:"address[zip_code]", width:80}]
+                                    },
+                                   {labelWidth: 75, columnWidth:0.35, layout:'form'
+                                   ,items:[{xtype:"textfield", id: 'new_site_complement', fieldLabel: 'Complement', name: 'address[complement]', width: 126}]
+                                  }]
+                           }]
+                  }],
+            buttons: [{text: 'Create Site',
+                       handler:function()
+                         {if (form_newSites.getForm().isValid())
+                             {form_newSites.getForm().submit
+                               ({url:'<%= url_for (:controller => 'sites', :action => 'create') %>',
+                                 waitMsg:'Saving Data...',
+                                 success: function(){
+                                      Ext.Msg.alert('Site added','The site has been successfully created');
+	                                  updateSubTab('tab_sites','sub_tab_sites','Sites','<%= sites_path %>');
+                                      closeSubTab('tab_sites','sub_tab_sites_new');
+                                },
+                                failure: function(){Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
+                              });
+                        }
+                        }
+                     },
+                     {
+                      text: 'Cancel',
+                      handler:function(){closeSubTab('tab_sites','sub_tab_sites_new');}
+                     }]
+    });
+
+    form_newSites.render( 'area_form_newSites');
+
+</script>
+<br />
+<div id="area_form_newSites" style="float:left;"></div>

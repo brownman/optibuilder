@@ -1,0 +1,150 @@
+<script type="text/javascript">
+    var form_newCompanies = new Ext.FormPanel
+        ({labelWidth: 80,
+          frame: true,
+          title: 'Create a new Company using the form below',
+          bodyStyle: 'padding:5px 5px 0',
+          style: "margin: 0px auto 0px auto;",
+          width: 700,
+          defaults: {width: 480},
+          defaultType: 'textfield',
+          monitorValid: true,
+          items:[{xtype:"fieldset",
+                  title:"Company",
+                  autoHeight:true,
+                  width: 590,
+                  items:[{xtype:"textfield", fieldLabel: 'Name', name: 'company[name]', allowBlank:false, width: 465},
+                         {xtype:"textfield", fieldLabel: 'Contact', name: 'company[contact]', allowBlank:false, width: 465},
+                         {xtype:"textfield", fieldLabel: 'Code', name: 'company[code]',helpMsg:' Enter a CNPJ or SIC number' , allowBlank:false,  width: 465},
+		                 {xtype:"textfield", fieldLabel: 'Phone', name: 'company[phone]', allowBlank:false, width: 465},
+                         {xtype:"textfield", fieldLabel: 'Fax', name: 'company[fax]', allowBlank:true, width: 465},
+
+                         {xtype:"textfield", fieldLabel: 'E-mail', name: 'company[email]', allowBlank:true, width: 465},
+                         {xtype:"textfield", fieldLabel: 'Website', name: 'company[website]', allowBlank:true, width: 465}
+                        ]
+				 },
+               	 {xtype:"fieldset",
+               	  id: 'new_company_address_fieldset',
+				  listeners:
+                   	{
+                   		expand: function(){
+							Ext.getCmp('new_company_country').allowBlank = false;
+							Ext.getCmp('new_company_state').allowBlank = false;
+							Ext.getCmp('new_company_city').allowBlank = false;
+							Ext.getCmp('new_company_street').allowBlank = false;
+							Ext.getCmp('new_company_location').allowBlank = false;
+							Ext.getCmp('new_company_zipcode').allowBlank = false;
+							Ext.getCmp('new_company_complement').allowBlank = false;
+							this.doLayout();
+                    	},
+						collapse: function(){
+							Ext.getCmp('new_company_country').allowBlank = true;
+							Ext.getCmp('new_company_state').allowBlank = true;
+							Ext.getCmp('new_company_city').allowBlank = true;
+							Ext.getCmp('new_company_street').allowBlank = true;
+							Ext.getCmp('new_company_location').allowBlank = true;
+							Ext.getCmp('new_company_zipcode').allowBlank = true;
+							Ext.getCmp('new_company_complement').allowBlank = true;
+							this.doLayout();
+                    	}
+                   	},
+
+				  width: 680,
+				  title:" Address",
+				  autoHeight:true,
+				  checkboxToggle:true,
+				  collapsed: true,
+				  labelWidth: 80,
+                  items:[{layout: 'column',
+                          items:[{labelWidth: 50, columnWidth:0.4, layout:'form'
+                                 ,items:[{xtype:"textfield", id: 'new_company_country', fieldLabel: 'Country', name: 'address[country]', width: 180}]
+                                  },
+                                 {labelWidth: 30, columnWidth:0.16, layout:'form'
+                                 ,items:[{xtype:'textfield', id: 'new_company_state', fieldLabel:"State", name:"address[state]", width:50}]
+                                  },
+                                 {labelWidth: 30, columnWidth:0.44, layout:'form'
+                                 ,items:[{xtype:"textfield", id: 'new_company_city', fieldLabel: 'City', name: 'address[city]', width: 230}]
+                                }]
+                         },
+                         {layout: 'column',
+                          items:[{labelWidth: 98, layout:'form'
+                                 ,items:[{id: 'new_company_street', xtype:'textfield', fieldLabel: 'Street / Number', name: 'address[street]', width: 530}]
+                                }]
+                         },
+                         {layout: 'column',
+                          items:[{labelWidth: 50, columnWidth:0.4, layout:'form'
+                                 ,items:[{xtype:"textfield", id: 'new_company_location', fieldLabel: 'location', name: 'address[location]', width: 180}]
+                                  },
+                                 {labelWidth: 55, columnWidth:0.25, layout:'form'
+                                 ,items:[{xtype:'textfield', id: 'new_company_zipcode', fieldLabel:"Zip Code", name:"address[zip_code]", width:80}]
+                                  },
+                                 {labelWidth: 75, columnWidth:0.35, layout:'form'
+                                 ,items:[{xtype:"textfield", id: 'new_company_complement', fieldLabel: 'Complement', name: 'address[complement]', width: 126}]
+                                }]
+                         }]
+				}],
+
+          buttons: [{text: 'Create Company',
+                     handler:function(){
+                     	var noAddress = true;
+						if(	Ext.getCmp('new_company_address_fieldset').collapsed &&
+							(
+								Ext.getCmp('new_company_country').getValue() != '' ||
+								Ext.getCmp('new_company_state').getValue() != '' ||
+								Ext.getCmp('new_company_city').getValue() != '' ||
+								Ext.getCmp('new_company_street').getValue() != '' ||
+								Ext.getCmp('new_company_location').getValue() != '' ||
+								Ext.getCmp('new_company_zipcode').getValue() != '' ||
+								Ext.getCmp('new_company_complement').getValue() != ''
+							)
+						){
+							noAddress = false;
+							Ext.getCmp('new_company_address_fieldset').expand();
+							form_newCompanies.getForm().isValid();
+							Ext.Msg.confirm('Validation Error', 'There are fields filled in the form of Address. Reset Address form?', function(btn){
+								if(btn == 'yes'){
+									Ext.getCmp('new_company_country').setValue("");
+									Ext.getCmp('new_company_state').setValue("");
+									Ext.getCmp('new_company_city').setValue("");
+									Ext.getCmp('new_company_street').setValue("");
+									Ext.getCmp('new_company_location').setValue("");
+									Ext.getCmp('new_company_zipcode').setValue("");
+									Ext.getCmp('new_company_complement').setValue("");
+									Ext.getCmp('new_company_address_fieldset').collapse();
+								}
+							}
+							);
+						}
+
+                     	if (form_newCompanies.getForm().isValid() && noAddress)
+                           {form_newCompanies.getForm().submit
+                              ({url:'<%= url_for (:controller => 'companies', :action => 'create') %>',
+                                waitMsg:'Saving Data...',
+                                success: function()
+                                  {Ext.Msg.alert('Company added','The Company has been successfully created');
+                                     updateSubTab('tab_companies','sub_tab_companies','Companies','<%= companies_path %>');
+                                     closeSubTab('tab_companies','sub_tab_companies_new');
+                                  },
+                                failure: function(form, action)
+                                  {if(action.failureType == 'server')
+                                     {msg = String(Ext.util.JSON.decode(action.response.responseText));
+                                      Ext.Msg.alert('Validation Error', msg);}
+                                   else
+                                     {Ext.Msg.alert('Error', 'There has been a problem while creating this request. Contact the system administrator.');}
+                                  }
+                                });
+                           }
+                         }
+                    },
+                    {text: 'Cancel',
+                     handler:function(){closeSubTab('tab_companies','sub_tab_companies_new');}
+                     }]
+          });
+    form_newCompanies.render( 'area_form_newCompanies');
+</script>
+
+<br />
+<div id="area_form_newCompanies" style="float:left;"></div>
+
+
+

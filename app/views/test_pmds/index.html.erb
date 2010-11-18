@@ -1,0 +1,48 @@
+<h1>Listing test_pmds</h1>
+
+<table>
+  <tr>
+    <th>Fiber</th>
+    <th>Pmd set1 a</th>
+    <th>Pmd set1 b</th>
+    <th>Pmd set1 c</th>
+    <th>Pmd set2 a</th>
+    <th>Pmd set2 b</th>
+    <th>Pmd set3 c</th>
+    <th>Pmd set3 a</th>
+    <th>Pmd set2 b</th>
+    <th>Pmd set3 c</th>
+    <th>Pmd mean</th>
+    <th>Pmd max</th>
+    <th>Pmd std</th>
+    <th>Pmd span</th>
+    <th>Pmd coef</th>
+  </tr>
+
+<% @test_pmds.each do |test_pmd| %>
+  <tr>
+    <td><%=h test_pmd.fiber_id %></td>
+    <td><%=h test_pmd.pmd_set1_a %></td>
+    <td><%=h test_pmd.pmd_set1_b %></td>
+    <td><%=h test_pmd.pmd_set1_c %></td>
+    <td><%=h test_pmd.pmd_set2_a %></td>
+    <td><%=h test_pmd.pmd_set2_b %></td>
+    <td><%=h test_pmd.pmd_set3_c %></td>
+    <td><%=h test_pmd.pmd_set3_a %></td>
+    <td><%=h test_pmd.pmd_set2_b %></td>
+    <td><%=h test_pmd.pmd_set3_c %></td>
+    <td><%=h test_pmd.pmd_mean %></td>
+    <td><%=h test_pmd.pmd_max %></td>
+    <td><%=h test_pmd.pmd_std %></td>
+    <td><%=h test_pmd.pmd_span %></td>
+    <td><%=h test_pmd.pmd_coef %></td>
+    <td><%= link_to 'Show', test_pmd %></td>
+    <td><%= link_to 'Edit', edit_test_pmd_path(test_pmd) %></td>
+    <td><%= link_to 'Destroy', test_pmd, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New test_pmd', new_test_pmd_path %>

@@ -1,0 +1,100 @@
+<script type="text/javascript">
+
+	var statusCombo =
+		new Ext.form.ComboBox ({
+		    fieldLabel: 'Status',
+		    store: [['1', 'Valid'],['2', 'Invalid'],['3', 'Locked']],
+		    typeAhead: true,
+		    mode: 'local',
+		    forceSelection: true,
+		    triggerAction: 'all',
+		    selectOnFocus: true,
+		    hiddenName: 'user[status]',
+		    allowBlank: false,
+			editable: false,
+			emptyText: 'Set status...',
+			width: 325
+		});
+
+	var store_combo_Companies =
+	createStore(
+		'/companies/store/grid',
+		['id', 'name'],
+		[{name: 'id',  mapping: 'id'},{name: 'name',  mapping: 'name'}]
+	);
+
+	var comboCompanies =
+		new Ext.form.ComboBox({
+			fieldLabel: 'Company',
+			valueField: 'id',
+			displayField: 'name',
+			name: 'user[name]',
+			hiddenName: 'user[company_id]',
+			editable: false,
+			emptyText: 'Select a Company...',
+			store: store_combo_Companies,
+			mode: 'remote',
+			selectOnFocus: true,
+			forceSelection: true,
+			triggerAction: 'all',
+			minChars: 3,
+			allowBlank: false
+		});
+
+    var form_newUsers = new Ext.FormPanel
+	    ({labelWidth: 121,
+	      frame:true,
+	      title: 'Create a new user using the form below',
+	      bodyStyle:'padding:5px 5px 0',
+	      style: "margin: 0px auto 0px auto;",
+	      width: 500,
+	      defaults: {width: 365},
+	      defaultType: 'textfield',
+	      monitorValid: true,
+	      items: [{xtype:"fieldset",
+                   title:"User",
+                   autoHeight: true,
+                   width: 476,
+                   defaults: {width: 325},
+                   items:[{xtype:'textfield',  fieldLabel: 'Name', name: 'user[name]', allowBlank:false},
+				          {xtype:'textfield', fieldLabel: 'Login', name: 'user[login]', allowBlank:false},
+				          comboCompanies,
+						  {xtype:'textfield', fieldLabel: ' Company Description', name: 'user[company_description]', allowBlank:true},
+						  {xtype:'textfield', fieldLabel: 'Contact phone', name: 'user[contact_phone]', allowBlank:true},
+						  {xtype:'textfield', fieldLabel: 'Comments', name: 'user[comments]', allowBlank:true},
+				          {xtype:'textfield', fieldLabel: 'E-mail', name: 'user[email]', allowBlank:false },
+				          {xtype:'textfield', fieldLabel: 'Password', name: 'user[password]', inputType: 'password', id: 'new_user_password', allowBlank:false},
+				          {xtype:'textfield', fieldLabel: 'Confirm Password', name: 'user[password_confirmation]', inputType: 'password', initialPasswordField: 'new_user_password', allowBlank: false},
+				          statusCombo,
+		                  {xtype:'datefield', fieldLabel: 'Expiration', name: 'user[expiration]', allowBlank:false}
+		                 ]
+                 }],
+	      buttons: [{text: 'Create User',
+	                 handler:function()
+	                   {if (form_newUsers.getForm().isValid())
+	                       {form_newUsers.getForm().submit
+	                         ({url:'<%= url_for (:controller => 'users', :action => 'create') %>',
+	                           waitMsg:'Saving Data...',
+	                           success: function(){
+	                              Ext.Msg.alert('User added','The user has been successfully created');
+	                              updateSubTab('tab_users','sub_tab_users','Users','<%= users_path %>');
+	                              closeSubTab('tab_users','sub_tab_users_new');},
+	                           failure: function(form, action)
+	                              {if (action.failureType == 'server')
+	                                  {msg = String(Ext.util.JSON.decode(action.response.responseText));
+	                                   Ext.Msg.alert('Validation Error', msg);}
+	                               else
+	                                  {Ext.Msg.alert('Error', 'There has been a problem while creating this request. Contact the system administrator.');}
+	                              }
+	                         });
+	                       }
+	                   }
+	                },
+	                {text: 'Cancel',
+	                 handler:function(){closeSubTab('tab_users','sub_tab_users_new');}
+	               }]
+	    });
+    form_newUsers.render( 'area_form_newUsers');
+</script>
+<br/>
+<div id="area_form_newUsers" style="float:left;"></div>

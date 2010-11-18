@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  subracks_qty: 1
+  subracks_rows: 1
+  subracks_cols: 1
+
+two:
+  name: MyString
+  subracks_qty: 1
+  subracks_rows: 1
+  subracks_cols: 1

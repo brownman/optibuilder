@@ -1,0 +1,13 @@
+<p>
+  <b>User:</b>
+  <%=h @users_project.user_id %>
+</p>
+
+<p>
+  <b>Project:</b>
+  <%=h @users_project.project_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_users_project_path(@users_project) %> |
+<%= link_to 'Back', users_projects_path %>
