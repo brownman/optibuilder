@@ -65,7 +65,7 @@
 
 	var statusCombo = new Ext.form.ComboBox ({
 	    fieldLabel: 'Status',
-	    store: [['p', 'Planned'],['e', 'In execution'],['f', 'Finished']],
+	    store: [['1', 'Planned'],['2', 'In execution'],['3', 'Finished']],
 	    typeAhead: true,
 	    mode: 'local',
 	    forceSelection: true,
@@ -160,7 +160,7 @@
 										valueField: 'id',
 										displayField: 'name',
 										editable: true,
-										emptyText: 'select a owner...',
+										emptyText: 'Select a Professional...',
 										store: store_combo_Users,
 										mode: 'remote',
 										selectOnFocus: true,
@@ -173,7 +173,7 @@
 									new Ext.form.ComboBox ({
 										id: 'envolved_combo_roles',
 									    fieldLabel: 'Role',
-									    store: [[1, 'User'], [2, 'Admin']],
+									    store: [[0, 'Admin'], [1, 'User'], [2, 'Consultant']],
 									    typeAhead: true,
 									    mode: 'local',
 									    forceSelection: true,
@@ -470,7 +470,7 @@
 							}
 				   		]
 			   		}
-					
+
 			  	]
 			},
 			{xtype:"fieldset",

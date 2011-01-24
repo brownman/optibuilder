@@ -1,54 +1,107 @@
-<h1>Listing test_chromatic_disps</h1>
+<script type = "text/javascript">
 
-<table>
-  <tr>
-    <th>Fiber</th>
-    <th>Dsp lambda z</th>
-    <th>Dsp 1310</th>
-    <th>Dsp 1525</th>
-    <th>Dsp 1530</th>
-    <th>Dsp 1540</th>
-    <th>Dsp 1550</th>
-    <th>Dsp 1560</th>
-    <th>Dsp 1570</th>
-    <th>Dsp 1575</th>
-    <th>Dsp 1625</th>
-    <th>Dsp total</th>
-    <th>Dsp slopezero</th>
-    <th>Dsp slopeother</th>
-    <th>Dsp coef a</th>
-    <th>Dsp coef b</th>
-    <th>Dsp coef c</th>
-    <th>Test timestamp</th>
-  </tr>
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editTestChromaticDisp(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
 
-<% @test_chromatic_disps.each do |test_chromatic_disp| %>
-  <tr>
-    <td><%=h test_chromatic_disp.fiber_id %></td>
-    <td><%=h test_chromatic_disp.dsp_lambda_z %></td>
-    <td><%=h test_chromatic_disp.dsp_1310 %></td>
-    <td><%=h test_chromatic_disp.dsp_1525 %></td>
-    <td><%=h test_chromatic_disp.dsp_1530 %></td>
-    <td><%=h test_chromatic_disp.dsp_1540 %></td>
-    <td><%=h test_chromatic_disp.dsp_1550 %></td>
-    <td><%=h test_chromatic_disp.dsp_1560 %></td>
-    <td><%=h test_chromatic_disp.dsp_1570 %></td>
-    <td><%=h test_chromatic_disp.dsp_1575 %></td>
-    <td><%=h test_chromatic_disp.dsp_1625 %></td>
-    <td><%=h test_chromatic_disp.dsp_total %></td>
-    <td><%=h test_chromatic_disp.dsp_slopezero %></td>
-    <td><%=h test_chromatic_disp.dsp_slopeother %></td>
-    <td><%=h test_chromatic_disp.dsp_coef_a %></td>
-    <td><%=h test_chromatic_disp.dsp_coef_b %></td>
-    <td><%=h test_chromatic_disp.dsp_coef_c %></td>
-    <td><%=h test_chromatic_disp.test_timestamp %></td>
-    <td><%= link_to 'Show', test_chromatic_disp %></td>
-    <td><%= link_to 'Edit', edit_test_chromatic_disp_path(test_chromatic_disp) %></td>
-    <td><%= link_to 'Destroy', test_chromatic_disp, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteTestChromaticDisp(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
 
-<br />
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showTestChromaticDisp(' + rowIndex + ')">' + value + '</a></div>';
+	}
 
-<%= link_to 'New test_chromatic_disp', new_test_chromatic_disp_path %>
+	function editTestChromaticDisp(r){
+		var id = store_TestChromaticDisps.getAt(r).get('id');
+		var name = store_TestChromaticDisps.getAt(r).get('test_chromatic_disps_name');
+		addSubTab('tab_test_chromatic_disps', 'sub_tab_test_chromatic_disps_edit_'+id, 'Editing TestChromaticDisp ' + name, '/test_chromatic_disps/edit/' + id, 'editIcon');
+	}
+
+	function deleteTestChromaticDisp(r){
+		var id = store_TestChromaticDisps.getAt(r).get('id');
+		var name = store_TestChromaticDisps.getAt(r).get('test_chromatic_disps_name');
+		Ext.Msg.confirm('Delete ', 'Confirm delete test_chromatic_disps: ' + name, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_test_chromatic_disps', 'sub_tab_test_chromatic_disps', 'List', '/TestChromaticDisps/destroy/' + id);
+		      closeSubTab('tab_test_chromatic_disps', 'sub_tab_test_chromatic_disps_edit_' + id);
+		      closeSubTab('tab_test_chromatic_disps', 'sub_tab_test_chromatic_disps_show_' + id);
+		    }
+		  });
+	}
+
+	function showTestChromaticDisp(r){
+		var id = store_TestChromaticDisps.getAt(r).get('id');
+		var name = store_TestChromaticDisps.getAt(r).get('cable_name');
+		addSubTab('tab_test_chromatic_disps', 'sub_tab_test_chromatic_disps_show_'+id, 'Showing' + name, '/test_chromatic_disps/show/' + id, 'showIcon');
+	}
+
+	function addTestChromaticDispFibers(r){
+		var id = store_TestChromaticDisps.getAt(r).get('span_id');
+		var test_chromatic_disps_id = store_TestChromaticDisps.getAt(r).get('id');
+		var name = store_TestChromaticDisps.getAt(r).get('cable_name');
+		addTab('tab_fibers', 'Fibers', 'List', '<%= fibers_path %>', 'tabFibers');
+		addSubTab('tab_fibers', 'sub_tab_fibers_new_table'+id, 'Adding Tests to '+name, '/test_chromatic_disps/new_table/'+id+'?test_chromatic_disps_id='+test_chromatic_disps_id, 'showIcon');
+	}
+
+	function newTestChromaticDisp(){
+		addSubTab('tab_test_chromatic_disps', 'sub_tab_test_chromatic_disps_new', 'New TestChromaticDisp', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_TestChromaticDisps = createStore(	'<%= url_for(:controller => "test_chromatic_disps", :action => "store", :id => "grid") %>',
+											['id', 'fiber_num_a', 'fiber_num_b', 'status', 'project_name'
+											, 'sub_a_name', 'sub_b_name', 'cable_name', 'site_a_name', 'site_b_name'
+											],
+											[{name: 'id',  mapping: 'id'}
+											,{name: 'project_name',  mapping: 'project_name'}
+											,{name: 'fiber_num_a',  mapping: 'fiber_num_a'}
+											,{name: 'fiber_num_b',  mapping: 'fiber_num_b'}
+											,{name: 'status',  mapping: 'status'}
+											,{name: 'cable_name',  mapping: 'cable_name'}
+											,{name: 'sub_a_name',  mapping: 'sub_a_name'}
+											,{name: 'sub_b_name',  mapping: 'sub_b_name'}
+											,{name: 'site_a_name',  mapping: 'site_a_name'}
+											,{name: 'site_b_name',  mapping: 'site_b_name'}
+                                            ]
+    );
+
+	var pBar = createPBar(store_TestChromaticDisps, 'TestChromaticDisps');
+
+	<%= include_buttons_TestChromaticDisps %>
+	var btnsTestChromaticDisps = createTestChromaticDispsBtns();
+	var cmdBar = createCmdBar(btnsTestChromaticDisps);
+	var cols =
+			[
+       		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link1', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link2', header: 'Subrack', dataIndex: 'sub_a_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link3', header: 'Fiber', dataIndex: 'fiber_num_a', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link4', header: 'Cable', dataIndex: 'cable_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link5', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link6', header: 'Subrack', dataIndex: 'sub_b_name', sortable: true, renderer: linkShow, width: 80},
+      		{id: 'link7', header: 'Fiber', dataIndex: 'fiber_num_b', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link8', header: 'Status', dataIndex: 'status', sortable: true, renderer: linkShow, width: 50},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_TestChromaticDisps = createGrid(store_TestChromaticDisps, 'Chromatic Dispersion Tests Window', cmdBar, pBar, cols);
+	store_TestChromaticDisps.load({params: {start:0 , limit:10}});
+	grid_TestChromaticDisps.render('TestChromaticDisps_index_grid_content');
+
+</script>
+
+<div id = "TestChromaticDisps_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

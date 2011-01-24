@@ -19,7 +19,7 @@ module ProjectsHelper
                       new Ext.Button ({ text: 'Add new',
                                         id: 'btnNew',
                                         iconCls: 'addNewIcon',
-                                        tooltip: 'Add new project',
+                                        tooltip: 'Add new Project',
                                         handler: function(){ newProject();}
                                      }),
                           new Ext.Spacer({width: 20}),

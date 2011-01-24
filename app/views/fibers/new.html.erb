@@ -1,6 +1,3 @@
-
-
-<!--
 <script type="text/javascript">
 
 	var store_combo_Project = createStore('/projects/store/grid',
@@ -9,10 +6,10 @@
 									   {name: 'name',  mapping: 'name'}
 									  ]);
 
-	var store_combo_Site = createStore('/sites/store/grid',
-									  ['id', 'name'],
+	var store_combo_Cable = createStore('/cables/store/grid',
+									  ['id', 'cable_name'],
 									  [{name: 'id',  mapping: 'id'},
-									   {name: 'name',  mapping: 'name'}
+									   {name: 'cable_name',  mapping: 'cable_name'}
 									  ]);
 
 	var store_combo_Span = createStore('/spans/store/grid',
@@ -25,23 +22,16 @@
 									   {name: 'sitea_siteb',  mapping: 'sitea_siteb'}
 									  ]);
 
-	var store_combo_Subrack_A = createStore('/subrack_names/store/grid',
-									  ['id', 'subrack_name'],
+	var store_combo_Subrack_A = createStore('/subracks/store/grid',
+									  ['id', 'name'],
 									  [{name: 'id',  mapping: 'id'},
-									   {name: 'subrack_name',  mapping: 'subrack_name'}
+									   {name: 'name',  mapping: 'name'}
 									  ]);
 
-	var store_combo_Subrack_B = createStore('/subrack_names/store/grid',
-									  ['id', 'subrack_name'],
+	var store_combo_Subrack_B = createStore('/subracks/store/grid',
+									  ['id', 'name'],
 									  [{name: 'id',  mapping: 'id'},
-									   {name: 'subrack_name',  mapping: 'subrack_name'}
-									  ]);
-
-	var store_combo_fiber_end = createStore('/fibers/store/grid',
-									  ['id', 'subrack_name_id', 'fiber_num_1'],
-									  [{name: 'id',  mapping: 'id'},
-									   {name: 'subrack_name_id',  mapping: 'subrack_name_id'},
-									   {name: 'fiber_num_1',  mapping: 'fiber_num_1'}
+									   {name: 'name',  mapping: 'name'}
 									  ]);
 
 	var comboProjects = new Ext.form.ComboBox({
@@ -60,20 +50,23 @@
 		width: 210
 	});
 
-	var comboSites = new Ext.form.ComboBox({
-		fieldLabel: 'Site',
+	var comboCables = new Ext.form.ComboBox({
+		fieldLabel: 'Cable',
 		valueField: 'id',
-		displayField: 'name',
+		displayField: 'cable_name',
 		editable: true,
-		emptyText: 'Select a Site...',
-		store: store_combo_Site,
+		emptyText: 'Select a Cable...',
+		store: store_combo_Cable,
 		mode: 'remote',
 		selectOnFocus: true,
 		forceSelection: true,
 		triggerAction: 'all',
 		minChars: 3,
 		allowBlank: true,
-		width: 210
+        name: 'fiber[cable_id]',
+        hiddenName: 'fiber[cable_id]',
+        disabled: true,
+		width: 120
 	});
 
 	var comboSpans = new Ext.form.ComboBox({
@@ -88,17 +81,14 @@
 		forceSelection: true,
 		triggerAction: 'all',
 		minChars: 3,
-		allowBlank: false,
-        name: 'fiber[span_id]',
-        hiddenName: 'fiber[span_id]',
-        disabled: true,
-		width: 350
+		allowBlank: true,
+		width: 230
 	});
 
 	var comboSubracks_A = new Ext.form.ComboBox({
 		fieldLabel: 'Subrack',
 		valueField: 'id',
-		displayField: 'subrack_name',
+		displayField: 'name',
 		editable: true,
 		emptyText: 'Select a Subrack...',
 		store: store_combo_Subrack_A,
@@ -108,16 +98,16 @@
 		triggerAction: 'all',
 		minChars: 3,
 		allowBlank: false,
-        name: 'fiber[id]',
-        hiddenName: 'fiber[subrack_name_id]',
+        name: 'fiber[subrack_a_id]',
+        hiddenName: 'fiber[subrack_a_id]',
         disabled: true,
-		width: 210
+		width: 180
 	});
 
 	var comboSubracks_B = new Ext.form.ComboBox({
 		fieldLabel: 'Subrack',
 		valueField: 'id',
-		displayField: 'subrack_name',
+		displayField: 'name',
 		editable: true,
 		emptyText: 'Select a Subrack...',
 		store: store_combo_Subrack_B,
@@ -127,27 +117,10 @@
 		triggerAction: 'all',
 		minChars: 3,
 		allowBlank: true,
+        name: 'fiber[subrack_b_id]',
+        hiddenName: 'fiber[subrack_b_id]',
         disabled: true,
-		width: 250
-	});
-
-	var comboFiberEnds = new Ext.form.ComboBox({
-		fieldLabel: 'Fiber Number',
-		valueField: 'id',
-		displayField: 'fiber_num_1',
-		editable: true,
-		emptyText: 'Select a Fiber...',
-		store: store_combo_fiber_end,
-		mode: 'remote',
-		selectOnFocus: true,
-		forceSelection: true,
-		triggerAction: 'all',
-		minChars: 3,
-		allowBlank: true,
-        name: 'fiber[fiber_num_1]',
-        hiddenName: 'fiber[fiber_end_id]',
-        disabled: true,
-		width: 122
+		width: 180
 	});
 
 	var statusCombo = new Ext.form.ComboBox ({
@@ -167,26 +140,16 @@
 	    hiddenName: 'fiber[status]',
 	    allowBlank: false,
 		editable: false,
+		value: "C",
 		width: 120
 	});
 
 	comboProjects.on('select', function(combo, record, index) {
-      comboSites.setDisabled(false);
-	  comboSpans.reset();
-	  comboSites.reset();
-	  comboSites.store.proxy = new Ext.data.HttpProxy({
-	    method: 'GET',
-	    url: '/sites/store/grid?project_id='+record.get('id')
-	  });
-	  comboSites.store.load();
-	});
-
-	comboSites.on('select', function(combo, record, index) {
       comboSpans.setDisabled(false);
 	  comboSpans.reset();
 	  comboSpans.store.proxy = new Ext.data.HttpProxy({
 	    method: 'GET',
-        url: '/spans/store/grid?site_id='+record.get('id')
+	    url: '/spans/store/grid?project_id='+record.get('id')
 	  });
 	  comboSpans.store.load();
 	});
@@ -196,7 +159,7 @@
 	  comboSubracks_A.reset();
 	  comboSubracks_A.store.proxy = new Ext.data.HttpProxy({
 	    method: 'GET',
-        url: '/subrack_names/store/grid?site_id='+record.get('site_a_id')
+	    url: '/subracks/store/grid?site_id='+record.get('site_a_id')
 	  });
 	  comboSubracks_A.store.load();
 
@@ -204,19 +167,17 @@
 	  comboSubracks_B.reset();
 	  comboSubracks_B.store.proxy = new Ext.data.HttpProxy({
 	    method: 'GET',
-        url: '/subrack_names/store/grid?site_id='+record.get('site_b_id')
+	    url: '/subracks/store/grid?site_id='+record.get('site_b_id')
 	  });
 	  comboSubracks_B.store.load();
-	});
 
-	comboSubracks_B.on('select', function(combo, record, index) {
-      comboFiberEnds.setDisabled(false);
-	  comboFiberEnds.reset();
-	  comboFiberEnds.store.proxy = new Ext.data.HttpProxy({
+      comboCables.setDisabled(false);
+	  comboCables.reset();
+	  comboCables.store.proxy = new Ext.data.HttpProxy({
 	    method: 'GET',
-        url: '/fibers/store/grid?subrack_name_id='+record.get('id')
+	    url: '/cables/store/grid?span_id='+record.get('id')
 	  });
-	  comboFiberEnds.store.load();
+	  comboCables.store.load();
 	});
 
 	var form_newFibers = new Ext.FormPanel({
@@ -230,70 +191,68 @@
 	  		monitorValid: true,
             items:[{xtype:"fieldset", title:"Filters", autoHeight:true, width: 590,
                     items:[{layout: 'column',
-                            items:[{labelWidth: 45, columnWidth:0.55, layout:'form'
+                            items:[{labelWidth: 45, columnWidth:0.5, layout:'form'
                                    ,items:[comboProjects]
                                    },
-                                   {labelWidth: 30, columnWidth:0.45, layout:'form'
-                                   ,items:[comboSites]
-                                  }]
+                                   {labelWidth: 40, columnWidth:0.5, layout:'form'
+                                   ,items:[comboSpans]
+                                   }]
                           }]
                    },
                    {xtype:"fieldset", title:"Fiber", autoHeight:true, width: 590,
-                    items:[{layout: 'column', layout:'form', labelWidth: 50
-                           ,items:[comboSpans]
-                          },
-                          {layout: 'column',
-                           items:[{labelWidth: 50, columnWidth:0.5, layout:'form'
-                                  ,items:[comboSubracks_A]
-                                  },
-                                  {labelWidth: 48, columnWidth:0.18, layout:'form'
-                                  ,items:[{xtype:"textfield", fieldLabel: 'Number', name: 'fiber[number]', width: 30, allowBlank:false}]
-                                  },
-                                  {labelWidth: 38, columnWidth:0.32, layout:'form'
-                                  ,items:[statusCombo]
-                                 }]
+                    items:[{layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.46, layout:'form'
+                                   ,items:[comboSubracks_A]
+                                   },
+                                   {labelWidth: 50, columnWidth:0.22, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Position', name: 'fiber[number_a]', width: 40, allowBlank:false}]
+                                   },
+                                   {labelWidth: 40, columnWidth:0.32, layout:'form'
+                                   ,items:[comboCables]
+                                  }]
                           }]
                    },
                    {xtype:"fieldset", title:"Fiber End", autoHeight:true, width: 590,
                     items:[{layout: 'column',
-                            items:[{labelWidth: 50, columnWidth:0.6, layout:'form'
+                            items:[{labelWidth: 50, columnWidth:0.46, layout:'form'
                                    ,items:[comboSubracks_B]
                                    },
-                                   {labelWidth: 80, columnWidth:0.4, layout:'form'
-                                   ,items:[comboFiberEnds]
+                                   {labelWidth: 50, columnWidth:0.22, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Position', name: 'fiber[number_b]', width: 40, allowBlank:false}]
+                                   },
+                                   {labelWidth: 40, columnWidth:0.32, layout:'form'
+                                   ,items:[statusCombo]
                                   }]
                           }]
                   }],
 			buttons:[{
 	      		      text: 'Create Fiber',
-				      handler:function() {
-		        		if (form_newFibers.getForm().isValid()) {
-		          			form_newFibers.getForm().submit({
-		            			url:'<%= url_for (:controller => 'fibers', :action => 'create') %>',
+				      handler:function()
+		        		{if (form_newFibers.getForm().isValid())
+		          			{form_newFibers.getForm().submit
+		            	      ({url:'<%= url_for (:controller => 'fibers', :action => 'create') %>',
 		            			waitMsg:'Saving Data...',
 		            			success: function(){
 		              				Ext.Msg.alert('Fiber added','The fiber has been successfully created');
-		              				updateSubTab(	'tab_fibers',
-		              								'sub_tab_fibers_fibers_show_<%= @fiber.id %>',
-		              								'<%= @fiber.number %> fibers',
-		              								'/fibers/<%= @fiber.id %>/fibers/');
-		              				closeSubTab('tab_fibers','sub_tab_fibers_new');
-	            				},
-		            			failure: function()
-     		            			{Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
-		          			});
-        				}
-	      			  }
-				     },
-    			     {
-    				  text: 'Cancel',
-    				  handler:function(){closeSubTab('tab_fibers','sub_tab_fibers_new');}
-	  			    }]
-	});
-
+		              				updateSubTab('tab_fibers','sub_tab_fibers','Fibers','<%= fibers_path %>');
+		              				closeSubTab('tab_fibers','sub_tab_fibers_new');},
+		            			failure: function(form, action)
+	                               {if (action.failureType == 'server')
+	                                   {msg = String(Ext.util.JSON.decode(action.response.responseText));
+	                                    Ext.Msg.alert('Validation Error', msg);}
+	                                else
+	                                   {Ext.Msg.alert('Error', 'There has been a problem while creating this request. Contact the system administrator.');}
+	                               }
+ 	                         });
+ 	                       }
+ 	                   }
+ 	                },
+ 	                {text: 'Cancel',
+                     handler:function(){closeSubTab('tab_fibers','sub_tab_fibers_new');}
+	  			   }]
+	    });
 	form_newFibers.render( 'area_form_newFibers');
 
 </script>
-<br />
--->
+<br/>
 <div id="area_form_newFibers" style="float:left;"></div>

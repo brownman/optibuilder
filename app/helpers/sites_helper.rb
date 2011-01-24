@@ -8,7 +8,7 @@ module SitesHelper
                       new Ext.Button ({ text: 'Add new',
                                         id: 'btnNew',
                                         iconCls: 'addNewIcon',
-                                        tooltip: 'Add new project',
+                                        tooltip: 'Add new Site',
                                         handler: function(){ newSite();}
                                      }),
                           new Ext.Spacer({width: 20}),

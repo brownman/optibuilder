@@ -8,7 +8,7 @@ module SpansHelper
                       new Ext.Button ({ text: 'Add new',
                                         id: 'btnNew',
                                         iconCls: 'addNewIcon',
-                                        tooltip: 'Add new span',
+                                        tooltip: 'Add new Span',
                                         handler: function(){ newSpan();}
                                      }),
                           new Ext.Spacer({width: 20}),

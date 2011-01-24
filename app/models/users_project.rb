@@ -12,11 +12,13 @@ class UsersProject < ActiveRecord::Base
     att =  '-'
     case read_attribute(:role).to_i
       when 0
-        att = '-'
+        att = 'Admin'
       when 1
         att = 'User'
       when 2
-        att ='Admin'
+        att = 'Consultant'
+      when 3
+        att = 'Contact'
     end
   end
 

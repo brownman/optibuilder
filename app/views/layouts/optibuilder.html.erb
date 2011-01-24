@@ -20,16 +20,15 @@
 	<div id="west">
 	    	<img src="/images/optibuilder_logo.png" alt="Optibuilder Logo" />
 		<% if session_user %>
-			<p>You are logged in as
+			<p>You are logged as
 			<strong>
-      		<%= link_to_function session_user.login, 
-					"addUserTab();addSubTab(
-						'userManager',
-						'userEdit_#{session_user.id}',
-						'User: #{session_user.name}',
-						'#{url_for :controller => 'users', :action => 'edit', :id => session_user.id}', 
-						'user-icon');" %>
-			</strong> | 
+      		<%= link_to_function session_user.name,
+				   "addTab('tab_users',
+						   'sub_tab_users_show_#{session_user.id}',
+						   'User: #{session_user.name}',
+						   '#{url_for :controller => 'users', :action => 'show', :id => session_user.id}',
+						   'user-icon');" %>
+			<br>
 			<strong><a href="#" onClick = "confirmLogout();">Help</a></strong> |
 			<strong><a href="#" onClick = "confirmLogout();">Sign out</a></strong>
 	    <% end %>
@@ -44,7 +43,7 @@
 			<a href="http://www.fiberwork.net" target="_blank">
 		    <img src="/images/fiberwork_logo.gif" alt="FiberWork Optical Communications" border="0" />
 		    </a><br />
-			
+
 		    <h1 style="">Welcome to Optibuilder</h1>
 		    V. 1.0
 
@@ -84,13 +83,6 @@
 				<div 	style="cursor:default;"
 						onMouseOver="this.style.backgroundColor='#efefef'"
 						onMouseOut="this.style.backgroundColor='';"
-						onclick="addTab('tab_subrack_names', 'Subrack_names', 'List', '<%= subrack_names_path %>', 'tabSubracks');" >Sub Racks
-				</div>
-			</li>
-			<li>
-				<div 	style="cursor:default;"
-						onMouseOver="this.style.backgroundColor='#efefef'"
-						onMouseOut="this.style.backgroundColor='';"
 						onclick="addTab('tab_spans', 'Spans', 'List', '<%= spans_path %>', 'tabSpans');" >Spans
 				</div>
 			</li>
@@ -105,28 +97,92 @@
 				<div 	style="cursor:default;"
 						onMouseOver="this.style.backgroundColor='#efefef'"
 						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_cables', 'Cables', 'List', '<%= cables_path %>', 'tabCables');" >Cables
+				</div>
+			</li>
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
 						onclick="addTab('tab_diagrams', 'Diagrams', 'List', '<%= diagrams_path %>', 'tabDiagrams');" >Diagrams
 				</div>
 			</li>
-	   		<li>
-	   			<div 	style="cursor:default;"
-	    			onMouseOver="this.style.backgroundColor='#efefef'"
-	    			onMouseOut="this.style.backgroundColor='';"
-	    			onclick="addTab('tab_users', 'Users', 'List', '<%= users_path %>', 'tabUsers');" >Users
+			<li>
+				<div 	style="cursor:default;"
+						onMouseOver="this.style.backgroundColor='#efefef'"
+						onMouseOut="this.style.backgroundColor='';"
+						onclick="addTab('tab_subracks', 'Subracks', 'List', '<%= subracks_path %>', 'tabSubracks');" >Sub Racks
 				</div>
 			</li>
+			<% if session_user.id == 1 %>
+		   		<li>
+		   			<div 	style="cursor:default;"
+			    			onMouseOver="this.style.backgroundColor='#efefef'"
+			    			onMouseOut="this.style.backgroundColor='';"
+			    			onclick="addTab('tab_users', 'Users', 'List', '<%= users_path %>', 'tabUsers');" >Users
+					</div>
+				</li>
+			<% end %>
 		</ul>
 	</div>
 
 	<div id="tests">
 		<ul>
-			<li><div style="cursor:default;" onMouseOver="this.style.backgroundColor='#efefef'" onMouseOut="this.style.backgroundColor='';" onclick="addSearchTab('netElStatus', 'Net El. Status', 'searches/search_net_elements_status/0');" >Status de elementos de rede</div></li>
+			<li>
+    			<div 	style="cursor:default;"
+    					onMouseOver="this.style.backgroundColor='#efefef'"
+    					onMouseOut="this.style.backgroundColor='';"
+		    			onclick="Ext.Msg.alert('Function to be done','missing implementation');" >
+		    			List of Connections
+	    		</div>
+			</li>
+			<li>
+    			<div 	style="cursor:default;"
+    					onMouseOver="this.style.backgroundColor='#efefef'"
+    					onMouseOut="this.style.backgroundColor='';"
+    					onclick="addTab('tab_test_attenuations', 'Attenuation', 'List', '<%= test_attenuations_path %>');" >
+    					Attenuation
+	    		</div>
+			</li>
+			<li>
+    			<div 	style="cursor:default;"
+    					onMouseOver="this.style.backgroundColor='#efefef'"
+    					onMouseOut="this.style.backgroundColor='';"
+    					onclick="addTab('tab_test_chromatic_disps', 'Chromatic', 'List', '<%= test_chromatic_disps_path %>');" >
+    					Chromatic Dispersion
+	    		</div>
+			</li>
+			<li>
+    			<div 	style="cursor:default;"
+    					onMouseOver="this.style.backgroundColor='#efefef'"
+    					onMouseOut="this.style.backgroundColor='';"
+    					onclick="addTab('tab_test_orls', 'ORL', 'List', '<%= test_orls_path %>');" >
+    					ORL
+	    		</div>
+			</li>
+			<li>
+    			<div 	style="cursor:default;"
+    					onMouseOver="this.style.backgroundColor='#efefef'"
+    					onMouseOut="this.style.backgroundColor='';"
+    					onclick="addTab('tab_test_otdrs', 'OTDR', 'List', '<%= test_otdrs_path %>');" >
+    					OTDR
+	    		</div>
+			</li>
+			<li>
+    			<div 	style="cursor:default;"
+    					onMouseOver="this.style.backgroundColor='#efefef'"
+    					onMouseOut="this.style.backgroundColor='';"
+    					onclick="addTab('tab_test_pmds', 'PMD', 'List', '<%= test_pmds_path %>');" >
+    					PMD
+	    		</div>
+			</li>
 		</ul>
 	</div>
 
 	<div id="reports">
 		<ul>
-			<li><div style="cursor:default;" onMouseOver="this.style.backgroundColor='#efefef'" onMouseOut="this.style.backgroundColor='';" onclick="addCRUDTab('regions', '');" >Regions</div></li>
+			<li><div style="cursor:default;" onMouseOver="this.style.backgroundColor='#efefef'" onMouseOut="this.style.backgroundColor='';"
+			onclick="addCRUDTab('regions', '');" >Regions</div></li>
 		</ul>
 	</div>
 

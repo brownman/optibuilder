@@ -45,11 +45,8 @@
 		            			waitMsg:'Saving Data...',
 		            			success: function(){
 		              				Ext.Msg.alert('Diagram added','The diagram has been successfully created');
-		              				updateSubTab(	'tab_diagrams',
-		              								'sub_tab_diagrams_diagrams_show_<%= @diagram.id %>',
-		              								'<%= @diagram.name %> diagrams',
-		              								'/diagrams/<%= @diagram.id %>');
-		              				closeSubTab('tab_diagrams','sub_tab_diagrams_new');
+		              				updateSubTab('tab_diagrams','sub_tab_diagrams','Diagrams','<%= diagrams_path %>');
+ 		              				closeSubTab('tab_diagrams','sub_tab_diagrams_new');
 	            				},
 		            			failure: function(){Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
 		          			});

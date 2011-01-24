@@ -143,7 +143,7 @@
 										valueField: 'id',
 										displayField: 'name',
 										editable: true,
-										emptyText: 'select a person...',
+										emptyText: 'Select a Professional...',
 										store: store_combo_Users,
 										mode: 'remote',
 										selectOnFocus: true,
@@ -156,7 +156,7 @@
 									new Ext.form.ComboBox ({
 										id: 'envolved_combo_roles',
 									    fieldLabel: 'Role',
-									    store: [[1, 'User'], [2, 'Admin']],
+									    store: [[0, 'Admin'], [1, 'User'], [2, 'Consultant']],
 									    typeAhead: true,
 									    mode: 'local',
 									    forceSelection: true,
@@ -312,7 +312,7 @@
 
 	var statusCombo = new Ext.form.ComboBox ({
 		    fieldLabel: 'Status',
-		    store: [['p', 'Planned'],['e', 'In execution'],['f', 'Finished']],
+		    store: [['1', 'Planned'],['2', 'In execution'],['3', 'Finished']],
 		    typeAhead: true,
 		    mode: 'local',
 		    forceSelection: true,
@@ -365,7 +365,7 @@
 		      		   {layout:"column",
 		      		    labelWidth: 70,
 			            layout:"form",
-			        	items:[{xtype:"textarea", fieldLabel:"Project Description", name:"project[description]", width:556, value: '<%= @project.description %>'}]
+			        	items:[{xtype:"textarea", fieldLabel:"Project Description", name:"project[description]", heigth:20,width:556, value: '<%= @project.description %>'}]
 	      			  }]
 			   },
 			   {
@@ -518,7 +518,7 @@
   		  ],
         buttons:[
         		{
-        			text: 'Save',
+        			text: 'Update',
                 	handler:function(){
 	                 	var usersArr = [];
 		                store_UsersProjects.each(function(record) {

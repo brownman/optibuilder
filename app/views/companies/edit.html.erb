@@ -15,7 +15,7 @@
                   width: 590,
                   items:[{xtype:"textfield", fieldLabel: 'Name', name: 'company[name]', allowBlank:false, width: 465, value: '<%= @company.name %>'},
                          {xtype:"textfield", fieldLabel: 'Contact', name: 'company[contact]', allowBlank:false, width: 465, value: '<%= @company.contact %>'},
-                          {xtype:"textfield", fieldLabel: 'Code', name: 'company[code]', allowBlank:false,helpMsg:' Enter a CNPJ or SIC number', width: 465, value: '<%= @company.code %>'},
+                         {xtype:"textfield", fieldLabel: 'Code', name: 'company[code]', allowBlank:false,helpMsg:' Enter a CNPJ or SIC number', width: 465, value: '<%= @company.code %>'},
                          {xtype:"textfield", fieldLabel: 'Phone', name: 'company[phone]', allowBlank:false, width: 465, value: '<%= @company.phone %>'},
                          {xtype:"textfield", fieldLabel: 'Fax', name: 'company[fax]', allowBlank:true, width: 465, value: '<%= @company.fax %>'},
                          {xtype:"textfield", fieldLabel: 'E-mail', name: 'company[email]', allowBlank:true, width: 465, value: '<%= @company.email %>'},
@@ -40,7 +40,7 @@
 							Ext.getCmp('edit_company_street_<%= @company.id %>').allowBlank = false;
 							Ext.getCmp('edit_company_location_<%= @company.id %>').allowBlank = false;
 							Ext.getCmp('edit_company_zipcode_<%= @company.id %>').allowBlank = false;
-							Ext.getCmp('edit_company_complement_<%= @company.id %>').allowBlank = false;
+							Ext.getCmp('edit_company_complement_<%= @company.id %>').allowBlank = true;
 							this.doLayout();
                     	},
 						collapse: function(){

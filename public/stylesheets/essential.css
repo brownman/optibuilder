@@ -5,7 +5,6 @@ table.simpleTable td, th {
     padding: 0 1em;
 	text-align: left;
 	border: 1px solid #AEAEAE;
-	text-align: left;
 	font-size: 11px;
 }
 
@@ -18,7 +17,7 @@ table.simpleTable th {
 
 .tabContent{
 	padding: 10px;
-	background-color: #F0F0F0;
+	background-color: #FCFCFC;/*FCFCFC*/
 	overflow-y: auto;
 }
 
@@ -221,3 +220,176 @@ a.link{
 	padding-botton: 1px;
 }
 
+/*Diagram-show*/
+
+.ShowPage fieldset.diagramview {
+ 	width:25%;/*tamanho do filedset*/;
+}
+.ShowPage table.diagramview th {
+	width:40%;
+}
+
+.ShowPage table.diagramview td {
+	width:60%;
+}
+
+.ShowPage table.ddesignprincipal {
+	margin;
+	padding:0;
+	width:63%;
+}
+.ShowPage table.diagramdesign  {
+	margin:0;
+	padding:0;
+	width:15%;
+	align:center;
+}
+.ShowPage  h1.diagramshow {
+font-size: 22px;
+
+}
+
+/*Cable-show*/
+
+.ShowPage fieldset.cableview {
+ 	width:30%;/*tamanho do filedset*/;
+}
+.ShowPage table.cableview th {
+	width:25%;
+}
+
+.ShowPage table.cableview td {
+	width:75%;
+}
+
+/*Project-show*/
+
+
+
+.ShowPage fieldset.pdetailsview {
+ 	height: auto;
+	width: 570px;
+ 	border: 0.5px solid #E3E3E3;
+}
+.ShowPage div.area {
+	 height: auto;
+	 width: 650px;
+}
+.ShowPage table.pdetailsview2  {
+	padding-bottom: 0px;
+
+}
+
+.ShowPage table.pdetailsview2 th {
+	width:23%;
+
+}
+
+.ShowPage table.pdetailsview2 td {
+	width:77%;
+
+}
+
+.ShowPage table.pdetailsview {
+	width:52%;
+	float:left;
+	padding-top: 0px;
+	border-right:  0.5px solid #d0d0d0;
+
+}
+
+.ShowPage table.pdetailsview th {
+	width:60%;
+
+}
+
+.ShowPage table.pdetailsview td {
+	width:40%;
+	text-align: left;
+
+}
+
+.ShowPage table.pdetailsview3  {
+	width:48%;
+
+	float:right;
+	padding-top: 0px;
+
+}
+.ShowPage table.pdetailsview3 th {
+	width:70%;
+
+}
+
+.ShowPage table.pdetailsview3 td {
+	width:30%;
+}
+.ShowPage div.table_container th {
+	margin:0 auto;
+	align:center;
+	width:100%;
+	padding-top: 0px;
+	padding-botton: 1px;
+}
+
+
+table.envolved{
+}
+
+table.envolved td {
+    padding: 0 1em;
+	text-align: left;
+	border: 1px solid #E3E3E3;
+	font-size: 11px;
+}
+
+table.envolved th {
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #EBEBEB;
+	font-size: 13px;
+	background-color:#F5F5F5;
+	color:#15428B;
+
+}
+.ShowPage p.people {
+	color:#15428B;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 17px;
+
+}
+
+table.pspan{
+
+}
+
+table.pspan td {
+    padding: 0 1em;
+	text-align: left;
+	border: 1px solid #E3E3E3;
+	font-size: 11px;
+	width:20%;
+}
+
+table.pspan th {
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #EBEBEB;
+	font-size: 13px;
+	background-color:#F5F5F5;
+	color:#15428B;
+	width:20%;
+}
+#holder {
+
+    position: absolute;
+}
+#copy {
+
+    position: absolute;
+
+}
+#copy a {
+    color: #fff;
+}

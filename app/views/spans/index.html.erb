@@ -2,7 +2,7 @@
 
 	function btnSpanFibers(value, metaData, record, rowIndex){
 		var ret =  '<div align="center">'+
-					'<a href="#" onclick="showSpanFibers(' + rowIndex + ')">'+
+					'<a href="#" onclick="addSpanFibers(' + rowIndex + ')">'+
 						'<img src="../images/icon_new_fiber.gif" title="Fibers" alt="Fibers" ></img>'+
 					'</a>'+
 				'</div>';
@@ -40,7 +40,7 @@
 
 	function deleteSpan(r){
 		var id = store_Spans.getAt(r).get('id');
-		var name = store_Spans.getAt(r).get('name');
+		var name = store_Spans.getAt(r).get('site_a_name') + ' - ' + store_Spans.getAt(r).get('site_b_name');
 		Ext.Msg.confirm('Delete ', 'Confirm delete span: ' + name, function(btn) {
 		    if (btn == 'yes') {
 		      updateSubTab('tab_spans', 'sub_tab_spans', 'List', '/Spans/destroy/' + id);
@@ -56,11 +56,11 @@
 		addSubTab('tab_spans', 'sub_tab_spans_show_'+id, 'Showing', '/Spans/show/' + id, 'showIcon');
 	}
 
-	function showSpanFibers(r){
+	function addSpanFibers(r){
 		var id = store_Spans.getAt(r).get('id');
 		var name = store_Spans.getAt(r).get('name');
 		addTab('tab_fibers', 'Fibers', 'List', '<%= fibers_path %>', 'tabFibers');
-		addSubTab('tab_fibers', 'sub_tab_fibers_new_'+id, 'Adding fibers to span'+name, '/fibers/new?span_id='+id, 'showIcon');
+		addSubTab('tab_fibers', 'sub_tab_fibers_new_table'+id, 'Adding fibers to span '+name, '/fibers/new_table/'+id, 'showIcon');
 	}
 
 	function newSpan(){
@@ -86,7 +86,7 @@
 	var cols =
 			[
        		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 220},
-       		{id: 'link', header: 'Owner', dataIndex: 'company_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link', header: 'Network Owner', dataIndex: 'company_name', sortable: true, renderer: linkShow, width: 220},
        		{id: 'link', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 220},
        		{id: 'link', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 220},
 			{id: 'add_fiber', dataIndex: 'add_fiber', renderer: btnSpanFibers, width: 40},

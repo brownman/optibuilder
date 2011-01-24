@@ -63,7 +63,7 @@ function createPBar(store, name){
 						  pageSize: 10,
 						  store: store,
 						  displayInfo: true,
-						  displayMsg: 'Exibindo ' + name + ' {0} - {1} of {2}',
+						  displayMsg: 'Listing ' + name + ' {0} - {1} of {2}',
 						  emptyMsg: "No registers to show"
 						  /*items: [new Ext.Button ({ text: 'Search',
 						  							handler: function(){alert('oi');}
@@ -269,15 +269,22 @@ function updateSubTab(tabId, subTabId, title, url) {
 }
 
 /*************************************************************************
+Generic function to close a tab including yours dependentes in cascade
+*************************************************************************/
+function closeTab(tabId) {
+  var tabPanel = Ext.getCmp('my-tabs');
+  var tab = tabPanel.getItem(tabId);
+    if(tab){ tabPanel.remove(tab); }
+}
+
+/*************************************************************************
 Generic function to close a sub-tab into tab to tab panel
 *************************************************************************/
 function closeSubTab(tabId, subTabId) {
   var tabPanel = Ext.getCmp('my-tabs');
   var tab = tabPanel.getItem(tabId);
   var subtab = tab.getItem(subTabId);
-  if(subtab){
-    tab.remove(subtab);
-  }
+  if(subtab){ tab.remove(subtab); }
 }
 
 /*************************************************************************
@@ -285,15 +292,11 @@ function closeSubTab(tabId, subTabId) {
 *************************************************************************/
 
 function loadingFailedMessage(el, success, response, options){
-   if (!success) {
-        Ext.Msg.alert('Erro','Ocorreu um erro.');
-   }
+   if (!success){ Ext.Msg.alert('Erro','Ocorreu um erro.'); }
 }
 
 function loadingFailed(el, success, response, options) {
-    if (!success) {
-        el.getUpdater().update({url: options.url, callback: loadingFailedMessage, scripts:true});
-    }
+    if (!success){ el.getUpdater().update({url: options.url, callback: loadingFailedMessage, scripts:true}); }
 }
 
 /*************************************************************************

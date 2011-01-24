@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101117183331) do
+ActiveRecord::Schema.define(:version => 20110119191024) do
 
   create_table "addresses", :force => true do |t|
     t.string   "country",    :limit => 20
@@ -25,11 +25,24 @@ ActiveRecord::Schema.define(:version => 20101117183331) do
     t.datetime "updated_at"
   end
 
+  create_table "attachments", :force => true do |t|
+    t.integer  "project_id"
+    t.integer  "span_id"
+    t.integer  "subrack_id"
+    t.integer  "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "file_name"
+    t.string   "content_type"
+    t.integer  "file_size"
+  end
+
   create_table "cables", :force => true do |t|
     t.string   "name"
     t.integer  "span_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "network_type", :limit => 20
   end
 
   create_table "companies", :force => true do |t|
@@ -56,7 +69,7 @@ ActiveRecord::Schema.define(:version => 20101117183331) do
 
   create_table "fibers", :force => true do |t|
     t.integer  "number"
-    t.string   "status",          :limit => 1
+    t.integer  "status"
     t.integer  "span_id"
     t.integer  "fiber_end_id"
     t.integer  "subrack_name_id"
@@ -138,25 +151,22 @@ ActiveRecord::Schema.define(:version => 20101117183331) do
     t.integer  "project_id"
   end
 
-  create_table "subrack_names", :force => true do |t|
-    t.integer  "site_id"
-    t.integer  "subrack_seq"
-    t.string   "cable",           :limit => 10
+  create_table "subracks", :force => true do |t|
+    t.string   "name",            :limit => 20
     t.string   "room",            :limit => 5
     t.string   "floor",           :limit => 5
     t.string   "line",            :limit => 5
     t.string   "rack",            :limit => 5
-    t.string   "subrack",         :limit => 5
     t.string   "group",           :limit => 5
     t.string   "connector",       :limit => 5
-    t.integer  "total_fibers",    :limit => 1
-    t.integer  "released_fibers", :limit => 1
-    t.integer  "broken_fibers",   :limit => 1
-    t.string   "network_type",    :limit => 20
+    t.integer  "total_fibers"
+    t.integer  "released_fibers"
+    t.integer  "broken_fibers"
+    t.integer  "site_id"
     t.integer  "diagram_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",            :limit => 20
+    t.string   "grupo",           :limit => 5
   end
 
   create_table "test_attenuations", :force => true do |t|

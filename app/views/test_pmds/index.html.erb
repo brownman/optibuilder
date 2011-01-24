@@ -1,48 +1,98 @@
-<h1>Listing test_pmds</h1>
+<script type = "text/javascript">
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editTestPmd(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
 
-<table>
-  <tr>
-    <th>Fiber</th>
-    <th>Pmd set1 a</th>
-    <th>Pmd set1 b</th>
-    <th>Pmd set1 c</th>
-    <th>Pmd set2 a</th>
-    <th>Pmd set2 b</th>
-    <th>Pmd set3 c</th>
-    <th>Pmd set3 a</th>
-    <th>Pmd set2 b</th>
-    <th>Pmd set3 c</th>
-    <th>Pmd mean</th>
-    <th>Pmd max</th>
-    <th>Pmd std</th>
-    <th>Pmd span</th>
-    <th>Pmd coef</th>
-  </tr>
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteTestPmd(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
 
-<% @test_pmds.each do |test_pmd| %>
-  <tr>
-    <td><%=h test_pmd.fiber_id %></td>
-    <td><%=h test_pmd.pmd_set1_a %></td>
-    <td><%=h test_pmd.pmd_set1_b %></td>
-    <td><%=h test_pmd.pmd_set1_c %></td>
-    <td><%=h test_pmd.pmd_set2_a %></td>
-    <td><%=h test_pmd.pmd_set2_b %></td>
-    <td><%=h test_pmd.pmd_set3_c %></td>
-    <td><%=h test_pmd.pmd_set3_a %></td>
-    <td><%=h test_pmd.pmd_set2_b %></td>
-    <td><%=h test_pmd.pmd_set3_c %></td>
-    <td><%=h test_pmd.pmd_mean %></td>
-    <td><%=h test_pmd.pmd_max %></td>
-    <td><%=h test_pmd.pmd_std %></td>
-    <td><%=h test_pmd.pmd_span %></td>
-    <td><%=h test_pmd.pmd_coef %></td>
-    <td><%= link_to 'Show', test_pmd %></td>
-    <td><%= link_to 'Edit', edit_test_pmd_path(test_pmd) %></td>
-    <td><%= link_to 'Destroy', test_pmd, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showTestPmd(' + rowIndex + ')">' + value + '</a></div>';
+	}
 
-<br />
+	function editTestPmd(r){
+		var id = store_TestPmds.getAt(r).get('id');
+		var number = store_TestPmds.getAt(r).get('fiber_num_1');
+		addSubTab('tab_test_pmds', 'sub_tab_test_pmds_edit_'+id, 'Editing ' + number, '/test_pmds/edit/' + id, 'editIcon');
+	}
 
-<%= link_to 'New test_pmd', new_test_pmd_path %>
+	function deleteTestPmd(r){
+		var id = store_TestPmds.getAt(r).get('id');
+		var number = store_TestPmds.getAt(r).get('fiber_num_1');
+		Ext.Msg.confirm('Delete ', 'Confirm delete fiber: ' + number, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_test_pmds', 'sub_tab_test_pmds', 'List', '/TestPmds/destroy/' + id);
+		      closeSubTab('tab_test_pmds', 'sub_tab_test_pmds_edit_' + id);
+		      closeSubTab('tab_test_pmds', 'sub_tab_test_pmds_show_' + id);
+		    }
+		  });
+	}
+
+	function showTestPmd(r){
+		var id = store_TestPmds.getAt(r).get('id');
+		var number = store_TestPmds.getAt(r).get('fiber_num_1');
+		addSubTab('tab_test_pmds', 'sub_tab_test_pmds_show_'+id, 'Showing ' + number, '/test_pmds/show/' + id, 'showIcon');
+	}
+
+	function newTestPmd(){
+		      addSubTab('tab_test_pmds', 'sub_tab_test_pmds_new', 'New TestPmd', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_TestPmds = createStore(	'<%= url_for(:controller => "test_pmds", :action => "store", :id => "grid") %>',
+											['id', 'fiber_num_a', 'fiber_num_b', 'status', 'project_name'
+											, 'sub_a_name', 'sub_b_name', 'cable_name', 'site_a_name', 'site_b_name'
+											],
+											[{name: 'id',  mapping: 'id'}
+											,{name: 'project_name',  mapping: 'project_name'}
+											,{name: 'fiber_num_a',  mapping: 'fiber_num_a'}
+											,{name: 'fiber_num_b',  mapping: 'fiber_num_b'}
+											,{name: 'status',  mapping: 'status'}
+											,{name: 'cable_name',  mapping: 'cable_name'}
+											,{name: 'sub_a_name',  mapping: 'sub_a_name'}
+											,{name: 'sub_b_name',  mapping: 'sub_b_name'}
+											,{name: 'site_a_name',  mapping: 'site_a_name'}
+											,{name: 'site_b_name',  mapping: 'site_b_name'}
+											]
+								  );
+
+	var pBar = createPBar(store_TestPmds, 'TestPmds');
+
+	<%= include_buttons_TestPmds %>
+	var btnsTestPmds = createTestPmdsBtns();
+	var cmdBar = createCmdBar(btnsTestPmds);
+	var cols =
+			[
+       		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link', header: 'Subrack', dataIndex: 'sub_a_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link', header: 'Fiber', dataIndex: 'fiber_num_a', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link', header: 'Cable', dataIndex: 'cable_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link', header: 'Subrack', dataIndex: 'sub_b_name', sortable: true, renderer: linkShow, width: 80},
+      		{id: 'link', header: 'Fiber', dataIndex: 'fiber_num_b', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link', header: 'Status', dataIndex: 'status', sortable: true, renderer: linkShow, width: 50},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_TestPmds = createGrid(store_TestPmds, 'PMD Tests Window', cmdBar, pBar, cols);
+	store_TestPmds.load({params: {start:0 , limit:10}});
+	grid_TestPmds.render('pmd_index_grid_content');
+
+</script>
+
+<div id = "pmd_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

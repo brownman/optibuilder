@@ -34,7 +34,7 @@
 							Ext.getCmp('new_company_street').allowBlank = false;
 							Ext.getCmp('new_company_location').allowBlank = false;
 							Ext.getCmp('new_company_zipcode').allowBlank = false;
-							Ext.getCmp('new_company_complement').allowBlank = false;
+							Ext.getCmp('new_company_complement').allowBlank = true;
 							this.doLayout();
                     	},
 						collapse: function(){
@@ -53,7 +53,7 @@
 				  title:" Address",
 				  autoHeight:true,
 				  checkboxToggle:true,
-				  collapsed: true,
+				  collapsed: false,
 				  labelWidth: 80,
                   items:[{layout: 'column',
                           items:[{labelWidth: 50, columnWidth:0.4, layout:'form'

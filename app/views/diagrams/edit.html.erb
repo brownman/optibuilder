@@ -1,21 +1,19 @@
 <script type="text/javascript">
 
-	function previewDiagram_<%= @diagram.id %>(){
-		if (form_editDiagrams_<%= @diagram.id %>.getForm().isValid()) {
-			var qty_<%= @diagram.id %> = Ext.getCmp('diagram_qty_<%= @diagram.id %>').getValue();
-			var rows_<%= @diagram.id %> = Ext.getCmp('diagram_rows_<%= @diagram.id %>').getValue();
-			var cols_<%= @diagram.id %> = Ext.getCmp('diagram_cols_<%= @diagram.id %>').getValue();
+function previewDiagram(){
+			 if (form_editDiagrams_<%= @diagram.id %>.getForm().isValid()) {
+			 var qty = Ext.getCmp('diagram_qty_<%= @diagram.id %>').getValue();
+			 var rows = Ext.getCmp('diagram_rows_<%= @diagram.id %>').getValue();
+			 var cols = Ext.getCmp('diagram_cols_<%= @diagram.id %>').getValue();
 
-			if(qty > 20 || rows > 20 || cols > 20){
-				Ext.Msg.alert('Warning', 'The limit value for configuration is 20');
-			}else{
-			    new Ajax.Updater(	{success:'preview_diagram_<%= @diagram.id %>',failure:'error'},
-		    					'/diagrams/preview?qty='+qty_<%= @diagram.id %>+'&rows='+rows_<%= @diagram.id %>+'&cols='+cols_<%= @diagram.id %>,
-		    					{asynchronous:true, evalScripts:true});
-		    }
-			return false;
-	    }
-	}
+				if(qty > 20 || rows > 20 || cols > 20){
+					Ext.Msg.alert('Warning', 'The limit value for configuration is 20');
+					}else{
+					 new Ajax.Updater({success:'preview_diagram',failure:'error'}, '/diagrams/preview?qty='+qty+'&rows='+rows+'&cols='+cols, {asynchronous:true, evalScripts:true});
+				    }
+				    return false;
+			    }
+}
 
     var form_editDiagrams_<%= @diagram.id %> = new Ext.FormPanel
             ({labelWidth: 170,
@@ -39,14 +37,19 @@
 						 	 {id: 'diagram_cols_<%= @diagram.id %>', maskRe: /[0-9]/, fieldLabel: 'Quantity of Columns on each', name: 'diagram[subracks_cols]', allowBlank:false, value: '<%= @diagram.subracks_cols %>'}
 						 	]
                     }],
-              buttons:[{text: 'Save',
+              buttons:[{text: 'Update',
                         handler:function()
                         {if (form_editDiagrams_<%= @diagram.id %>.getForm().isValid())
                             {form_editDiagrams_<%= @diagram.id %>.getForm().submit
                               ({url:'/diagrams/update/<%= @diagram.id %>',
                                 waitMsg:'Saving Data...',
                                 success: function()
-                                   {Ext.Msg.alert('Diagram updated','The diagram has been successfully updated');},
+                                   {
+                                   	  Ext.Msg.alert('Diagram updated','The diagram has been successfully updated');
+                                      updateSubTab('tab_diagrams','sub_tab_diagrams','Diagrams','<%= diagrams_path %>');
+                                      closeSubTab('tab_diagrams','sub_tab_diagrams_show_<%= @diagram.id %>');
+                                      closeSubTab('tab_diagrams','sub_tab_diagrams_edit_<%= @diagram.id %>');
+                                   },
                                 failure: function()
                                    {Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
                               });
@@ -55,7 +58,7 @@
                        },
 		     		  {
     				  	text: 'Preview',
-    				  	handler:function(){previewDiagram_<%= @diagram.id %>();}
+    				 handler:function(){previewDiagram();}
     				  },
                       {text: 'Cancel',
                         handler:function(){closeSubTab('tab_diagrams','sub_tab_diagrams_edit_<%= @diagram.id %>');}
@@ -64,8 +67,13 @@
 
     form_editDiagrams_<%= @diagram.id %>.render( 'area_form_editDiagrams_<%= @diagram.id %>');
 
+
+
+
 </script>
+
+
 <br />
 <div id="area_form_editDiagrams_<%= @diagram.id %>" style="float:left;"></div>
 <br /><br />
-<div id="preview_diagram_<%= @diagram.id %>" style="margin-top: 220px;"></div>
+<div id="preview_diagram" style="margin-top: 220px;"></div>

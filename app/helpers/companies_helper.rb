@@ -19,7 +19,7 @@ module CompaniesHelper
                       new Ext.Button ({ text: 'Add new',
                                         id: 'btnNew',
                                         iconCls: 'addNewIcon',
-                                        tooltip: 'Add new project',
+                                        tooltip: 'Add new Company',
                                         handler: function(){ newCompany();}
                                      }),
                           new Ext.Spacer({width: 20}),

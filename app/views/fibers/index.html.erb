@@ -24,13 +24,13 @@
 
 	function editFiber(r){
 		var id = store_Fibers.getAt(r).get('id');
-		var number = store_Fibers.getAt(r).get('fiber_num_1');
+		var number = store_Fibers.getAt(r).get('fiber_num_a');
 		addSubTab('tab_fibers', 'sub_tab_fibers_edit_'+id, 'Editing ' + number, '/fibers/edit/' + id, 'editIcon');
 	}
 
 	function deleteFiber(r){
 		var id = store_Fibers.getAt(r).get('id');
-		var number = store_Fibers.getAt(r).get('fiber_num_1');
+		var number = store_Fibers.getAt(r).get('fiber_num_a');
 		Ext.Msg.confirm('Delete ', 'Confirm delete fiber: ' + number, function(btn) {
 		    if (btn == 'yes') {
 		      updateSubTab('tab_fibers', 'sub_tab_fibers', 'List', '/Fibers/destroy/' + id);
@@ -42,7 +42,7 @@
 
 	function showFiber(r){
 		var id = store_Fibers.getAt(r).get('id');
-		var number = store_Fibers.getAt(r).get('fiber_num_1');
+		var number = store_Fibers.getAt(r).get('fiber_num_a');
 		addSubTab('tab_fibers', 'sub_tab_fibers_show_'+id, 'Showing ' + number, '/Fibers/show/' + id, 'showIcon');
 	}
 
@@ -51,17 +51,17 @@
 	}
 
 	var store_Fibers = createStore(	'<%= url_for(:controller => "fibers", :action => "store", :id => "grid") %>',
-											['id', 'fiber_num_1', 'fiber_num_2', 'fiber_status_1', 'fiber_status_2'
-											, 'subrack_name', 'site_a_name', 'site_b_name', 'project_name'
+											['id', 'fiber_num_a', 'fiber_num_b', 'status', 'project_name'
+											, 'sub_a_name', 'sub_b_name', 'cable_name', 'site_a_name', 'site_b_name'
 											],
 											[{name: 'id',  mapping: 'id'}
 											,{name: 'project_name',  mapping: 'project_name'}
-											,{name: 'fiber_num_1',  mapping: 'fiber_num_1'}
-											,{name: 'fiber_num_2',  mapping: 'fiber_num_2'}
-											,{name: 'fiber_status_1',  mapping: 'fiber_status_1'}
-											,{name: 'fiber_status_2',  mapping: 'fiber_status_2'}
-											,{name: 'subrack_name_a',  mapping: 'subrack_a'}
-											,{name: 'subrack_name_b',  mapping: 'subrack_b'}
+											,{name: 'fiber_num_a',  mapping: 'fiber_num_a'}
+											,{name: 'fiber_num_b',  mapping: 'fiber_num_b'}
+											,{name: 'status',  mapping: 'status'}
+											,{name: 'cable_name',  mapping: 'cable_name'}
+											,{name: 'sub_a_name',  mapping: 'sub_a_name'}
+											,{name: 'sub_b_name',  mapping: 'sub_b_name'}
 											,{name: 'site_a_name',  mapping: 'site_a_name'}
 											,{name: 'site_b_name',  mapping: 'site_b_name'}
 											]
@@ -74,15 +74,15 @@
 	var cmdBar = createCmdBar(btnsFibers);
 	var cols =
 			[
-       		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 150},
-       		{id: 'link', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 150},
-       		{id: 'link', header: 'Subrack', dataIndex: 'subrack_name_a', sortable: true, renderer: linkShow, width: 80},
-       		{id: 'link', header: 'Fiber', dataIndex: 'fiber_num_1', sortable: true, renderer: linkShow, width: 50},
-       		{id: 'link', header: 'Status', dataIndex: 'fiber_status_1', sortable: true, renderer: linkShow, width: 50},
-       		{id: 'link', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 150},
-       		{id: 'link', header: 'Subrack', dataIndex: 'subrack_name_b', sortable: true, renderer: linkShow, width: 80},
-      		{id: 'link', header: 'Fiber', dataIndex: 'fiber_num_2', sortable: true, renderer: linkShow, width: 50},
-       		{id: 'link', header: 'Status', dataIndex: 'fiber_status_2', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link', header: 'Subrack', dataIndex: 'sub_a_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link', header: 'Position', dataIndex: 'fiber_num_a', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link', header: 'Cable', dataIndex: 'cable_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link', header: 'Subrack', dataIndex: 'sub_b_name', sortable: true, renderer: linkShow, width: 80},
+      		{id: 'link', header: 'Position', dataIndex: 'fiber_num_b', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link', header: 'Status', dataIndex: 'status', sortable: true, renderer: linkShow, width: 50},
       		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
       		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
       		];

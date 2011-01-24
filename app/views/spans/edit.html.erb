@@ -127,7 +127,7 @@
 				          {xtype:'textfield', fieldLabel: 'Fiber Type', name: 'span[fiber_type_id]', allowBlank:true, value: '<%= @span.fiber_type_id %>'}
 		                  ]
                   }],
-            buttons: [{text: 'Save',
+            buttons: [{text: 'Update',
                        handler:function() {
                         if (form_editSpans_<%= @span.id %>.getForm().isValid()) {
                               form_editSpans_<%= @span.id %>.getForm().submit({

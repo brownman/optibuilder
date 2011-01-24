@@ -8,7 +8,7 @@ module DiagramsHelper
             new Ext.Button ({ text: 'Add new',
                               id: 'btnNew',
                               iconCls: 'addNewIcon',
-                              tooltip: 'Add new project',
+                              tooltip: 'Add new diagram',
                               handler: function(){ newDiagram();}
                            }),
                 new Ext.Spacer({width: 20}),

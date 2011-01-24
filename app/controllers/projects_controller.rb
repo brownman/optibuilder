@@ -4,8 +4,13 @@ class ProjectsController < ApplicationController
    def store
       if params[:id] == "grid"
         list = []
-        conditions = ""
-        conditions = ["projects.name LIKE ?", "%#{params[:query]}%"] if params[:query]
+        if session_user.id == 1
+            conditions = ""
+            conditions = ["projects.name LIKE ?", "%#{params[:query]}%"] if params[:query]
+        else
+            conditions = "projects.id in (select project_id from users_projects where user_id = "+session_user.id.to_s+")"
+            conditions = ["projects.name LIKE ? and projects.id in (select project_id from users_projects where user_id = "+session_user.id.to_s+")", "%#{params[:query]}%"] if params[:query]
+        end
         projects = Project.all(:select =>  "projects.*
                                            ,companies.name AS companies_name",
                                :joins => [:customer, :owner],
@@ -34,7 +39,7 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
     @sites = @project.spans
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @project }
@@ -113,7 +118,7 @@ class ProjectsController < ApplicationController
       begin
         @project = Project.find(params[:id])
         users_projects = ActiveSupport::JSON.decode(params[:users_projects]) if params[:users_projects]
-       
+
         params[:project]["has_test_attenuation_1310"] = false unless params[:project]["has_test_attenuation_1310"]
         params[:project]["has_test_attenuation_1550"] = false unless params[:project]["has_test_attenuation_1550"]
         params[:project]["has_test_otdr_standard"] = false unless params[:project]["has_test_otdr_standard"]
@@ -123,12 +128,12 @@ class ProjectsController < ApplicationController
         params[:project]["has_test_chromatic"] = false unless params[:project]["has_test_chromatic"]
         params[:project]["has_test_orl"] = false unless params[:project]["has_test_orl"]
         params[:project]["has_test_site_survey"] = false unless params[:project]["has_test_site_survey"]
-        
+
         respond_to do |format|
           if @project.update_attributes(params[:project])
             if users_projects
               @project.users_projects.delete_all #Delete all previous data
-              
+
               users_projects.each do |u|
                 if u["user_id"].to_i == 0
                   new_user = User.new
@@ -141,7 +146,7 @@ class ProjectsController < ApplicationController
                   @project.users_projects << UsersProject.new(:user_id => new_user.id, :role => u["role_id"])
                 else
                   @project.users_projects << UsersProject.new(:user_id => u["user_id"], :role => u["role_id"])
-                end              
+                end
               end
             end
             format.html { render(:json => {:success => true}) }

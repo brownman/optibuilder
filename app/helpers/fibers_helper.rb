@@ -19,8 +19,8 @@ module FibersHelper
                       new Ext.Button ({ text: 'Add new',
                                         id: 'btnNew',
                                         iconCls: 'addNewIcon',
-                                        tooltip: 'Add new user',
-                                        handler: function(){ newUser();}
+                                        tooltip: 'Add new fiber',
+                                        handler: function(){ newFiber();}
                                      }),
                           new Ext.Spacer({width: 20}),
                           new Ext.form.Label({text: 'Search: ', id: 'lblSearch' }),

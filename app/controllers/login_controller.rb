@@ -12,7 +12,12 @@ class LoginController < ApplicationController
     if request.post?
       user = User.authenticate(params[:login], params[:password])
       if user
+        roles = []
         session[:user_id] = user.id
+        user.users_projects.each do |p|
+          roles << { :project_id => p.project_id, :role_id => p.role }
+        end
+        session[:roles] = roles
         redirect_to :controller => "home"
         flash[:notice] = nil
       else

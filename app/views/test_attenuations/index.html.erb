@@ -1,44 +1,98 @@
-<h1>Listing test_attenuations</h1>
+<script type = "text/javascript">
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editFiber(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
 
-<table>
-  <tr>
-    <th>Fiber</th>
-    <th>Test type</th>
-    <th>Ab injected</th>
-    <th>Ab rcv opt power</th>
-    <th>Ab opt link loss</th>
-    <th>Ba injected</th>
-    <th>Ba rcv opt power</th>
-    <th>Ba opt link loss</th>
-    <th>Mean loss</th>
-    <th>Test timestamp</th>
-    <th>Equipment</th>
-    <th>Technique</th>
-    <th>Lambda</th>
-  </tr>
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteFiber(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
 
-<% @test_attenuations.each do |test_attenuation| %>
-  <tr>
-    <td><%=h test_attenuation.fiber_id %></td>
-    <td><%=h test_attenuation.test_type %></td>
-    <td><%=h test_attenuation.ab_injected %></td>
-    <td><%=h test_attenuation.ab_rcv_opt_power %></td>
-    <td><%=h test_attenuation.ab_opt_link_loss %></td>
-    <td><%=h test_attenuation.ba_injected %></td>
-    <td><%=h test_attenuation.ba_rcv_opt_power %></td>
-    <td><%=h test_attenuation.ba_opt_link_loss %></td>
-    <td><%=h test_attenuation.mean_loss %></td>
-    <td><%=h test_attenuation.test_timestamp %></td>
-    <td><%=h test_attenuation.equipment %></td>
-    <td><%=h test_attenuation.technique %></td>
-    <td><%=h test_attenuation.lambda %></td>
-    <td><%= link_to 'Show', test_attenuation %></td>
-    <td><%= link_to 'Edit', edit_test_attenuation_path(test_attenuation) %></td>
-    <td><%= link_to 'Destroy', test_attenuation, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showFiber(' + rowIndex + ')">' + value + '</a></div>';
+	}
 
-<br />
+	function editFiber(r){
+		var id = store_Test_attenuations.getAt(r).get('id');
+		var number = store_Test_attenuations.getAt(r).get('fiber_num_1');
+		addSubTab('tab_test_attenuations', 'sub_tab_test_attenuations_edit_'+id, 'Editing ' + number, '/test_attenuations/edit/' + id, 'editIcon');
+	}
 
-<%= link_to 'New test_attenuation', new_test_attenuation_path %>
+	function deleteFiber(r){
+		var id = store_Test_attenuations.getAt(r).get('id');
+		var number = store_Test_attenuations.getAt(r).get('fiber_num_1');
+		Ext.Msg.confirm('Delete ', 'Confirm delete fiber: ' + number, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_test_attenuations', 'sub_tab_test_attenuations', 'List', '/Test_attenuations/destroy/' + id);
+		      closeSubTab('tab_test_attenuations', 'sub_tab_test_attenuations_edit_' + id);
+		      closeSubTab('tab_test_attenuations', 'sub_tab_test_attenuations_show_' + id);
+		    }
+		  });
+	}
+
+	function showFiber(r){
+		var id = store_Test_attenuations.getAt(r).get('id');
+		var number = store_Test_attenuations.getAt(r).get('fiber_num_1');
+		addSubTab('tab_test_attenuations', 'sub_tab_test_attenuations_show_'+id, 'Showing ' + number, '/test_attenuations/show/' + id, 'showIcon');
+	}
+
+	function newFiber(){
+		      addSubTab('tab_test_attenuations', 'sub_tab_test_attenuations_new', 'New Fiber', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_Test_attenuations = createStore(	'<%= url_for(:controller => "test_attenuations", :action => "store", :id => "grid") %>',
+											['id', 'fiber_num_a', 'fiber_num_b', 'status', 'project_name'
+											, 'sub_a_name', 'sub_b_name', 'cable_name', 'site_a_name', 'site_b_name'
+											],
+											[{name: 'id',  mapping: 'id'}
+											,{name: 'project_name',  mapping: 'project_name'}
+											,{name: 'fiber_num_a',  mapping: 'fiber_num_a'}
+											,{name: 'fiber_num_b',  mapping: 'fiber_num_b'}
+											,{name: 'status',  mapping: 'status'}
+											,{name: 'cable_name',  mapping: 'cable_name'}
+											,{name: 'sub_a_name',  mapping: 'sub_a_name'}
+											,{name: 'sub_b_name',  mapping: 'sub_b_name'}
+											,{name: 'site_a_name',  mapping: 'site_a_name'}
+											,{name: 'site_b_name',  mapping: 'site_b_name'}
+											]
+								  );
+
+	var pBar = createPBar(store_Test_attenuations, 'Test_attenuations');
+
+	<%= include_buttons_TestAttenuation %>
+	var btnsTestAttenuations = createTestAttenuationsBtns();
+	var cmdBar = createCmdBar(btnsTestAttenuations);
+	var cols =
+			[
+       		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link', header: 'Subrack', dataIndex: 'sub_a_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link', header: 'Fiber', dataIndex: 'fiber_num_a', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link', header: 'Cable', dataIndex: 'cable_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link', header: 'Subrack', dataIndex: 'sub_b_name', sortable: true, renderer: linkShow, width: 80},
+      		{id: 'link', header: 'Fiber', dataIndex: 'fiber_num_b', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link', header: 'Status', dataIndex: 'status', sortable: true, renderer: linkShow, width: 50},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_Test_attenuations = createGrid(store_Test_attenuations, 'Attenuation Tests Window', cmdBar, pBar, cols);
+	store_Test_attenuations.load({params: {start:0 , limit:10}});
+	grid_Test_attenuations.render('attenuations_index_grid_content');
+
+</script>
+
+<div id = "attenuations_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

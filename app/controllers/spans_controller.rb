@@ -3,21 +3,30 @@ class SpansController < ApplicationController
   # JSON
    def store
       list = []
-      conditions = ""
-      conditions =  ["companies.name LIKE ? OR sites.name LIKE ? OR site_bs_spans.name LIKE ?",
-                     "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
-      conditions =  ["site_a_id = ?", "#{params[:site_id]}"] if params[:site_id]
-      spans =
-      Span.all(
-                :select => "spans.*, sites.name AS site_a_name, site_bs_spans.name AS site_b_name, companies.name AS company_name",
+      if session_user.id == 1
+          conditions = ""
+          conditions = ["sites.name LIKE ?", "%#{params[:query]}%"] if params[:query]
+        else
+          conditions = "project_id IN (SELECT project_id FROM users_projects WHERE user_id = "+session_user.id.to_s+")"
+          conditions =  ["(companies.name LIKE ? OR projects.name LIKE ? OR sites.name LIKE ? OR site_bs_spans.name LIKE ?) AND (project_id IN (SELECT project_id FROM users_projects WHERE user_id = "+session_user.id.to_s+"))",
+                         "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
+      end
+      conditions =  ["site_a_id = ? OR site_b_id = ?", "#{params[:site_id]}", "#{params[:site_id]}"] if params[:site_id]
+      conditions =  ["project_id = ?", "#{params[:project_id]}"] if params[:project_id]
+
+      select = ""
+      select = "spans.*, sites.name AS site_a_name, site_bs_spans.name AS site_b_name,projects.name AS project_name, companies.name AS company_name"
+      select = ["if(site_a_id=?,site_b_id,site_a_id) site", "%#{params[:site_a_id]}%"] if params[:site_a_id]
+
+      spans = Span.all(
+                :select => select,
                 :conditions => conditions,
                 :limit => params[:limit],
                 :offset => params[:start],
-                :joins => [:site_a, :site_b, :company],
+                :joins => [:site_a, :site_b, :company, :project],
                 :order => "project_id, company_id, sites.name, site_b_name"
       )
-      total =  spans.size
-      total = Span.count(:joins => [:site_a, :site_b, :company], :conditions => conditions)
+      total = Span.count(:joins => [:site_a, :site_b, :company, :project], :conditions => conditions)
 
       spans.each do |s|
         list << {

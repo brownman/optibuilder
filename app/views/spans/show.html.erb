@@ -64,7 +64,7 @@
 		<div class="action">
 			<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_spans',
 															'sub_tab_spans_edit_" + @span.id.to_s + "',
-															'Editing ' ,
+															'Editing "+@span.site_a.name.to_s+" - "+@span.site_b.name.to_s+"' ,
 															'/spans/edit/"+@span.id.to_s+"' ,
 															'editIcon');" %> <span class="pipe">|</span>
 			<%= link_to 'Print', "#", :onclick =>"printSubTab('/spans/show/"+@span.id.to_s+"?print=true','')";%>

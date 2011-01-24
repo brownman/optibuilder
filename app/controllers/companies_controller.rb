@@ -4,8 +4,13 @@ class CompaniesController < ApplicationController
    def store
       if params[:id] == "grid"
         list = []
-        conditions = ""
-        conditions = ["name LIKE ?", "%#{params[:query]}%"] if params[:query]
+        if session_user.id == 1
+            conditions = ""
+            conditions = ["name LIKE ?", "%#{params[:query]}%"] if params[:query]
+        else
+            conditions = "id in (select customer_id from projects p, users_projects u where p.id = u.project_id and u.user_id = "+session_user.id.to_s+" UNION select network_owner_id from projects p, users_projects u where p.id = u.project_id and u.user_id = "+session_user.id.to_s+")"
+            conditions = ["id in (select customer_id from projects p, users_projects u where p.id = u.project_id and u.user_id = "+session_user.id.to_s+" UNION select network_owner_id from projects p, users_projects u where p.id = u.project_id and u.user_id = "+session_user.id.to_s+") and name LIKE ?", "%#{params[:query]}%"] if params[:query]
+        end
         companies = Company.all(
                                 :conditions => conditions,
                                 :limit => params[:limit],

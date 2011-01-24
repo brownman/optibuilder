@@ -39,4 +39,16 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def status_name
+    return read_attribute(:status) if read_attribute(:status).nil? or not read_attribute(:status).to_i
+    att =  '-'
+      case read_attribute(:status).to_i
+        when 1
+          att = 'Planned'
+        when 2
+          att = 'In execution '
+        when 3
+          att = 'Finished '
+       end
+   end
 end

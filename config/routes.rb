@@ -1,9 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.resources :attachments
+
+  map.resources :test_otdrs
+
+  map.resources :subracks
+
   map.resources :cables
 
   map.resources :test_pmds
 
   map.resources :test_orls
+
+  map.resources :test_otdrs
 
   map.resources :test_chromatic_disps
 
@@ -18,8 +27,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users_logs
 
   map.resources :fibers
-
-  map.resources :subrack_names
 
   map.resources :diagrams
 

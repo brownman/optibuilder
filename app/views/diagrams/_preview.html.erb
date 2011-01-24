@@ -1,33 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+		  <%= stylesheet_link_tag "preview.css", :media => "all" %>
+
+
 <br /><br />
-<h1><b>Diagram Design</b></h1>
+<h1><th>Diagram Design</th></h1>
 <br />
 
-<table>
-	<%
-		col = 0
-		1.upto(@qty) do |racks|
-	%>
-			<% if col >= 2 or col == 0 %><tr><% end %>
-			<td>
-			<table>
-				<th colspan="<%= @cols %>">Rack <%= racks %></th>
-				<tbody>
-					<% 1.upto(@rows) do |axis_x| %>
-						<tr>
-						<% 1.upto(@cols) do |axis_y| %>
-							<td align="center"><%= image_tag("subrack.png", :width => "30", :title => "Rack #{axis_x} x #{axis_y}") %></td>
-						<% end %>
-						</tr>
-					<% end %>
-				</tbody>
-			</table>
-			</td>
-			<% if col >= 1 %><tr><% end %>
-	<%
-		col = col + 1
-		col =  0 if col >= 2
-		end
-	%>
-</table>
+	<table class="ddesignprincipal">
+			<%
+				col = 0
+				1.upto(@qty) do |racks|
+			%>
+					<% if col >= 2 or col == 0 %><tr><% end %>
+					<td>
+					<table class="diagramdesign">
+						<th colspan="<%= @cols %>">Rack <%= racks %><hr></hr><br/></th>
+						<tbody>
+							<% 1.upto(@rows) do |axis_x| %>
+								<tr>
+								<% 1.upto(@cols) do |axis_y| %>
+									<td align="center"><%= image_tag("subrack.png", :width => "30", :title => "Rack #{axis_x} x #{axis_y}") %></td>
+								<% end %>
+								</tr>
+							<% end %>
+						</tbody><br/>
+					</table>
+					</td>
+					<% if col >= 1 %><tr><% end %>
+			<%
+				col = col + 1
+				col =  0 if col >= 2
+				end
+			%>
+	</table>
 <br />
 

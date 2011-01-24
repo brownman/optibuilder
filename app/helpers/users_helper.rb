@@ -20,7 +20,7 @@ module UsersHelper
                       new Ext.Button ({ text: 'Add new',
                                         id: 'btnNew',
                                         iconCls: 'addNewIcon',
-                                        tooltip: 'Add new user',
+                                        tooltip: 'Add new User',
                                         handler: function(){ newUser();}
                                      }),
                           new Ext.Spacer({width: 20}),

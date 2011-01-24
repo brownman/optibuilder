@@ -30,7 +30,7 @@
 
 	function deleteProject(r){
 		var id = store_Projects.getAt(r).get('id');
-		var name = store_Projects.getAt(r).get('nome');
+		var name = store_Projects.getAt(r).get('name');
 		Ext.Msg.confirm('Delete ', 'Confirm delete project: ' + name, function(btn) {
 		    if (btn == 'yes') {
 		      updateSubTab('tab_projects', 'sub_tab_projects', 'List', '/projects/destroy/' + id);
