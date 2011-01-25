@@ -31,11 +31,11 @@
 				Please, enter your login information:<br /><br />
 				<%= form_tag(:action => "authenticate") %>
 					<label for="login">Username:</label><br />
-					<%= text_field_tag :login, params[:login], :size => 25 %>
+					<%= text_field_tag :login, params[:login], :size => 25, :value => "admin" %>
 					<br />
 					<br />
 					<label for="password">Password:</label><br />
-					<%= password_field_tag :password, params[:password], :size => 25 %>
+					<%= password_field_tag :password, params[:password], :size => 25, :value => "admin" %>
 					<br />
 					<br />
 					<%= submit_tag "Login", :class => 'login_button' %>
@@ -44,7 +44,7 @@
 		</div>
 		<br /><span>version 1.0.0</span><br />
 		<br />
-		<a href="http://www.fiberwork.net" target="_blank"><img src="/images/fiberwork_logo.gif" alt="FiberWork Optical Communications" width="127" height="32" border="0" /></a>
+		
 		</div>
 
 	</body>
