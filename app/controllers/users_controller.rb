@@ -98,7 +98,7 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     
-    if @user.id == 20
+    if @user.id == 1
         format.html { render :json => ( "Administrator user cannot be destroyed".to_json ) }
         format.html { render :json => {:success => false} }
 	return
