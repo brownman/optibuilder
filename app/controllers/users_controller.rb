@@ -97,11 +97,17 @@ class UsersController < ApplicationController
   # DELETE /users/1.xml
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(users_url) }
-      format.xml  { head :ok }
+    
+    if @user.id == 20
+        format.html { render :json => ( "Administrator user cannot be destroyed".to_json ) }
+        format.html { render :json => {:success => false} }
+	return
+    else
+      @user.destroy
+      respond_to do |format|
+        format.html { redirect_to(users_url) }
+        format.xml  { head :ok }
+      end
     end
   end
 end
