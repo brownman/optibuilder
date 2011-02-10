@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  cable_type: MyString
+  fiber_type: MyString
+  cable_manufacturer: MyString
+  cable_manufacturing_date: 2010-10-15
+  installer_company: MyString
+  connectors_qty: 1
+  splices_qty: 1
+
+two:
+  cable_type: MyString
+  fiber_type: MyString
+  cable_manufacturer: MyString
+  cable_manufacturing_date: 2010-10-15
+  installer_company: MyString
+  connectors_qty: 1
+  splices_qty: 1

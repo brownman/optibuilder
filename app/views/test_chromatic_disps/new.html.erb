@@ -1,0 +1,83 @@
+<h1>New test_chromatic_disp</h1>
+
+<% form_for(@test_chromatic_disp) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :fiber_id %><br />
+    <%= f.text_field :fiber_id %>
+  </p>
+  <p>
+    <%= f.label :dsp_lambda_z %><br />
+    <%= f.text_field :dsp_lambda_z %>
+  </p>
+  <p>
+    <%= f.label :dsp_1310 %><br />
+    <%= f.text_field :dsp_1310 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1525 %><br />
+    <%= f.text_field :dsp_1525 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1530 %><br />
+    <%= f.text_field :dsp_1530 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1540 %><br />
+    <%= f.text_field :dsp_1540 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1550 %><br />
+    <%= f.text_field :dsp_1550 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1560 %><br />
+    <%= f.text_field :dsp_1560 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1570 %><br />
+    <%= f.text_field :dsp_1570 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1575 %><br />
+    <%= f.text_field :dsp_1575 %>
+  </p>
+  <p>
+    <%= f.label :dsp_1625 %><br />
+    <%= f.text_field :dsp_1625 %>
+  </p>
+  <p>
+    <%= f.label :dsp_total %><br />
+    <%= f.text_field :dsp_total %>
+  </p>
+  <p>
+    <%= f.label :dsp_slopezero %><br />
+    <%= f.text_field :dsp_slopezero %>
+  </p>
+  <p>
+    <%= f.label :dsp_slopeother %><br />
+    <%= f.text_field :dsp_slopeother %>
+  </p>
+  <p>
+    <%= f.label :dsp_coef_a %><br />
+    <%= f.text_field :dsp_coef_a %>
+  </p>
+  <p>
+    <%= f.label :dsp_coef_b %><br />
+    <%= f.text_field :dsp_coef_b %>
+  </p>
+  <p>
+    <%= f.label :dsp_coef_c %><br />
+    <%= f.text_field :dsp_coef_c %>
+  </p>
+  <p>
+    <%= f.label :test_timestamp %><br />
+    <%= f.datetime_select :test_timestamp %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', test_chromatic_disps_path %>

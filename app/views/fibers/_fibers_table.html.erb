@@ -1,0 +1,30 @@
+
+<% @qty = 1 unless @qty %>
+
+<% 2.upto(@qty) do |q| %>
+
+
+	<table>
+	<tr>
+	<td><input name="fiber[][cable_name]" id="cable<%= q %>"  type="text" size="4" value="<%= @cable %>" /></td>
+	<td>-</td>
+	<td><input name="fiber[][floorA]" id="floorA<%= q %>" type="text" size="4" value="<%= @floorA %>" /></td>
+	<td><input name="fiber[][roomA]" id="roomA<%= q %>" type="text" size="4" value="<%= @roomA %>" /></td>
+	<td><input name="fiber[][lineA]" id="lineA<%= q %>" type="text" size="4" value="<%= @lineA %>" /></td>
+	<td><input name="fiber[][rackA]" id="rackA<%= q %>" type="text" size="4" value="<%= @rackA %>" /></td>
+	<td><input name="fiber[][subA]"  id="subA<%= q %>" type="text" size="4" value="<%= @subA %>" /></td>
+	<td><input name="fiber[][grupoA]" id="grupoA<%= q %>" type="text" size="4" value="<%= @grupoA %>" /></td>
+	<td><input name="fiber[][connectA]" id="connectA<%= q %>" type="text" size="4" value="<%= @connectA %>" /></td>
+	<td><input name="fiber[][number_a]" id="fiberA<%= q %>" type="text" size="4" value="<%= @fiberA + q - 1 %>" /></td>
+	<td>-</td>
+	<td><input name="fiber[][number_b]" id="fiberB<%= q %>" type="text" size="4" value="<%= @fiberB + q - 1 %>" /></td>
+	<td><input name="fiber[][floorB]" id="floorB<%= q %>" type="text" size="4" value="<%= @floorB %>" /></td>
+	<td><input name="fiber[][roomB]" id="roomB<%= q %>" type="text" size="4" value="<%= @roomB %>" /></td>
+	<td><input name="fiber[][lineB]" id="lineB<%= q %>" type="text" size="4" value="<%= @lineB %>" /></td>
+	<td><input name="fiber[][rackB]" id="rackB<%= q %>" type="text" size="4" value="<%= @rackB %>" /></td>
+	<td><input name="fiber[][subB]"  id="subB<%= q %>" type="text" size="4" value="<%= @subB %>" /></td>
+	<td><input name="fiber[][grupoB]" id="grupoB<%= q %>" type="text" size="4" value="<%= @grupoB %>" /></td>
+	<td><input name="fiber[][connectB]" id="connectB<%= q %>" type="text" size="4" value="<%= @connectB %>" /></td>
+	</tr>
+	</table>
+<% end %>

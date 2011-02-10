@@ -1,0 +1,129 @@
+<%= render :partial => "layouts/reports_header" if params[:print] %>
+	<% if params[:print] %>
+		<h1 color="#5E5F5D">Subrack name</h1><br/>
+	<% end %>
+
+	<fieldset class="subrackview">
+		<legend class="name">
+			<%=h @subrack_name.subrack_name %>
+		</legend>
+	<div>
+		<table class="subrackview2">
+
+			<tr>
+			  <th>Site:</th>
+			  <% if params[:print] %>
+			 	<td><%=h @subrack_name.site.name %></td>
+			 <% else %>
+			  	<td><a class="link" href="#" onclick="showSubrackSite(<%= @subrack_name.site.id %>, '<%= @subrack_name.site.name %>');">
+			  		<%=h @subrack_name.site.name %> </a></td>
+			  <% end %>
+			</tr>
+
+			<tr>
+			  <th>Subrack seq:</th>
+			  <td><%=h @subrack_name.subrack_seq %></td>
+			</tr>
+			<tr>
+			  <th>Network Type:</th>
+			  <td><%=h @subrack_name.network_type_name %></td>
+			</tr>
+
+			<tr>
+			  <th>Diagram:</th>
+			  <% if params[:print] %>
+			 	<td><%=h @subrack_name.diagram.name %></td>
+			 <% else %>
+			  	<td><a class="link" href="#" onclick="showSubrackDiagram(<%= @subrack_name.diagram.id %>, '<%= @subrack_name.diagram.name %>');">
+			  		<%=h @subrack_name.diagram.name %> </a></td>
+			  <% end %>
+			</tr>
+		</table>
+		<div id="table_container">
+			<table class="subrackview">
+				<tr>
+				  <th>Floor:</th>
+				  <td><%=h @subrack_name.floor %></td>
+				</tr>
+
+
+				<tr>
+				  <th>Rack:</th>
+				  <td><%=h @subrack_name.rack %></td>
+				</tr>
+
+				<tr>
+				  <th>Room:</th>
+				  <td><%=h @subrack_name.room %></td>
+				</tr>
+
+				<tr>
+				  <th>Cable:</th>
+				  <td><%=h @subrack_name.cable %></td>
+				</tr>
+
+
+				<tr>
+				  <th>Released Fibers:</th>
+				  <td><%=h @subrack_name.released_fibers %></td>
+				</tr>
+			</table></br>
+			<table class="subrackview3">
+				<tr>
+				 	<th>Line:</th>
+					<td><%=h @subrack_name.line %></td>
+				</tr>
+				<tr>
+				  <th>Group:</th>
+				  <td><%=h @subrack_name.group %></td>
+				</tr>
+				<tr>
+				  <th>Connector:</th>
+				  <td><%=h @subrack_name.connector %></td>
+				</tr>
+				<tr>
+				   <th>Total Fibers:</th>
+				  <td><%=h @subrack_name.total_fibers %></td>
+				</tr>
+				<tr>
+				  <th>Broken Fibers:</th>
+				  <td><%=h @subrack_name.broken_fibers %></td>
+				</tr>
+		   </table>
+		 </div>
+	</div> </br>
+	&nbsp;&nbsp;
+	</fieldset>
+
+
+</br>
+	<% unless params[:print] %>
+			<div class="action">
+				<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_subrack_names',
+																'sub_tab_subrack_names_edit_" + @subrack_name.id.to_s + "',
+																'Editing "+ @subrack_name.subrack_name + "',
+																'/subrack_names/edit/"+@subrack_name.id.to_s+"' ,
+																'editIcon');" %> <span class="pipe">|</span>
+				<%= link_to 'Print', "#", :onclick =>"printSubTab('/subrack_names/show/"+@subrack_name.id.to_s+"?print=true','')";%> <span class="pipe">|</span>
+				<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_subrack_names','sub_tab_subrack_names_show_" + @subrack_name.id.to_s + "');" %>
+			</div>
+	<% end %>
+	<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+	<% if params[:print] %>
+			<script type="text/javascript" >
+				window.print();
+			</script>
+	<% end %>
+
+
+<script type="text/javascript">
+	function showSubrackSite(id, name){
+		addTab('tab_sites', 'Sites', 'List', '<%= sites_path %>', 'tabSites');
+		addSubTab('tab_sites', 'sub_tab_sites_show_'+id, 'Showing ' + name, '/sites/show/' + id, 'showIcon');
+	}
+	function showSubrackDiagram(id, name){
+		addTab('tab_diagrams', 'Diagrams', 'List', '<%= diagrams_path %>', 'tabDiagrams');
+		addSubTab('tab_diagrams', 'sub_tab_diagrams_show_'+id, 'Showing ' + name, '/diagrams/show/' + id, 'showIcon');
+	}
+</script>

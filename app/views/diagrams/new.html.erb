@@ -1,0 +1,72 @@
+<script type="text/javascript">
+
+	function previewDiagram(){
+		if (form_newDiagrams.getForm().isValid()) {
+			var qty = Ext.getCmp('diagram_qty').getValue();
+			var rows = Ext.getCmp('diagram_rows').getValue();
+			var cols = Ext.getCmp('diagram_cols').getValue();
+			if(qty > 20 || rows > 20 || cols > 20){
+				Ext.Msg.alert('Warning', 'The limit value for configuration is 20');
+			}else{
+			    new Ajax.Updater({success:'preview_diagram',failure:'error'}, '/diagrams/preview?qty='+qty+'&rows='+rows+'&cols='+cols, {asynchronous:true, evalScripts:true});
+		    }
+		    return false;
+	    }
+	}
+
+	var form_newDiagrams = new Ext.FormPanel({
+	  		labelWidth: 170,
+			frame:true,
+  			title: 'Create a new Diagram using the form below',
+	  		bodyStyle:'padding:5px 5px 0',
+	  		style: "margin: 0px auto 0px auto;",
+	  		width: 610,
+	  		defaultType: 'textfield',
+	  		monitorValid: true,
+  			items:[{xtype:"fieldset",
+                      title:"Diagram",
+                      autoHeight:true,
+	  		          defaultType: 'textfield',
+	  		          defaults: {width: 370},
+                      width: 590,
+                      items:[
+							 {id: 'diagram_name', fieldLabel: 'Name', name: 'diagram[name]', allowBlank:false},
+							 {id: 'diagram_qty', maskRe: /[0-9]/, fieldLabel: 'Quantity of Subracks', name: 'diagram[subracks_qty]', allowBlank:false},
+							 {id: 'diagram_rows', maskRe: /[0-9]/, fieldLabel: 'Quantity of Rows on each', name: 'diagram[subracks_rows]', allowBlank:false},
+							 {id: 'diagram_cols', maskRe: /[0-9]/, fieldLabel: 'Quantity of Columns on each', name: 'diagram[subracks_cols]', allowBlank:false}
+							]
+				   }],
+			buttons:[{
+	      		      text: 'Create Diagram',
+				      handler:function() {
+		        		if (form_newDiagrams.getForm().isValid()) {
+		          			form_newDiagrams.getForm().submit({
+		            			url:'<%= url_for (:controller => 'diagrams', :action => 'create') %>',
+		            			waitMsg:'Saving Data...',
+		            			success: function(){
+		              				Ext.Msg.alert('Diagram added','The diagram has been successfully created');
+		              				updateSubTab('tab_diagrams','sub_tab_diagrams','Diagrams','<%= diagrams_path %>');
+ 		              				closeSubTab('tab_diagrams','sub_tab_diagrams_new');
+	            				},
+		            			failure: function(){Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
+		          			});
+        				}
+	      			  }
+				     },
+    			     {
+    				  text: 'Preview',
+    				  handler:function(){previewDiagram();}
+    				  },
+    			     {
+    				  text: 'Cancel',
+    				  handler:function(){closeSubTab('tab_diagrams','sub_tab_diagrams_new');}
+	  			    }]
+	});
+
+	form_newDiagrams.render( 'area_form_newDiagrams');
+
+</script>
+<br />
+<div id="area_form_newDiagrams" style="float:left;"></div>
+<br /><br />
+<div id="preview_diagram" style="margin-top: 220px;"></div>

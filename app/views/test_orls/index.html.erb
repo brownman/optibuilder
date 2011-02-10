@@ -1,0 +1,98 @@
+<script type = "text/javascript">
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editTestOrl(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteTestOrl(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
+
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showTestOrl(' + rowIndex + ')">' + value + '</a></div>';
+	}
+
+	function editTestOrl(r){
+		var id = store_TestOrls.getAt(r).get('id');
+		var number = store_TestOrls.getAt(r).get('test_orl_num_1');
+		addSubTab('tab_test_orls', 'sub_tab_test_orls_edit_'+id, 'Editing ' + number, '/test_orls/edit/' + id, 'editIcon');
+	}
+
+	function deleteTestOrl(r){
+		var id = store_TestOrls.getAt(r).get('id');
+		var number = store_TestOrls.getAt(r).get('test_orl_num_1');
+		Ext.Msg.confirm('Delete ', 'Confirm delete test_orl: ' + number, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_test_orls', 'sub_tab_test_orls', 'List', '/TestOrls/destroy/' + id);
+		      closeSubTab('tab_test_orls', 'sub_tab_test_orls_edit_' + id);
+		      closeSubTab('tab_test_orls', 'sub_tab_test_orls_show_' + id);
+		    }
+		  });
+	}
+
+	function showTestOrl(r){
+		var id = store_TestOrls.getAt(r).get('id');
+		var number = store_TestOrls.getAt(r).get('test_orl_num_1');
+		addSubTab('tab_test_orls', 'sub_tab_test_orls_show_'+id, 'Showing ' + number, '/test_orls/show/' + id, 'showIcon');
+	}
+
+	function newTestOrl(){
+		      addSubTab('tab_test_orls', 'sub_tab_test_orls_new', 'New TestOrl', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_TestOrls = createStore(	'<%= url_for(:controller => "test_orls", :action => "store", :id => "grid") %>',
+											['id', 'fiber_num_a', 'fiber_num_b', 'status', 'project_name'
+											, 'sub_a_name', 'sub_b_name', 'cable_name', 'site_a_name', 'site_b_name'
+											],
+											[{name: 'id',  mapping: 'id'}
+											,{name: 'project_name',  mapping: 'project_name'}
+											,{name: 'fiber_num_a',  mapping: 'fiber_num_a'}
+											,{name: 'fiber_num_b',  mapping: 'fiber_num_b'}
+											,{name: 'status',  mapping: 'status'}
+											,{name: 'cable_name',  mapping: 'cable_name'}
+											,{name: 'sub_a_name',  mapping: 'sub_a_name'}
+											,{name: 'sub_b_name',  mapping: 'sub_b_name'}
+											,{name: 'site_a_name',  mapping: 'site_a_name'}
+											,{name: 'site_b_name',  mapping: 'site_b_name'}
+                                            ]
+								  );
+
+	var pBar = createPBar(store_TestOrls, 'TestOrls');
+
+	<%= include_buttons_TestOrls %>
+	var btnsTestOrls = createTestOrlsBtns();
+	var cmdBar = createCmdBar(btnsTestOrls);
+	var cols =
+			[
+       		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link1', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link2', header: 'Subrack', dataIndex: 'sub_a_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link3', header: 'Fiber', dataIndex: 'fiber_num_a', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link4', header: 'Cable', dataIndex: 'cable_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link5', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link6', header: 'Subrack', dataIndex: 'sub_b_name', sortable: true, renderer: linkShow, width: 80},
+      		{id: 'link7', header: 'Fiber', dataIndex: 'fiber_num_b', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link8', header: 'Status', dataIndex: 'status', sortable: true, renderer: linkShow, width: 50},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_TestOrls = createGrid(store_TestOrls, 'ORL Tests Window', cmdBar, pBar, cols);
+	store_TestOrls.load({params: {start:0 , limit:10}});
+	grid_TestOrls.render('orl_index_grid_content');
+
+</script>
+
+<div id = "orl_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

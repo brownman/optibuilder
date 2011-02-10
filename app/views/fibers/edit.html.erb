@@ -1,0 +1,270 @@
+<script type="text/javascript">
+
+	var store_combo_Project = createStore('/projects/store/grid',
+									  ['id', 'name'],
+									  [{name: 'id',  mapping: 'id'},
+									   {name: 'name',  mapping: 'name'}
+									  ]);
+
+	var store_combo_Cable = createStore('/cables/store/grid',
+									  ['id', 'cable_name'],
+									  [{name: 'id',  mapping: 'id'},
+									   {name: 'cable_name',  mapping: 'cable_name'}
+									  ]);
+
+	var store_combo_Span = createStore('/spans/store/grid',
+									  ['id', 'site_a_id', 'site_a_name', 'site_b_name', 'sitea_siteb'],
+									  [{name: 'id',  mapping: 'id'},
+									   {name: 'site_a_id',  mapping: 'site_a_id'},
+									   {name: 'site_b_id',  mapping: 'site_b_id'},
+									   {name: 'site_a_name',  mapping: 'site_a_name'},
+									   {name: 'site_b_name',  mapping: 'site_b_name'},
+									   {name: 'sitea_siteb',  mapping: 'sitea_siteb'}
+									  ]);
+
+	var store_combo_Subrack_A = createStore('/subracks/store/grid',
+									  ['id', 'name'],
+									  [{name: 'id',  mapping: 'id'},
+									   {name: 'name',  mapping: 'name'}
+									  ]);
+
+	var store_combo_Subrack_B = createStore('/subracks/store/grid',
+									  ['id', 'name'],
+									  [{name: 'id',  mapping: 'id'},
+									   {name: 'name',  mapping: 'name'}
+									  ]);
+
+	var comboProjects = new Ext.form.ComboBox({
+		fieldLabel: 'Project',
+		valueField: 'id',
+		displayField: 'name',
+		editable: true,
+		emptyText: 'Select a Project...',
+		store: store_combo_Project,
+		mode: 'remote',
+		selectOnFocus: true,
+		forceSelection: true,
+		triggerAction: 'all',
+		minChars: 3,
+		allowBlank: true,
+		width: 210
+	});
+
+	var comboCables = new Ext.form.ComboBox({
+		fieldLabel: 'Cable',
+		valueField: 'id',
+		displayField: 'cable_name',
+		editable: true,
+		emptyText: 'Select a Cable...',
+		store: store_combo_Cable,
+		mode: 'remote',
+		selectOnFocus: true,
+		forceSelection: true,
+		triggerAction: 'all',
+		minChars: 3,
+		allowBlank: true,
+        name: 'fiber[cable_id]',
+        hiddenName: 'fiber[cable_id]',
+		width: 120
+	});
+
+	var comboSpans = new Ext.form.ComboBox({
+		fieldLabel: 'Span',
+		valueField: 'id',
+		displayField: 'sitea_siteb' ,
+		editable: true,
+		emptyText: 'Select a Span...',
+		store: store_combo_Span,
+		mode: 'remote',
+		selectOnFocus: true,
+		forceSelection: true,
+		triggerAction: 'all',
+		minChars: 3,
+		allowBlank: false,
+		width: 230
+	});
+
+	var comboSubracks_A = new Ext.form.ComboBox({
+		fieldLabel: 'Subrack',
+		valueField: 'id',
+		displayField: 'name',
+		editable: true,
+		emptyText: 'Select a Subrack...',
+		store: store_combo_Subrack_A,
+		mode: 'remote',
+		selectOnFocus: true,
+		forceSelection: true,
+		triggerAction: 'all',
+		minChars: 3,
+		allowBlank: false,
+        name: 'fiber[subrack_a_id]',
+        hiddenName: 'fiber[subrack_a_id]',
+		value: '<%= @fiber.subrack_a_id %>',
+		width: 180
+	});
+
+	var statusCombo = new Ext.form.ComboBox ({
+	    fieldLabel: 'Status',
+	    store: [['C', 'C - Continuous']
+	           ,['B', 'B - Broken']
+	           ,['O', 'O - Occupied']
+	           ,['R', 'R - Reserved']
+	           ,['S', 'S - Supervision']
+	           ,['N', 'N - No Adapter']
+	           ,['X', 'X - No Fiber']],
+	    typeAhead: true,
+	    mode: 'local',
+	    forceSelection: true,
+	    triggerAction: 'all',
+	    selectOnFocus: true,
+	    hiddenName: 'fiber[status]',
+	    allowBlank: false,
+		editable: false,
+		value: '<%= @fiber.status %>',
+		width: 120
+	});
+
+	var comboSubracks_B = new Ext.form.ComboBox({
+		fieldLabel: 'Subrack',
+		valueField: 'id',
+		displayField: 'name',
+		editable: true,
+		emptyText: 'Select a Subrack...',
+		store: store_combo_Subrack_B,
+		mode: 'remote',
+		selectOnFocus: true,
+		forceSelection: true,
+		triggerAction: 'all',
+		minChars: 3,
+		allowBlank: true,
+        name: 'fiber[subrack_b_id]',
+        hiddenName: 'fiber[subrack_b_id]',
+		value: '<%= @fiber.subrack_b_id %>',
+		width: 180
+	});
+
+    store_combo_Project.on('load', function(){ comboProjects.setValue('<%= @fiber.cable.span.project_id %>'); });
+    store_combo_Project.load();
+
+    store_combo_Span.on('load', function(){ comboSpans.setValue('<%= @fiber.cable.span_id %>'); });
+    store_combo_Span.load();
+
+    store_combo_Subrack_A.on('load', function(){ comboSubracks_A.setValue('<%= @fiber.subrack_a_id %>'); });
+    store_combo_Subrack_A.load();
+
+    store_combo_Subrack_B.on('load', function(){ comboSubracks_B.setValue('<%= @fiber.subrack_b_id %>'); });
+    store_combo_Subrack_B.load();
+
+    store_combo_Cable.on('load', function(){ comboCables.setValue('<%= @fiber.cable_id %>'); });
+    store_combo_Cable.load();
+
+	comboProjects.on('select', function(combo, record, index) {
+	  comboSpans.reset();
+	  comboSpans.store.proxy = new Ext.data.HttpProxy({
+	    method: 'GET',
+	    url: '/spans/store/grid?project_id='+record.get('id')
+	  });
+	  comboSpans.store.load();
+	});
+
+	comboSpans.on('select', function(combo, record, index) {
+	  comboSubracks_A.reset();
+	  comboSubracks_A.store.proxy = new Ext.data.HttpProxy({
+	    method: 'GET',
+	    url: '/subracks/store/grid?site_id='+record.get('site_a_id')
+	  });
+	  comboSubracks_A.store.load();
+
+	  comboSubracks_B.reset();
+	  comboSubracks_B.store.proxy = new Ext.data.HttpProxy({
+	    method: 'GET',
+	    url: '/subracks/store/grid?site_id='+record.get('site_b_id')
+	  });
+	  comboSubracks_B.store.load();
+
+	  comboCables.reset();
+alert('span_id='+record.get('id'));
+	  comboCables.store.proxy = new Ext.data.HttpProxy({
+	    method: 'GET',
+	    url: '/cables/store/grid?span_id='+record.get('id')
+	  });
+	  comboCables.store.load();
+	});
+
+    var form_editFibers_<%= @fiber.id %> =
+        new Ext.FormPanel(
+           {labelWidth: 120,
+            frame:true,
+            title: 'Edit the Fiber using the form below',
+            bodyStyle:'padding:5px 5px 0',
+            style: "margin: 0px auto 0px auto;",
+            width: 610,
+            defaults: {width: 440},
+            defaultType: 'textfield',
+            monitorValid: true,
+            items:[{xtype:"fieldset", title:"Filters", autoHeight:true, width: 590,
+                    items:[{layout: 'column',
+                            items:[{labelWidth: 45, columnWidth:0.5, layout:'form'
+                                   ,items:[comboProjects]
+                                   },
+                                   {labelWidth: 40, columnWidth:0.5, layout:'form'
+                                   ,items:[comboSpans]
+                                   }]
+                          }]
+                   },
+                   {xtype:"fieldset", title:"Fiber", autoHeight:true, width: 590,
+                    items:[{layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.46, layout:'form'
+                                   ,items:[comboSubracks_A]
+                                   },
+                                   {labelWidth: 50, columnWidth:0.22, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Position', name: 'fiber[number_a]', width: 40, allowBlank:false, value: '<%= @fiber.number_a %>'}]
+                                   },
+                                   {labelWidth: 40, columnWidth:0.32, layout:'form'
+                                   ,items:[comboCables]
+                                  }]
+                          }]
+                   },
+                   {xtype:"fieldset", title:"Fiber End", autoHeight:true, width: 590,
+                    items:[{layout: 'column',
+                            items:[{labelWidth: 50, columnWidth:0.46, layout:'form'
+                                   ,items:[comboSubracks_B]
+                                   },
+                                   {labelWidth: 50, columnWidth:0.22, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'Position', name: 'fiber[number_b]', width: 40, allowBlank:false, value: '<%= @fiber.number_b %>'}]
+                                   },
+                                   {labelWidth: 40, columnWidth:0.32, layout:'form'
+                                   ,items:[statusCombo]
+                                  }]
+                          }]
+                  }],
+              buttons:[{text: 'Update',
+                        handler:function()
+                        {if (form_editFibers_<%= @fiber.id %>.getForm().isValid())
+                            {form_editFibers_<%= @fiber.id %>.getForm().submit
+                              ({url:'/fibers/update/<%= @fiber.id %>',
+                                waitMsg:'Saving Data...',
+                                success: function()
+                                   {
+                                   Ext.Msg.alert('Fiber updated','The fiber has been successfully updated');
+                                   updateSubTab('tab_fibers','sub_tab_fibers','Fibers','<%= fibers_path %>');
+                                   closeSubTab('tab_fibers','sub_tab_fibers_show_<%= @fiber.id %>');
+                                   closeSubTab('tab_fibers','sub_tab_fibers_edit_<%= @fiber.id %>');
+                                   },
+                                failure: function()
+                                   {Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.')}
+                              });
+                            }
+                        }
+                       },
+                       {text: 'Cancel',
+                        handler:function(){closeSubTab('tab_fibers','sub_tab_fibers_edit_<%= @fiber.id %>');}
+                      }]
+             });
+
+    form_editFibers_<%= @fiber.id %>.render( 'area_form_editFibers_<%= @fiber.id %>');
+
+</script>
+<br />
+<div id="area_form_editFibers_<%= @fiber.id %>" style="float:left;">
+</div>

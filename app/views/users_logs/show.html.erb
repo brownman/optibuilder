@@ -1,0 +1,23 @@
+<p>
+  <b>Access date:</b>
+  <%=h @users_log.access_date %>
+</p>
+
+<p>
+  <b>Time using:</b>
+  <%=h @users_log.time_using %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @users_log.user_id %>
+</p>
+
+<p>
+  <b>Project:</b>
+  <%=h @users_log.project_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_users_log_path(@users_log) %> |
+<%= link_to 'Back', users_logs_path %>

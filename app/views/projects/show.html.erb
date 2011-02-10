@@ -1,0 +1,305 @@
+<%= render :partial => "layouts/reports_project" if params[:print] %>
+	<% if params[:print] %>
+		<h1 color="#5E5F5D">Project</h1><br/>
+	<% end %>
+
+
+
+<div id="area_<%= @project.id %>" class="area"><!-- TabPanel area --></div>
+	<div id="ext-comp-1052" class=" x-tab-panel" >
+
+					<div id="project_details_<%= @project.id %>" class="x-hide-display">
+						<fieldset class="pdetailsview">
+							<legend class="name">
+								<%=h @project.name %>
+							</legend>
+						<div>
+							<table class="pdetailsview2">
+									<tr>
+									  <th>Customer:</th>
+									  <% if params[:print] %>
+										 <td><%=h @project.customer.name %></td>
+									 <% else %>
+										  <td><a href="#" class="link" onclick="showProjectCompany(<%= @project.customer.id %>, '<%= @project.customer.name %>');">
+										  	<%=h @project.customer.name %></a></td>
+									 <% end %>
+									</tr>
+									<tr>
+									  <th>Network owner:</th>
+									  <% if params[:print] %>
+									  	 <td><%=h @project.owner.name %></td>
+									  <% else %>
+										  <td><a class="link" href="#" onclick="showProjectCompany(<%= @project.owner.id %>, '<%= @project.owner.name %>');">
+										  	<%=h @project.owner.name %>
+										  </a></td>
+									  <% end %>
+									</tr>
+
+									<tr>
+									  <th>Description:</th>
+									  <td><%=h @project.description %></td>
+									</tr>
+
+									<tr>
+									  <th>Begin date:</th>
+									  <td><%=h @project.begin_date %></td>
+									</tr>
+
+									<tr>
+									  <th>End date:</th>
+									  <td><%=h @project.end_date %></td>
+									</tr>
+
+									<tr>
+									  <th>Status:</th>
+									  <td><%=h @project.status_name %></td>
+									</tr>
+							</table><br/>
+							<div id="table_container">
+								<table class="pdetailsview">
+										<tr>
+										  <th>Has test attenuation (1310):</th>
+										  <td><%=h @project.has_test_attenuation_1310 %></td>
+										</tr>
+
+										<tr>
+										  <th>Has test attenuation (1550):</th>
+										  <td><%=h @project.has_test_attenuation_1550 %></td>
+										</tr>
+
+										<tr>
+										  <th>Has test pmd (10 min):</th>
+										  <td><%=h @project.has_test_pmd_10_min %></td>
+										</tr>
+
+										<tr>
+										  <th>Has test pmd (1 hour):</th>
+										  <td><%=h @project.has_test_pmd_60_min %></td>
+										</tr>
+										<tr>
+									  		<th>Has test otdr (Standard):</th>
+									  		<td><%=h @project.has_test_otdr_standard %></td>
+										</tr>
+							</table></br></br>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+							<table class="pdetailsview3">
+
+									<tr>
+									  <th>Has test otdr (Premium):</th>
+									  <td><%=h @project.has_test_otdr_premium %></td>
+									</tr>
+
+									<tr>
+									  <th>Has test dispersion chromatic:</th>
+									  <td><%=h @project.has_test_chromatic %></td>
+									</tr>
+
+									<tr>
+									  <th>Has test orl:</th>
+									  <td><%=h @project.has_test_orl %></td>
+									</tr>
+
+									<tr>
+									  <th>Has test site survey:</th>
+									  <td><%=h @project.has_test_site_survey %></td>
+									</tr>
+							 </table>
+						 </div>
+					</div> </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+				</fieldset>
+		</div></div>
+
+		<div id="project_people_<%= @project.id %>" class="x-hide-display">
+			<% if @project.users_projects.size > 0 %>
+				<table class="envolved">
+					<th>Name</th>
+					<th>Role</th>
+					<% @project.users_projects.each do |u| %>
+						<tr>
+						<% if params[:print] %>
+							<td><%= u.user.name %></td>
+						 <% else %>
+							<td>
+								<a class="link" href="#" onclick="showProjectUser(<%= u.user.id %>, '<%= u.user.name %>'); return false;">
+								<%= u.user.name %></a>
+							</td>
+						<% end %>
+							<td><%= u.role_name %></td>
+						</tr>
+					<% end %>
+				</table>
+			<% else %>
+				<p class="people">* No People Envolved</p>
+			<% end %>
+		</div>
+
+
+
+		<div id="project_sites_<%= @project.id %>" class="x-hide-display">
+			<table class="envolved">
+				<a<th>Site</th>
+				<th>Acronym</th>
+				<% @project.sites(:order => "name").each do |st| %>
+					<tr>
+						<% if params[:print] %>
+							<td><%= st.name %></td>
+						 <% else %>
+							<td>
+								<a href="#" class="link" onclick="showProjectSites(<%= st.id %>, '<%= st.name %>');"><%= st.name %></a>
+							</td>
+						 <% end %>
+						<td>
+							<%= st.acronym %>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+		</div>
+
+
+
+		<div id="project_spans_<%= @project.id %>" class="x-hide-display">
+			<div id="spans_table">
+				<table class="pspan">
+					<th>Company</th>
+					<th>Site A</th>
+					<th>Site B</th>
+					<th>Distance</th>
+					<th>Fiber Type</th>
+					<% @project.spans.each do |s| %>
+						<tr>
+							<td>
+								<%= s.company.name %>
+							</td>
+							<td>
+								<%= s.site_a.name %>
+							</td>
+							<td>
+								<%= s.site_b.name %>
+							</td>
+							<td >
+								<%= s.distance %>
+							</td>
+							<td >
+								<%= s.fiber_type_id %>
+							</td>
+						</tr>
+					<% end %>
+				</table>
+				<br />
+				<p class="people">Network Diagram</p>
+			</div>
+			<div   id="spans_design_<%= @project.id %>"></div><br/>
+		</div>
+
+</br>
+	<% unless params[:print] %>
+		<div class="action">
+
+			<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_projects',
+															'sub_tab_projects_edit_" + @project.id.to_s + "',
+															'Editing "+@project.name.to_s+"' ,
+															'/projects/edit/"+@project.id.to_s+"' ,
+															'editIcon');" %> <span class="pipe">|</span>
+			<%= link_to 'Print', "#", :onclick =>"printSubTab('/projects/show/"+@project.id.to_s+"?print=true','')";%>
+			<span class="pipe">|</span>
+			<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_projects','sub_tab_projects_show_" + @project.id.to_s + "');" %>
+		</div>
+	<% end %>
+
+
+
+<% unless params[:print] %>
+	<script type="text/javascript">
+		var tabs = new Ext.TabPanel({
+		    renderTo: 'area_<%= @project.id %>',
+		    activeTab: 0,
+		    height: 430,
+		    width: 600,
+
+		    items: [{
+			    autoWidth: true,
+	    	    bodyCfg: {cls: 'tabContent'},
+		        title: 'Project Details',
+		        contentEl: 'project_details_<%= @project.id %>'
+		    },{
+	    	    bodyCfg: {cls: 'tabContent'},
+		        title: 'People envolved',
+		        contentEl: 'project_people_<%= @project.id %>'
+		    },{
+	    	    bodyCfg: {cls: 'tabContent'},
+		        title: 'Sites',
+		        contentEl: 'project_sites_<%= @project.id %>'
+		    },{
+	    	    bodyCfg: {cls: 'tabContent'},
+		        title: 'Spans',
+		        contentEl: 'project_spans_<%= @project.id %>'
+		    }
+		    ]
+		});
+
+		function showProjectUser(id, name){
+			addTab('tab_users', 'Users', 'List', '<%= users_path %>', 'tabUsers');
+			addSubTab('tab_users', 'sub_tab_users_show_'+id, 'Showing ' + name, '/users/show/' + id, 'showIcon');
+			return false;
+		}
+
+		function showProjectCompany(id, name){
+			addTab('tab_companies', 'Companies', 'List', '<%= companies_path %>', 'tabCompanies');
+			addSubTab('tab_companies', 'sub_tab_companies_show_'+id, 'Showing ' + name, '/companies/show/' + id, 'showIcon');
+			return false;
+		}
+
+		function showProjectSites(id, name){
+			addTab('tab_sites', 'Sites', 'List', '<%= sites_path %>', 'tabSites');
+			addSubTab('tab_sites', 'sub_tab_sites_show_'+id, 'Showing ' + name, '/sites/show/' + id, 'showIcon');
+			return false;
+		}
+
+	</script>
+<% end%>
+
+<script type="text/javascript">
+	// Define area to draw 2D
+	var paper = Raphael("spans_design_<%= @project.id %>", 550, 120, 50);
+	// Axis
+	var x = 7;
+
+	<% @project.spans.each do |s| %>
+		/******
+	 	* Site A
+		*/
+		// Rectangle
+		paper.rect(x, 50, 50, 50, 10).attr('fill', '#E6E6FA').click(function(){ alert('<%= s.site_a.name %>'); });
+		// Site name text
+		paper.text(x+25, 40, "<%= s.site_a.acronym %>");
+		// Distance text
+		paper.text(x+75, 70, "<%= s.distance %>");
+		/********/
+
+		x = x + 100;
+
+		/******
+		* Site B
+		*/
+		//Rectangle
+		paper.rect(x, 50, 50, 50, 10).attr('fill', '#E6E6FA');
+		// Site name text
+		paper.text(x+25, 40, "<%= s.site_b.acronym %>");
+		/********/
+
+		// Connection lines
+		paper.path("M"+x+" 75L"+(x-50)+" 75");
+	<% end %>
+
+
+
+</script>
+<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+	<% if params[:print] %>
+			<script type="text/javascript" >
+				window.print();
+			</script>
+	<% end %>

@@ -1,0 +1,80 @@
+<script type = "text/javascript">
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editCompany(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+			'<div align="center">'+
+				'<a href="#" onclick="deleteCompany(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
+
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showCompany(' + rowIndex + ')">' + value + '</a></div>';
+	}
+
+	function editCompany(r){
+		var id = store_Companies.getAt(r).get('id');
+		var name = store_Companies.getAt(r).get('name');
+		addSubTab('tab_companies', 'sub_tab_companies_edit_'+id, 'Editing ' + name, '/Companies/edit/' + id, 'editIcon');
+	}
+
+	function deleteCompany(r){
+		var id = store_Companies.getAt(r).get('id');
+		var name = store_Companies.getAt(r).get('name');
+		Ext.Msg.confirm('Delete ', 'Confirm delete Company: ' + name, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_companies', 'sub_tab_companies', 'List', '/Companies/destroy/' + id);
+		      closeSubTab('tab_companies', 'sub_tab_companies_edit_' + id);
+		      closeSubTab('tab_companies', 'sub_tab_companies_show_' + id);
+		    }
+		  });
+	}
+
+	function showCompany(r){
+		var id = store_Companies.getAt(r).get('id');
+		var name = store_Companies.getAt(r).get('name');
+		addSubTab('tab_companies', 'sub_tab_companies_show_'+id, 'Showing ' + name, '/Companies/show/' + id, 'showIcon');
+	}
+
+	function newCompany(){
+		      addSubTab('tab_companies', 'sub_tab_companies_new', 'New Company', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_Companies = createStore(	'<%= url_for(:controller => "Companies", :action => "store", :id => "grid") %>',
+											['id', 'name', 'contact'],
+											[{name: 'id',  mapping: 'id'}
+											,{name: 'name',  mapping: 'name'}
+											,{name: 'contact',  mapping: 'contact'}]);
+
+	var pBar = createPBar(store_Companies, 'Companies');
+
+	<%= include_buttons_Companies %>
+	var btnsCompanies = createCompaniesBtns();
+	var cmdBar = createCmdBar(btnsCompanies);
+	var cols =
+			[
+      		{id: 'link', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 220},
+      		{id: 'Contact', header: 'Contact', dataIndex: 'contact', sortable: true, renderer: linkShow, width: 220},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_Companies = createGrid(store_Companies, 'Companies List', cmdBar, pBar, cols);
+	store_Companies.load({params: {start:0 , limit:10}});
+	grid_Companies.render('Companies_index_grid_content');
+
+</script>
+
+<div id = "Companies_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

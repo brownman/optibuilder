@@ -1,0 +1,23 @@
+/******************************************
+ *
+ *       optibuilder CSS fixes for IE
+ *
+ ******************************************/
+
+.optibuilder_line {
+	margin-top: -3px;
+	font-size: 1px;
+}
+
+/************************************
+ *
+ *	      Login
+ *
+ ***********************************/
+ 
+#optibuilder_login_box {
+	margin-left: 0px;
+}
+#optibuilder_login_message {
+	margin-left: 0px;
+}

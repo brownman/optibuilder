@@ -1,0 +1,87 @@
+<%= render :partial => "layouts/reports_header" if params[:print] %>
+	<% if params[:print] %>
+	<h1 color="#5E5F5D">Diagram</h1><br/>
+	<% end %>
+<br/>
+	<fieldset class="diagramview">
+
+		<legend class="name">
+			 <%=h @diagram.name %>
+		</legend>				<tr>
+
+		<table class="diagramview">
+			<tr>
+				<th>Subracks qty:</th>
+				<td><%=h @diagram.subracks_qty %></td>
+			</tr>
+
+			<tr>
+				<th>Subracks rows:</th>
+				<td><%=h @diagram.subracks_rows %></td>
+			</tr>
+
+			<tr>
+				<th>Subracks cols:</th>
+				<td><%=h @diagram.subracks_cols %></td>
+			</tr>
+		</table>
+	</fieldset>
+	<% unless params[:print] %>
+
+		<div class="action">
+
+
+			<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_diagrams',
+															'sub_tab_diagrams_edit_" + @diagram.id.to_s + "',
+															'Editing "+@diagram.name.to_s+"' ,
+															'/diagrams/edit/"+@diagram.id.to_s+"' ,
+															'editIcon');" %> <span class="pipe">|</span>
+			<%= link_to 'Print', "#", :onclick =>"printSubTab('/diagrams/show/"+@diagram.id.to_s+"?print=true','')";%>
+			<span class="pipe">|</span>
+			<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_diagrams','sub_tab_diagrams_show_" + @diagram.id.to_s + "');" %>
+		</div>
+	<% end %><br/><br/>
+
+<h1 class="diagramshow"><th>Diagram Design</th></h1>
+<br />
+
+<table class="ddesignprincipal">
+	<%
+		col = 0
+		1.upto(@diagram.subracks_qty) do |racks|
+	%>
+			<% if col >= 2 or col == 0 %><tr><% end %>
+			<td>
+				<table class="diagramdesign">
+					<th colspan="<%= @diagram.subracks_cols %>">Rack <%= racks %><hr></hr><br/></th>
+
+							<% 1.upto(@diagram.subracks_rows) do |axis_x| %>
+								<tr>
+									<% 1.upto(@diagram.subracks_cols) do |axis_y| %>
+										<td><%= image_tag("subrack.png", :width => "30", :title => "Rack #{axis_x} x #{axis_y}") %></td>
+									<% end %>
+								</tr>
+							<% end %>
+				<br/>
+				</table>
+
+			</td>
+
+			<% if col >= 1 %><tr><% end %>
+	<%
+		col = col + 1
+		col =  0 if col >= 2
+		end
+	%>
+</table>
+<br />
+
+<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+	<% if params[:print] %>
+		<script type="text/javascript" >
+			window.print();
+		</script>
+	<% end %>
+
+

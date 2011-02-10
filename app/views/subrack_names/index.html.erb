@@ -1,0 +1,81 @@
+<script type = "text/javascript">
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editSubrack_name(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteSubrack_name(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
+
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showSubrack_name(' + rowIndex + ')">' + value + '</a></div>';
+	}
+
+	function editSubrack_name(r){
+		var id = store_Subrack_names.getAt(r).get('id');
+		var name = store_Subrack_names.getAt(r).get('subrack_name');
+		addSubTab('tab_subrack_names', 'sub_tab_subrack_names_edit_'+id, 'Editing ' + name, '/subrack_names/edit/' + id, 'editIcon');
+	}
+
+	function deleteSubrack_name(r){
+		var id = store_Subrack_names.getAt(r).get('id');
+		var name = store_Subrack_names.getAt(r).get('name');
+		Ext.Msg.confirm('Delete ', 'Confirm delete subrack_name: ' + name, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_subrack_names', 'sub_tab_subrack_names', 'List', '/Subrack_names/destroy/' + id);
+		      closeSubTab('tab_subrack_names', 'sub_tab_subrack_names_edit_' + id);
+		      closeSubTab('tab_subrack_names', 'sub_tab_subrack_names_show_' + id);
+		    }
+		  });
+	}
+
+	function showSubrack_name(r){
+		var id = store_Subrack_names.getAt(r).get('id');
+		var name = store_Subrack_names.getAt(r).get('subrack_name');
+		addSubTab('tab_subrack_names', 'sub_tab_subrack_names_show_'+id, 'Showing ' + name, '/Subrack_names/show/' + id, 'showIcon');
+	}
+
+	function newSubrack_name(){
+		      addSubTab('tab_subrack_names', 'sub_tab_subrack_names_new', 'New Subrack_name', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_Subrack_names = createStore('<%= url_for(:controller => "subrack_names", :action => "store", :id => "grid") %>',
+										 ['id', 'site_name'],
+										 [{name: 'id',  mapping: 'id'}
+										 ,{name: 'site_name',  mapping: 'site_name'}
+										 ,{name: 'subrack_name',  mapping: 'subrack_name'}
+										 ]);
+
+	var pBar = createPBar(store_Subrack_names, 'Subrack_names');
+
+	<%= include_buttons_Subrack_names %>
+	var btnsSubrack_names = createSubrack_namesBtns();
+	var cmdBar = createCmdBar(btnsSubrack_names);
+	var cols =
+			[
+       		{id: 'link', header: 'Site', dataIndex: 'site_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link', header: 'Name', dataIndex: 'subrack_name', sortable: true, renderer: linkShow, width: 100},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_Subrack_names = createGrid(store_Subrack_names, 'Subracks List', cmdBar, pBar, cols);
+	store_Subrack_names.load({params: {start:0 , limit:10}});
+	grid_Subrack_names.render('Subrack_names_index_grid_content');
+
+</script>
+
+<div id = "Subrack_names_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

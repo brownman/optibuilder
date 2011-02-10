@@ -1,0 +1,107 @@
+<%= render :partial => "layouts/reports_header" if params[:print] %>
+	<% if params[:print] %>
+	<h1 color="#5E5F5D">Site</h1><br/>
+	<% end %>
+
+	<fieldset class="siteview">
+
+		<legend class="name">
+			 <%=h @site.name %>
+		</legend>
+		<table class="siteview">
+
+			<tr>
+			  <th>Acronym:</th>
+			  <td><%=h @site.acronym %></td>
+			</tr>
+
+			<tr>
+			  <th>Install Date:</th>
+			  <td><%=h @site.install_date %></td>
+			</tr>
+
+			<tr>
+			  <th>Notes:</th>
+			  <td><%=h @site.notes %></td>
+			</tr>
+
+			<tr>
+				<th>Network owner:</th>
+				<% if params[:print] %>
+					<td><%=h @site.owner.name %></td>
+				<% else %>
+					<td><a class="link" href="#" onclick="showSiteCompany(<%= @site.owner.id %>, '<%= @site.owner.name %>');">
+				  	<%=h @site.owner.name %></td></a>
+				<% end %>
+			</tr>
+	</table>
+  </fieldset>
+	<br/>
+
+ <fieldset>
+		<legend>Address</legend>
+		<table class="addr">
+			<tr>
+			  <th>Country:</th>
+			  <td><%=h @site.address.country %></td>
+			</tr>
+			<tr>
+			  <th>State:</th>
+			  <td><%=h @site.address.state %></td>
+			</tr>
+			<tr>
+			  <th>City:</th>
+			  <td><%=h @site.address.city %></td>
+			</tr>
+			<tr>
+			  <th>Street:</th>
+			  <td><%=h @site.address.street %></td>
+			</tr>
+			<tr>
+			  <th>Location:</th>
+			  <td><%=h @site.address.location %></td>
+			</tr>
+			<tr>
+			  <th>Zip Code:</th>
+			  <td><%=h @site.address.zip_code %></td>
+			</tr>
+			<tr>
+			  <th>Complement:</th>
+			  <td><%=h @site.address.complement %></td>
+			</tr>
+		</table>
+	</fieldset>
+</br>
+
+	<% unless params[:print] %>
+
+		<div class="action">
+
+		<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_sites',
+														'sub_tab_sites_edit_" + @site.id.to_s + "',
+														'Editing "+@site.name.to_s+"' ,
+														'/sites/edit/"+@site.id.to_s+"' ,
+														'editIcon');" %> <span class="pipe">|</span>
+		<%= link_to 'Print', "#", :onclick =>"printSubTab('/sites/show/"+@site.id.to_s+"?print=true','')";%>
+		<span class="pipe">|</span>
+		<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_sites','sub_tab_sites_show_" + @site.id.to_s + "');" %>
+		</div>
+	<% end %>
+	<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+	<% if params[:print] %>
+		<script type="text/javascript" >
+			window.print();
+		</script>
+	<% end %>
+
+		<script type="text/javascript">
+			function showSiteDiagram(id, name){
+				addTab('tab_diagrams', 'Diagrams', 'List', '<%= diagrams_path %>', 'tabDiagrams');
+				addSubTab('tab_diagrams', 'sub_tab_diagrams_show_'+id, 'Showing ' + name, '/diagrams/show/' + id, 'showIcon');
+			}
+			function showSiteCompany(id, name){
+				addTab('tab_companies', 'Companies', 'List', '<%= companies_path %>', 'tabCompanies');
+				addSubTab('tab_companies', 'sub_tab_companies_show_'+id, 'Showing ' + name, '/companies/show/' + id, 'showIcon');
+			}
+		</script>

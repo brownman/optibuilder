@@ -1,0 +1,80 @@
+<script type = "text/javascript">
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editSite(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteSite(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
+
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showSite(' + rowIndex + ')">' + value + '</a></div>';
+	}
+
+	function editSite(r){
+		var id = store_Sites.getAt(r).get('id');
+		var name = store_Sites.getAt(r).get('name');
+		addSubTab('tab_sites', 'sub_tab_sites_edit_'+id, 'Editing ' + name, '/sites/edit/' + id, 'editIcon');
+	}
+
+	function deleteSite(r){
+		var id = store_Sites.getAt(r).get('id');
+		var name = store_Sites.getAt(r).get('name');
+		Ext.Msg.confirm('Delete ', 'Confirm delete site: ' + name, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_sites', 'sub_tab_sites', 'List', '/Sites/destroy/' + id);
+		      closeSubTab('tab_sites', 'sub_tab_sites_edit_' + id);
+		      closeSubTab('tab_sites', 'sub_tab_sites_show_' + id);
+		    }
+		  });
+	}
+
+	function showSite(r){
+		var id = store_Sites.getAt(r).get('id');
+		var name = store_Sites.getAt(r).get('name');
+		addSubTab('tab_sites', 'sub_tab_sites_show_'+id, 'Showing ' + name, '/Sites/show/' + id, 'showIcon');
+	}
+
+	function newSite(){
+		      addSubTab('tab_sites', 'sub_tab_sites_new', 'New Site', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_Sites = createStore(	'<%= url_for(:controller => "sites", :action => "store", :id => "grid") %>',
+											['id', 'name', 'acronym'],
+											[{name: 'id',  mapping: 'id'}
+											,{name: 'name',  mapping: 'name'}
+											,{name: 'acronym',  mapping: 'acronym'}]);
+
+	var pBar = createPBar(store_Sites, 'Sites');
+
+	<%= include_buttons_Sites %>
+	var btnsSites = createSitesBtns();
+	var cmdBar = createCmdBar(btnsSites);
+	var cols =
+			[
+       		{id: 'link', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'acronym', header: 'Acronym', dataIndex: 'acronym', sortable: true, renderer: linkShow, width: 220},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_Sites = createGrid(store_Sites, 'Sites List', cmdBar, pBar, cols);
+	store_Sites.load({params: {start:0 , limit:10}});
+	grid_Sites.render('Sites_index_grid_content');
+
+</script>
+
+<div id = "Sites_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

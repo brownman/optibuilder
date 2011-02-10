@@ -1,0 +1,82 @@
+/* for all the system*/
+.ExtPage{
+	padding: 10px;
+}
+h1{
+	border-bottom:3px dotted #AEAEAE ;
+	width: 100%;
+	color: red;
+	font-size: 22px;
+	margin-bottom:10px;
+}
+
+
+table {
+	padding: 3px;
+	width:100%;
+	line-height: 155%;
+}
+th {
+	font-size: 12px;
+	font-weight: bold;
+	width:13%;
+	text-align: left;
+	border:transparent;
+	vertical-align:top;
+	line-height: 1.8em;
+}
+
+td {
+	font-size: 12px;
+	text-align: left;
+    width:87%;
+    height:100%;
+	border:transparent;
+	vertical-align:top;
+}
+
+table.addr th {
+	width:15%;
+	heigth:80%;
+}
+table.addr td {
+	width:85%;
+	heigth:80%;
+}
+
+span{
+	font-weight: bold;
+	font-size: 12px;
+}
+span.pipe
+{
+	color:#A8A3A3;
+}
+/*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+
+
+
+}
+/*Diagram-show*/
+
+
+table.diagramview th {
+	width:40%;
+}
+
+table.diagramview td {
+	width:60%;
+}
+
+table.ddesignprincipal {
+	margin;
+	padding:0;
+	width:63%;
+}
+table.diagramdesign  {
+	margin:0;
+	padding:0;
+	width:15%;
+	align:center;
+}
+

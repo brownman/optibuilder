@@ -1,0 +1,24 @@
+<h1>Listing log_books</h1>
+
+<table>
+  <tr>
+    <th>Log date</th>
+    <th>Notes</th>
+    <th>Project</th>
+  </tr>
+
+<% @log_books.each do |log_book| %>
+  <tr>
+    <td><%=h log_book.log_date %></td>
+    <td><%=h log_book.notes %></td>
+    <td><%=h log_book.project_id %></td>
+    <td><%= link_to 'Show', log_book %></td>
+    <td><%= link_to 'Edit', edit_log_book_path(log_book) %></td>
+    <td><%= link_to 'Destroy', log_book, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New log_book', new_log_book_path %>

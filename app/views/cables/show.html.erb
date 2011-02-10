@@ -1,0 +1,78 @@
+<%= render :partial => "layouts/reports_header" if params[:print] %>
+	<% if params[:print] %>
+		<h1 color="#5E5F5D">Cable</h1><br/>
+	<% end %>
+	<fieldset class="cableview">
+		<legend class="name">
+			Cable
+		</legend>
+		<table class="cableview">
+
+		<tr>
+		  <th>Project:</th>
+		  <% if params[:print] %>
+			 <td><%=h @cable.span.project.name %></td>
+		 <% else %>
+			   		<td><a class="link"  href="#" onclick="showCableProject(<%= @cable.span.project.id %>, '<%= @cable.span.project.name %>');  ">
+			  	<%=h @cable.span.project.name %></a></td>
+		  <% end %>
+		</tr>
+
+		<tr>
+		  <th>Owner:</th>
+		  	 <% if params[:print] %>
+					<td><%=h @cable.span.company.name %></td>
+			 <% else %>
+		   	<td><a class="link" href="#" onclick="showCableCompany(<%= @cable.span.company.id %>, '<%= @cable.span.company.name %>');">
+		  		<%=h @cable.span.company.name %></a></td>
+		   <% end %>
+		</tr>
+		<tr>
+		  <th>Name:</th>
+		  <td><%=h @cable.name %></td>
+		</tr>
+
+		<tr>
+		  <th>Network type:</th>
+		   <td><%=h @cable.network_type_name %></td>
+		</tr>
+		</table>
+	</fieldset>
+</br>
+	<% unless params[:print] %>
+		<div class="action">
+			<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_cables',
+															'sub_tab_cables_edit_" + @cable.id.to_s + "',
+															'Editing "+@cable.name.to_s+"' ,
+															'/cables/edit/"+@cable.id.to_s+"' ,
+															'editIcon');" %> <span class="pipe">|</span>
+			<%= link_to 'Print', "#", :onclick =>"printSubTab('/cables/show/"+@cable.id.to_s+"?print=true','')";%>
+				<span class="pipe">|</span>
+			<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_cables','sub_tab_cables_show_" + @cable.id.to_s + "');" %>
+		</div>
+	<% end %>
+	<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+	<% if params[:print] %>
+			<script type="text/javascript" >
+				window.print();
+			</script>
+	<% end %>
+
+
+
+<script type="text/javascript">
+	function showCableCompany(id, name){
+		addTab('tab_companies', 'Companies', 'List', '<%= companies_path %>', 'tabCompanies');
+		addSubTab('tab_companies', 'sub_tab_companies_show_'+id, 'Showing ' + name, '/companies/show/' + id, 'showIcon');
+	}
+	function showCableProject(id, name){
+		addTab('tab_projects', 'Projects', 'List', '<%= projects_path %>', 'tabProjects');
+		addSubTab('tab_projects', 'sub_tab_projects_show_'+id, 'Showing ' + name, '/projects/show/' + id, 'showIcon');
+	}
+	function showCableSite(id, name){
+		addTab('tab_sites', 'Sites', 'List', '<%= sites_path %>', 'tabSites');
+		addSubTab('tab_sites', 'sub_tab_sites_show_'+id, 'Showing ' + name, '/sites/show/' + id, 'showIcon');
+	}
+</script>
+

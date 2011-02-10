@@ -1,0 +1,99 @@
+<%= render :partial => "layouts/reports_header" if params[:print] %>
+	<% if params[:print] %>
+		<h1 color="#5E5F5D">Span</h1><br/>
+	<% end %>
+	<fieldset class="spanview">
+		<legend class="name">
+			Span
+		</legend>
+		<table class="spanview">
+
+		<tr>
+		  <th>Project:</th>
+		  <% if params[:print] %>
+			 <td><%=h @span.project.name %></td>
+		 <% else %>
+			   		<td><a class="link"  href="#" onclick="showSpanProject(<%= @span.project.id %>, '<%= @span.project.name %>');  ">
+			  	<%=h @span.project.name %></a></td>
+		  <% end %>
+		</tr>
+
+		<tr>
+		  <th>Owner:</th>
+		  	 <% if params[:print] %>
+					<td><%=h @span.company.name %></td>
+			 <% else %>
+		   	<td><a class="link" href="#" onclick="showSpanCompany(<%= @span.company.id %>, '<%= @span.company.name %>');">
+		  		<%=h @span.company.name %></a></td>
+		   <% end %>
+		</tr>
+
+		<tr>
+		  <th>Site a:</th>
+		  	<% if params[:print] %>
+					<td><%=h @span.site_a.name %></td>
+			 <% else %>
+		   		<td><a class="link" href="#" onclick="showSpanSite(<%= @span.site_a.id %>, '<%= @span.site_a.name %>');">
+		    	<%=h @span.site_a.name %></a></td>
+		  	 <% end %>
+		</tr>
+
+		<tr>
+		  <th>Site b:</th>
+		  	<% if params[:print] %>
+				<td><%=h @span.site_b.name %></td>
+			 <% else %>
+			   <td><a class="link" href="#" onclick="showSpanSite(<%= @span.site_b.id %>, '<%= @span.site_b.name %>');">
+			    <%=h @span.site_b.name %></a></td>
+			 <% end %>
+		</tr>
+
+		<tr>
+		  <th>Distance:</th>
+		  <td><%=h @span.distance %></td>
+		</tr>
+
+		<tr>
+		  <th>Fiber type:</th>
+		   <td><%=h @span.fiber_type_id %></td>
+		</tr>
+		</table>
+	</fieldset>
+</br>
+	<% unless params[:print] %>
+		<div class="action">
+			<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_spans',
+															'sub_tab_spans_edit_" + @span.id.to_s + "',
+															'Editing "+@span.site_a.name.to_s+" - "+@span.site_b.name.to_s+"' ,
+															'/spans/edit/"+@span.id.to_s+"' ,
+															'editIcon');" %> <span class="pipe">|</span>
+			<%= link_to 'Print', "#", :onclick =>"printSubTab('/spans/show/"+@span.id.to_s+"?print=true','')";%>
+				<span class="pipe">|</span>
+			<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_spans','sub_tab_spans_show_" + @span.id.to_s + "');" %>
+		</div>
+	<% end %>
+	<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+	<% if params[:print] %>
+			<script type="text/javascript" >
+				window.print();
+			</script>
+	<% end %>
+
+
+
+<script type="text/javascript">
+	function showSpanCompany(id, name){
+		addTab('tab_companies', 'Companies', 'List', '<%= companies_path %>', 'tabCompanies');
+		addSubTab('tab_companies', 'sub_tab_companies_show_'+id, 'Showing ' + name, '/companies/show/' + id, 'showIcon');
+	}
+	function showSpanProject(id, name){
+		addTab('tab_projects', 'Projects', 'List', '<%= projects_path %>', 'tabProjects');
+		addSubTab('tab_projects', 'sub_tab_projects_show_'+id, 'Showing ' + name, '/projects/show/' + id, 'showIcon');
+	}
+	function showSpanSite(id, name){
+		addTab('tab_sites', 'Sites', 'List', '<%= sites_path %>', 'tabSites');
+		addSubTab('tab_sites', 'sub_tab_sites_show_'+id, 'Showing ' + name, '/sites/show/' + id, 'showIcon');
+	}
+</script>
+

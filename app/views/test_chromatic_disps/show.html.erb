@@ -1,0 +1,105 @@
+<%= render :partial => "layouts/reports_header" if params[:print] %>
+	<% if params[:print] %>
+		<h1 color="#5E5F5D">Chromatic Dispertion</h1><br/>
+	<% end %>
+	<fieldset class="test_chromatic_dispview">
+		<legend class="name">
+			Chromatic Dispertion
+		</legend>
+		<table class="test_chromatic_dispview">
+
+		<tr>
+		  <th>Project:</th>
+		  <% if params[:print] %>
+			 <td><%=h @test_chromatic_disp.fiber.cable.span.project.name %></td>
+		  <% else %>
+			 <td><a class="link"  href="#" onclick="showFiberProject(<%= @test_chromatic_disp.fiber.cable.span.project.id %>, '<%= @test_chromatic_disp.fiber.cable.span.project.name %>');  ">
+			 <%=h @test_chromatic_disp.fiber.cable.span.project.name %></a></td>
+		  <% end %>
+		</tr>
+
+		<tr>
+		  <th>Customer:</th>
+		  	 <% if params[:print] %>
+					<td><%=h @test_chromatic_disp.fiber.cable.span.project.customer.name %></td>
+			 <% else %>
+    		   	<td><a class="link" href="#" onclick="showFiberCompany(<%= @test_chromatic_disp.fiber.cable.span.project.customer.id %>, '<%= @test_chromatic_disp.fiber.cable.span.project.customer.name %>');">
+		  		<%=h @test_chromatic_disp.fiber.cable.span.project.customer.name %></a></td>
+		   <% end %>
+		</tr>
+		<tr>
+		  <th>Cable:</th>
+	      <% if params[:print] %>
+			 <td><%=h @test_chromatic_disp.fiber.cable.name %></td>
+		  <% else %>
+			 <td><a class="link"  href="#" onclick="showFiberCable(<%= @test_chromatic_disp.fiber.cable.id %>, '<%= @test_chromatic_disp.fiber.cable.name %>');  ">
+			 <%=h @test_chromatic_disp.fiber.cable.name %></a></td>
+		  <% end %>
+		</tr>
+		<tr>
+		  <th>Site A:</th>
+		  <% if params[:print] %>
+		  	 <td><%=h @test_chromatic_disp.fiber.cable.span.site_a.name %></td>
+		  <% else %>
+			 <td><a class="link"  href="#" onclick="showFiberSite(<%= @test_chromatic_disp.fiber.cable.span.site_a.id %>, '<%= @test_chromatic_disp.fiber.cable.span.site_a.name %>');  ">
+			 <%=h @test_chromatic_disp.fiber.cable.span.site_a.name %></a></td>
+		  <% end %>
+		</tr>
+		<tr>
+		  <th>Fiber #:</th>
+		  <td><%=h @test_chromatic_disp.fiber.number_a %></td>
+		</tr>
+		<tr>
+		  <th>Site B:</th>
+		  <% if params[:print] %>
+		     <td><%=h @test_chromatic_disp.fiber.cable.span.site_b.name %></td>
+		  <% else %>
+			 <td><a class="link"  href="#" onclick="showFiberSite(<%= @test_chromatic_disp.fiber.cable.span.site_b.id %>, '<%= @test_chromatic_disp.fiber.cable.span.site_b.name %>');  ">
+			 <%=h @test_chromatic_disp.fiber.cable.span.site_b.name %></a></td>
+		  <% end %>
+		</tr>
+		<tr>
+		  <th>Fiber #:</th>
+		  <td><%=h @test_chromatic_disp.fiber.number_b %></td>
+		</tr>
+		</table>
+	</fieldset>
+</br>
+	<% unless params[:print] %>
+		<div class="action">
+			<%= link_to 'Edit', "#", :onclick => "addSubTab('tab_test_chromatic_disps',
+															'sub_tab_test_chromatic_disps_edit_" + @test_chromatic_disp.id.to_s + "',
+															'Editing "+@test_chromatic_disp.fiber.number_a.to_s+"' ,
+															'/test_chromatic_disps/edit/"+@test_chromatic_disp.id.to_s+"' ,
+															'editIcon');" %> <span class="pipe">|</span>
+			<%= link_to 'Print', "#", :onclick =>"printSubTab('/test_chromatic_disps/show/"+@test_chromatic_disp.id.to_s+"?print=true','')";%>
+				<span class="pipe">|</span>
+			<%= link_to 'Close', "#", :onclick => "closeSubTab('tab_test_chromatic_disps','sub_tab_test_chromatic_disps_show_" + @test_chromatic_disp.id.to_s + "');" %>
+		</div>
+	<% end %>
+	<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+	<% if params[:print] %>
+			<script type="text/javascript" >
+				window.print();
+			</script>
+	<% end %>
+
+<script type="text/javascript">
+	function showFiberCompany(id, name){
+		addTab('tab_companies', 'Companies', 'List', '<%= companies_path %>', 'tabCompanies');
+		addSubTab('tab_companies', 'sub_tab_companies_show_'+id, 'Showing ' + name, '/companies/show/' + id, 'showIcon');
+	}
+	function showFiberProject(id, name){
+		addTab('tab_projects', 'Projects', 'List', '<%= projects_path %>', 'tabProjects');
+		addSubTab('tab_projects', 'sub_tab_projects_show_'+id, 'Showing ' + name, '/projects/show/' + id, 'showIcon');
+	}
+	function showFiberSite(id, name){
+		addTab('tab_sites', 'Sites', 'List', '<%= sites_path %>', 'tabSites');
+		addSubTab('tab_sites', 'sub_tab_sites_show_'+id, 'Showing ' + name, '/sites/show/' + id, 'showIcon');
+	}
+	function showFiberCable(id, name){
+		addTab('tab_cables', 'Cables', 'List', '<%= cables_path %>', 'tabCables');
+		addSubTab('tab_cables', 'sub_tab_cables_show_'+id, 'Showing ' + name, '/cables/show/' + id, 'showIcon');
+	}
+</script>

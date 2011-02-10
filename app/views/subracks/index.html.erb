@@ -1,0 +1,82 @@
+<script type = "text/javascript">
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editSubrack(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteSubrack(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
+
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showSubrack(' + rowIndex + ')">' + value + '</a></div>';
+	}
+
+	function editSubrack(r){
+		var id = store_Subracks.getAt(r).get('id');
+		var name = store_Subracks.getAt(r).get('subrack');
+		addSubTab('tab_subracks', 'sub_tab_subracks_edit_'+id, 'Editing ' + name, '/subracks/edit/' + id, 'editIcon');
+	}
+
+	function deleteSubrack(r){
+		var id = store_Subracks.getAt(r).get('id');
+		var name = store_Subracks.getAt(r).get('name');
+		Ext.Msg.confirm('Delete ', 'Confirm delete subrack: ' + name, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_subracks', 'sub_tab_subracks', 'List', '/Subracks/destroy/' + id);
+		      closeSubTab('tab_subracks', 'sub_tab_subracks_edit_' + id);
+		      closeSubTab('tab_subracks', 'sub_tab_subracks_show_' + id);
+		    }
+		  });
+	}
+
+	function showSubrack(r){
+		var id = store_Subracks.getAt(r).get('id');
+		var name = store_Subracks.getAt(r).get('subrack');
+		addSubTab('tab_subracks', 'sub_tab_subracks_show_'+id, 'Showing ' + name, '/Subracks/show/' + id, 'showIcon');
+	}
+
+	function newSubrack(){
+		      addSubTab('tab_subracks', 'sub_tab_subracks_new', 'New Subrack', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_Subracks = createStore('<%= url_for(:controller => "subracks", :action => "store", :id => "grid") %>',
+										 ['id', 'site_name', name],
+										 [{name: 'id',  mapping: 'id'}
+										 ,{name: 'site_name',  mapping: 'site_name'}
+										 ,{name: 'name',  mapping: 'name'}
+										 ]);
+
+	var pBar = createPBar(store_Subracks, 'Subracks');
+
+	<%= include_buttons_Subracks %>
+	var btnsSubracks = createSubracksBtns();
+	var cmdBar = createCmdBar(btnsSubracks);
+	var cols =
+			[
+
+       		{id: 'link', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link', header: 'Site', dataIndex: 'site_name', sortable: true, renderer: linkShow, width: 220},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_Subracks = createGrid(store_Subracks, 'Subracks List', cmdBar, pBar, cols);
+	store_Subracks.load({params: {start:0 , limit:10}});
+	grid_Subracks.render('Subracks_index_grid_content');
+
+</script>
+
+<div id = "Subracks_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

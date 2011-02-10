@@ -1,0 +1,90 @@
+<script type = "text/javascript">
+
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editUser(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="deleteUser(' + rowIndex + ')">'+
+						'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showUser(' + rowIndex + ')">' + value + '</a></div>';
+	}
+
+	function editUser(r){
+		var id = store_Users.getAt(r).get('id');
+		var name = store_Users.getAt(r).get('name');
+		/*
+		if ( id == <%= session[:user_id] %>) {*/
+			addSubTab('tab_users', 'sub_tab_users_edit_'+id, 'Editing ' + name, '/users/edit/' + id, 'editIcon');
+		/*}else{
+			Ext.Msg.alert('Error','You dont have permission to this action!')
+		}*/
+	}
+
+	function deleteUser(r){
+		var id = store_Users.getAt(r).get('id');
+		var name = store_Users.getAt(r).get('name');
+		Ext.Msg.confirm('Delete ', 'Confirm delete user: ' + name, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_users', 'sub_tab_users', 'List', '/users/destroy/' + id);
+		      closeSubTab('tab_users', 'sub_tab_users_edit_' + id);
+		      closeSubTab('tab_users', 'sub_tab_users_show_' + id);
+		    }
+		  });
+	}
+
+	function showUser(r){
+		var id = store_Users.getAt(r).get('id');
+		var name = store_Users.getAt(r).get('name');
+		addSubTab('tab_users', 'sub_tab_users_show_'+id, 'Showing ' + name, '/users/show/' + id, 'showIcon');
+	}
+
+	function newUser(){
+		      addSubTab('tab_users', 'sub_tab_users_new', 'New user', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_Users = createStore(	'<%= url_for(:controller => "users", :action => "store", :id => "grid") %>',
+									['id', 'name', 'login'],
+									[
+										{name: 'id',  mapping: 'id'},
+										{name: 'name',  mapping: 'name'},
+										{name: 'login',  mapping: 'login'},
+										{name: 'email',  mapping: 'email'},
+										{name: 'company_name',  mapping: 'company_name'}
+									]
+	);
+
+	var pBar = createPBar(store_Users, 'users');
+
+	<%= include_buttons_users %>
+	var btnsUsers = createUsersBtns();
+	var cmdBar = createCmdBar(btnsUsers);
+	var cols =
+			[
+       		{id: 'linkName', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 220},
+      		{id: 'linkCompany', header: 'Company', dataIndex: 'company_name', sortable: true, width: 220},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_Users = createGrid(store_Users, 'Users List', cmdBar, pBar, cols);
+	store_Users.load({params: {start:0 , limit:10}});
+	grid_Users.render('users_index_grid_content');
+
+</script>
+
+<div id = "users_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>
