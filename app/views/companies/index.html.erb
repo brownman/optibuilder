@@ -51,9 +51,12 @@
 	}
 
 	var store_Companies = createStore(	'<%= url_for(:controller => "Companies", :action => "store", :id => "grid") %>',
-											['id', 'name', 'contact'],
+											['id', 'name', 'code', 'phone', 'fax', 'contact'],
 											[{name: 'id',  mapping: 'id'}
 											,{name: 'name',  mapping: 'name'}
+											,{name: 'code',  mapping: 'code'}
+											,{name: 'phone',  mapping: 'phone'}
+											,{name: 'fax',  mapping: 'fax'}
 											,{name: 'contact',  mapping: 'contact'}]);
 
 	var pBar = createPBar(store_Companies, 'Companies');
@@ -65,6 +68,9 @@
 			[
       		{id: 'link', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 220},
       		{id: 'Contact', header: 'Contact', dataIndex: 'contact', sortable: true, renderer: linkShow, width: 220},
+      		{id: 'Code', header: 'Code', dataIndex: 'code', sortable: true, width: 150},
+      		{id: 'Phone', header: 'Phone', dataIndex: 'phone', sortable: true, width: 150},
+      		{id: 'Fax', header: 'Fax', dataIndex: 'fax', sortable: true, width: 150},
       		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
       		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
       		];

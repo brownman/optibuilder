@@ -1,78 +1,115 @@
-<p>
-  <b>Fiber:</b>
-  <%=h @test_pmd.fiber_id %>
-</p>
 
-<p>
-  <b>Pmd set1 a:</b>
-  <%=h @test_pmd.pmd_set1_a %>
-</p>
+<div class="ExtPage2 ShowPage">
+<fieldset class="pmd">
+		<legend>
+				Show Test PMD's
+		</legend>
+		<table class="pmd" >
+			<tr>
+				<th class="pmd" >Created at:</th>
+				<td><%=h @test_pmd.created_at %></td>
+			</tr>
+		</table>
+		<table class="pmd1">
+			<th colspan="3" class="pmd1">
+				PMD Set1
+			</th>
+			<tr class="pmd1">
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set1_a %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set1_b %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set1_c %>
+				</td>
+				</tr>
+		</table>
+			<table class="pmd1">
+			<th colspan="3" class="pmd1">
+				PMD Set2
+			</th>
+			<tr class="pmd1">
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set2_a %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set2_b %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set2_c %>
+				</td>
+				</tr>
+		</table>
+			<table class="pmd1">
+			<th colspan="3" class="pmd1">
+				PMD Set3
+			</th>
+			<tr class="pmd1">
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set3_a %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set3_b %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.pmd_set3_b %>
+				</td>
+				</tr>
+		</table>
+</fieldset><br/>
+<fieldset class="pmd">
+		<legend>
+			Results
+		</legend>
+		<table class="pmd1">
+			<th class="pmd1">
+				Fiber:
+			</th>
+			<th class="pmd1">
+				PMD Max
+			</th>
+			<th class="pmd1">
+				PMD Std
+			</th>
+			<tr class="pmd1">
+				<td class="pmd1">
+					<%=h @test_pmd.fiber.number_a %>-<%=h @test_pmd.fiber.number_b %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.max %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.std %>
+				</td>
+			</tr>
+		</table><br/>
+		<table class="pmd1">
+			<th class="pmd1">
+				PMD Span
+			</th>
+			<th class="pmd1">
+				PMD Coef
+			</th>
+			<th class="pmd1">
+				PMD Mean
+			</th>
+			<tr class="pmd1">
+				<td class="pmd1">
+					<%=h @test_pmd.span %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.coef %>
+				</td>
+				<td class="pmd1">
+					<%=h @test_pmd.mean %>
+				</td>
+			</tr>
+		</table>
+</fieldset>
+<br>
 
-<p>
-  <b>Pmd set1 b:</b>
-  <%=h @test_pmd.pmd_set1_b %>
-</p>
+<%= link_to 'Back', "#", :onclick => "closeTestTab('tab_test_pmds_show_details_" + @test_pmd.id.to_s + "');" %>
+</div>
 
-<p>
-  <b>Pmd set1 c:</b>
-  <%=h @test_pmd.pmd_set1_c %>
-</p>
-
-<p>
-  <b>Pmd set2 a:</b>
-  <%=h @test_pmd.pmd_set2_a %>
-</p>
-
-<p>
-  <b>Pmd set2 b:</b>
-  <%=h @test_pmd.pmd_set2_b %>
-</p>
-
-<p>
-  <b>Pmd set3 c:</b>
-  <%=h @test_pmd.pmd_set3_c %>
-</p>
-
-<p>
-  <b>Pmd set3 a:</b>
-  <%=h @test_pmd.pmd_set3_a %>
-</p>
-
-<p>
-  <b>Pmd set2 b:</b>
-  <%=h @test_pmd.pmd_set2_b %>
-</p>
-
-<p>
-  <b>Pmd set3 c:</b>
-  <%=h @test_pmd.pmd_set3_c %>
-</p>
-
-<p>
-  <b>Pmd mean:</b>
-  <%=h @test_pmd.pmd_mean %>
-</p>
-
-<p>
-  <b>Pmd max:</b>
-  <%=h @test_pmd.pmd_max %>
-</p>
-
-<p>
-  <b>Pmd std:</b>
-  <%=h @test_pmd.pmd_std %>
-</p>
-
-<p>
-  <b>Pmd span:</b>
-  <%=h @test_pmd.pmd_span %>
-</p>
-
-<p>
-  <b>Pmd coef:</b>
-  <%=h @test_pmd.pmd_coef %>
-</p>
-
-
-<%= link_to 'Edit', edit_test_pmd_path(@test_pmd) %> |
-<%= link_to 'Back', test_pmds_path %>

@@ -76,7 +76,7 @@ a.link{
 	color:#15428B;
 }
 .ShowPage legend.name {
- 	font-size: 15px;
+ 	font-size: 14px;
 }
 .ShowPage div.action {
 	padding: 10px;
@@ -125,7 +125,7 @@ a.link{
 /*Span-show*/
 
 .ShowPage fieldset.spanview {
- 	width:30%;/*tamanho do filedset*/;
+ 	width:50%;/*tamanho do filedset*/;
 }
 .ShowPage table.spanview th {
 	width:23%;
@@ -152,7 +152,7 @@ a.link{
  	width:40%;/*tamanho do filedset*/;
 }
 .ShowPage table.siteview th {
-	width:25%;
+	width:30%;
 }
 
 .ShowPage table.siteview td {
@@ -212,6 +212,7 @@ a.link{
 .ShowPage table.subrackview3 td {
 	width:30%;
 }
+
 .ShowPage div.table_container th {
 	margin:0 auto;
 	align:center;
@@ -226,11 +227,11 @@ a.link{
  	width:25%;/*tamanho do filedset*/;
 }
 .ShowPage table.diagramview th {
-	width:40%;
+	width:43%;
 }
 
 .ShowPage table.diagramview td {
-	width:60%;
+	width:77%;
 }
 
 .ShowPage table.ddesignprincipal {
@@ -252,14 +253,14 @@ font-size: 22px;
 /*Cable-show*/
 
 .ShowPage fieldset.cableview {
- 	width:30%;/*tamanho do filedset*/;
+ 	width:50%;/*tamanho do filedset*/;
 }
 .ShowPage table.cableview th {
-	width:25%;
+	width:30%;
 }
 
 .ShowPage table.cableview td {
-	width:75%;
+	width:70%;
 }
 
 /*Project-show*/
@@ -279,7 +280,12 @@ font-size: 22px;
 	padding-bottom: 0px;
 
 }
-
+.ShowPage th.p1 {
+ 	width:20%;
+}
+.ShowPage td.p1 {
+ 	width:80%;
+}
 .ShowPage table.pdetailsview2 th {
 	width:23%;
 
@@ -360,6 +366,7 @@ table.envolved th {
 
 }
 
+
 table.pspan{
 
 }
@@ -393,3 +400,151 @@ table.pspan th {
 #copy a {
     color: #fff;
 }
+
+/*Tests-show*/
+
+.ShowPage fieldset.tests {
+	margin:0;
+	border: 0.5px solid #15428B;
+	background-color:#f6f6f6;
+ 	width:85%;/*tamanho do filedset*/;
+ 	text-align: left;
+ 	font-size: 13px;
+}
+
+.ShowPage table.tests th {
+	width:15%;
+	text-align: left;
+	font-size: 12px;
+}
+.ShowPage table.tests td {
+	width:85%;
+	text-align: left;
+	font-size: 12px;
+}
+
+
+.ShowPage table.tests1  {
+	width:30%;
+	text-align: left;
+	font-size: 12px;
+	float:left;
+	padding-top: 0px;
+
+}
+
+.ShowPage table.tests1 th {
+	width:15%;
+	font-size: 12px;
+}
+
+.ShowPage table.tests1 td {
+	width:20%;
+	font-size: 12px;
+}
+
+
+.ShowPage table.tests2  {
+	width:30%;
+	border-left:  0.5px solid #c4c4c4;
+	text-align: left;
+	float:left;
+	padding-top: 0px;
+}
+.ShowPage table.tests2 th {
+	width:15%;
+    font-size: 12px;
+}
+.ShowPage table.tests2 td {
+     font-size: 12px;
+	 width:20%;
+
+}
+
+.ShowPage table.tests3  {
+	width:30%;
+	border-left:  0.5px solid #d0d0d0;
+	text-align: left;
+	float:left;
+	padding-top: 0px;
+
+}
+.ShowPage table.tests3 th {
+	width:18%;
+    font-size: 12px;
+}
+.ShowPage table.tests3 td {
+     font-size: 12px;
+	 width:20%;
+}
+
+.ExtPage p.tests {
+	color:red;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 14px;
+
+}
+
+.ExtPage div.action {
+	padding: 10px;
+ 	width: 50%;
+}
+
+/*Tests PMD-show*/
+.ShowPage fieldset.pmd {
+	border: 0.5px solid #15428B;
+ 	width:65%;/*tamanho do filedset*/;
+ 	align: center;
+ 	text-align: left;
+ 	font-size: 13px;
+}
+.ShowPage table.pmd  {
+	width:100%;
+	text-align: center;
+
+
+}
+.ShowPage table.pmd1  {
+	width:98%;
+	align:center;
+	text-align: center;
+	margin-left: 2px;
+}
+
+.ShowPage th.pmd1  {
+	align:center;
+	text-align: center;
+	border: 0.5px solid #d0d0d0;
+}
+
+.ShowPage tr.pmd1  {
+	text-align: center;
+	font-weight: bold;
+	border: 0.5px solid #d0d0d0;
+}
+.ShowPage td.pmd1  {
+	width:30%;
+	text-align: center;
+	colspan:3;
+	border: 0.5px solid #d0d0d0;
+}
+.ShowPage th.pmd  {
+	width: 17%;
+}
+
+.ShowPage td.pmd  {
+	text-align: center;
+	font-weight: normal;
+	border: 0.5px solid #d0d0d0;
+}
+
+
+
+.ExtPage2 {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+

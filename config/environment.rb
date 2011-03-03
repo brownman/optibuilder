@@ -31,6 +31,8 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
+  config.cache_store = :file_store, "#{RAILS_ROOT}/tmp/cache/teste/"
+
   #Config of rotate log files
   config.logger = Logger.new("#{RAILS_ROOT}/log/#{ENV['RAILS_ENV']}.log", 4, 1024288)
 

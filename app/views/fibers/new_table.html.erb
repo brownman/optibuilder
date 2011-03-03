@@ -8,66 +8,146 @@
 <br />
 
 
+
+
+
+<script type="text/javascript">
+
+    var fibers_form = new Ext.FormPanel(
+		{
+			labelWidth: 121,
+	      	frame:true,
+		      title: 'Create a new user using the form below',
+		      bodyStyle:'padding:5px 5px 0',
+		      style: "margin: 0px auto 0px auto;",
+		      width: 500,
+		      defaults: {width: 365},
+		      defaultType: 'textfield',
+		      monitorValid: true,
+		      items: [{xtype:"fieldset",
+                   title:"User",
+                   autoHeight: true,
+                   width: 476,
+                   defaults: {width: 325},
+                   items:[{xtype:'textfield',  fieldLabel: 'Name', name: 'user[name]', allowBlank:false},
+				          {xtype:'textfield', fieldLabel: 'Login', name: 'user[login]', allowBlank:false},
+				          comboCompanies,
+						  {xtype:'textfield', fieldLabel: ' Company Description', name: 'user[company_description]', allowBlank:true},
+						  {xtype:'textfield', fieldLabel: 'Contact phone', name: 'user[contact_phone]', allowBlank:true},
+						  {xtype:'textfield', fieldLabel: 'Comments', name: 'user[comments]', allowBlank:true},
+				          {xtype:'textfield', fieldLabel: 'E-mail', name: 'user[email]', allowBlank:false },
+				          {xtype:'textfield', fieldLabel: 'Password', name: 'user[password]', inputType: 'password', id: 'new_user_password', allowBlank:false},
+				          {xtype:'textfield', fieldLabel: 'Confirm Password', name: 'user[password_confirmation]', inputType: 'password', initialPasswordField: 'new_user_password', allowBlank: false},
+				          statusCombo,
+		                  {xtype:'datefield', fieldLabel: 'Expiration', name: 'user[expiration]', allowBlank:false}
+		                 ]
+                 }],
+	      	buttons: [{text: 'Create User',
+	                 handler:function()
+	                   {if (form_newUsers.getForm().isValid())
+	                       {form_newUsers.getForm().submit
+	                         ({url:'<%= url_for (:controller => 'users', :action => 'create') %>',
+	                           waitMsg:'Saving Data...',
+	                           success: function(){
+	                              Ext.Msg.alert('User added','The user has been successfully created');
+	                              updateSubTab('tab_users','sub_tab_users','Users','<%= users_path %>');
+	                              closeSubTab('tab_users','sub_tab_users_new');},
+	                           failure: function(form, action)
+	                              {if (action.failureType == 'server')
+	                                  {msg = String(Ext.util.JSON.decode(action.response.responseText));
+	                                   Ext.Msg.alert('Validation Error', msg);}
+	                               else
+	                                  {Ext.Msg.alert('Error', 'There has been a problem while creating this request. Contact the system administrator.');}
+	                              }
+	                         });
+	                       }
+	                   }
+	                },
+	                {text: 'Cancel',
+	                 handler:function(){closeSubTab('tab_users','sub_tab_users_new');}
+	               }]
+	    });
+    form_newUsers.render( 'area_form_newUsers');
+</script>
+<br/>
+<div id="area_form_newUsers" style="float:left;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div id="result"></div>
 
 <% form_remote_tag :url => '/fibers/create_table', :update => "result" do -%>
+
+<!--
 Quantity of Fibers: <input type="text" id="fibers_qty" val name="qty" value="1" size="5" style="text-align: center" />
-<input type="button" onclick="setFibersTable();" value="Set!" />
+<input type="button" onclick="setFibersTable();" value="Set!" />-->
 
 	<input type="hidden" name="span_id"   id="span_id"   value="<%= @span.id %>" />
 	<input type="hidden" name="site_a_id" id="site_a_id" value="<%= @span.site_a.id %>" />
 	<input type="hidden" name="site_b_id" id="site_b_id" value="<%= @span.site_b.id %>" />
-	<table>
-		<th bgcolor="silver" colspan="10" style="text-align: center;"><b><%= @span.site_a.name %><b></th>
-		<th colspan="1" style="text-align: center;"></th>
-		<th bgcolor=silver colspan="8" style="text-align: center;"><b><%= @span.site_b.name %><b></th>
-		<tr>
-			<th>Cable</th>
-			<td>-</td>
-			<th>Floor</th>
-			<th>Room</th>
-			<th>Line</th>
-			<th>Rack</th>
-			<th>Sub</th>
-			<th>Group</th>
-			<th>Connector</th>
-			<th>Fiber A</th>
-			<td> </td>
-			<th>Fiber B</th>
-			<th>Floor</th>
-			<th>Room</th>
-			<th>Line</th>
-			<th>Rack</th>
-			<th>Sub</th>
-			<th>Group</th>
-			<th>Connector</th>
-		</tr>
-		<tr>
-			<td><input name="fiber[][cable_name]" id="cable1" type="text" size="4" value="<%= @cable.name if @cable %>" /></td>
-			<td>-</td>
-			<td><input name="fiber[][floorA]" id="floorA1" type="text" size="4" /></td>
-			<td><input name="fiber[][roomA]" id="roomA1" type="text" size="4" /></td>
-			<td><input name="fiber[][lineA]" id="lineA1" type="text" size="4" /></td>
-			<td><input name="fiber[][rackA]" id="rackA1" type="text" size="4" /></td>
-			<td><input name="fiber[][subA]" id="subA1" type="text" size="4" /></td>
-			<td><input name="fiber[][grupoA]" id="grupoA1" type="text" size="4" /></td>
-			<td><input name="fiber[][connectA]" id="connectA1" type="text" size="4" /></td>
-			<td><input name="fiber[][number_a]" id="fiberA1" type="text" size="4" /></td>
-			<td>-</td>
-			<td><input name="fiber[][number_b]" id="fiberB1" type="text" size="4" /></td>
-			<td><input name="fiber[][floorB]" id="floorB1" type="text" size="4" /></td>
-			<td><input name="fiber[][roomB]" id="roomB1" type="text" size="4" /></td>
-			<td><input name="fiber[][lineB]" id="lineB1" type="text" size="4" /></td>
-			<td><input name="fiber[][rackB]" id="rackB1" type="text" size="4" /></td>
-			<td><input name="fiber[][subB]" id="subB1" type="text" size="4" /></td>
-			<td><input name="fiber[][grupoB]" id="grupoB1" type="text" size="4" /></td>
-			<td><input name="fiber[][connectB]" id="connectB1" type="text" size="4" /></td>
-		</tr>
-	</table>
 
-	<div id="fibers_table"></div>
-
-	<%= submit_tag 'Save' %>
+	<fieldset><legend>Add fiber</legend>
+		<table>
+			<th bgcolor="silver" colspan="10" style="text-align: center;"><b><%= @span.site_a.name %><b></th>
+			<th colspan="1" style="text-align: center;"></th>
+			<th bgcolor=silver colspan="8" style="text-align: center;"><b><%= @span.site_b.name %><b></th>
+			<tr>
+				<th>Cable</th>
+				<th>-</th>
+				<th>Floor</th>
+				<th>Room</th>
+				<th>Line</th>
+				<th>Rack</th>
+				<th>Sub</th>
+				<th>Group</th>
+				<th>Connector</th>
+				<th>Fiber A</th>
+				<th>-</th>
+				<th>Fiber B</th>
+				<th>Floor</th>
+				<th>Room</th>
+				<th>Line</th>
+				<th>Rack</th>
+				<th>Sub</th>
+				<th>Group</th>
+				<th>Connector</th>
+			</tr>
+			
+			<tr>
+				<td><input name="fiber[][cable_name]" id="cable1" type="text" size="4" value="<%= @cable.name if @cable %>" /></td>
+				<td>-</td>
+				<td><input name="fiber[][floorA]" id="floorA1" type="text" size="4" /></td>
+				<td><input name="fiber[][roomA]" id="roomA1" type="text" size="4" /></td>
+				<td><input name="fiber[][lineA]" id="lineA1" type="text" size="4" /></td>
+				<td><input name="fiber[][rackA]" id="rackA1" type="text" size="4" /></td>
+				<td><input name="fiber[][subA]" id="subA1" type="text" size="4" /></td>
+				<td><input name="fiber[][groupA]" id="groupA1" type="text" size="4" /></td>
+				<td><input name="fiber[][connectA]" id="connectA1" type="text" size="4" /></td>
+				<td><input name="fiber[][number_a]" id="fiberA1" type="text" size="4" /></td>
+				<td>-</td>
+				<td><input name="fiber[][number_b]" id="fiberB1" type="text" size="4" /></td>
+				<td><input name="fiber[][floorB]" id="floorB1" type="text" size="4" /></td>
+				<td><input name="fiber[][roomB]" id="roomB1" type="text" size="4" /></td>
+				<td><input name="fiber[][lineB]" id="lineB1" type="text" size="4" /></td>
+				<td><input name="fiber[][rackB]" id="rackB1" type="text" size="4" /></td>
+				<td><input name="fiber[][subB]" id="subB1" type="text" size="4" /></td>
+				<td><input name="fiber[][groupB]" id="groupB1" type="text" size="4" /></td>
+				<td><input name="fiber[][connectB]" id="connectB1" type="text" size="4" /></td>
+			</tr>
+			
+		</table>
+		<%= submit_tag 'Save' %>
+	</fieldset>
 <% end%>
 
 <script type="text/javascript">
@@ -78,7 +158,7 @@ Quantity of Fibers: <input type="text" id="fibers_qty" val name="qty" value="1" 
 		var lineA =      document.getElementById('lineA1').value;
 		var rackA =      document.getElementById('rackA1').value;
 		var subA =       document.getElementById('subA1').value;
-		var grupoA =     document.getElementById('grupoA1').value;
+		var groupA =     document.getElementById('groupA1').value;
 		var connectA =   document.getElementById('connectA1').value;
 		var fiberA =     document.getElementById('fiberA1').value;
 		var fiberB =     document.getElementById('fiberB1').value;
@@ -87,7 +167,7 @@ Quantity of Fibers: <input type="text" id="fibers_qty" val name="qty" value="1" 
 		var lineB =      document.getElementById('lineB1').value;
 		var rackB =      document.getElementById('rackB1').value;
 		var subB =       document.getElementById('subB1').value;
-		var grupoB =     document.getElementById('grupoB1').value;
+		var groupB =     document.getElementById('groupB1').value;
 		var connectB =   document.getElementById('connectB1').value;
 		var qty =        document.getElementById('fibers_qty').value;
 		var span_id =    document.getElementById('span_id').value;
@@ -108,7 +188,7 @@ Quantity of Fibers: <input type="text" id="fibers_qty" val name="qty" value="1" 
 					'&lineA='+lineA+
 					'&rackA='+rackA+
 					'&subA='+subA+
-					'&grupoA='+grupoA+
+					'&groupA='+groupA+
 					'&connectA='+connectA+
 					'&fiberA='+fiberA+
 					'&fiberB='+fiberB+
@@ -117,7 +197,7 @@ Quantity of Fibers: <input type="text" id="fibers_qty" val name="qty" value="1" 
 					'&lineB='+lineB+
 					'&rackB='+rackB+
 					'&subB='+subB+
-					'&grupoB='+grupoB+
+					'&groupB='+groupB+
 					'&connectB='+connectB+
 					'&span_id='+span_id+
 					'&site_a_id='+site_a_id+

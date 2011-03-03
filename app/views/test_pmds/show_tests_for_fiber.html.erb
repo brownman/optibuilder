@@ -1,0 +1,185 @@
+<div id="area_<%= @fiber.id %>" class="area"><!-- TabPanel area --></div>
+
+
+	<div id="ext-comp-1052" class=" x-tab-panel" >
+
+			<div id="test_pmd_list_<%= @fiber.id %>" class="x-hide-display">
+			<div class="ExtPage ShowPage">
+
+					<fieldset class="tests">
+							<legend>
+								Tests PMD's
+							</legend>
+							<table class="tests">
+
+							<tr>
+							  <th>Project:</th>
+								 <td><%=h @fiber.cable.span.project.name %></td>
+							</tr>
+
+							<tr>
+							  <th>Customer:</th>
+										<td><%=h @fiber.cable.span.project.customer.name %></td>
+							</tr>
+							<tr>
+							  <th>Cable:</th>
+								 <td><%=h @fiber.cable.name %></td>
+							</tr>
+							<tr>
+							  <th>Fiber:</th>
+								 <td><%=h @fiber.number_a %>-<%=h @fiber.number_b %></td>
+							</tr>
+							</table>
+							<div id="table_container">
+								<table class="tests1">
+									 <tr>
+									 	<th>Site A:</th>
+								  		 <td><%=h @fiber.cable.span.site_a.name %></td>
+								  	 </tr>
+								  	 <tr>
+								  	 	<th>Site B:</th>
+									    <td><%=h @fiber.cable.span.site_b.name %></td>
+									 </tr>
+							</table></br>
+							<table class="tests2">
+										<tr>
+									    	<th>Position A:</th>
+									  	 	<td><%=h @fiber.number_a %></td>
+										</tr>
+										<tr>
+									  	  	<th>Position B:</th>
+									  		<td><%=h @fiber.number_b %></td>
+									  	</tr>
+							</table></br>
+							<table class="tests3">
+										<tr>
+									    	<th>Subrack A:</th>
+									  	 	<td><%=h @fiber.subrack_a_id %></td>
+										</tr>
+										<tr>
+									  	  	<th>Subrack B:</th>
+									  		<td><%=h @fiber.subrack_b_id %></td>
+									  	</tr></br>
+							</table>
+						</fieldset>
+					</div>
+
+
+
+
+
+		<% if @fiber.test_pmds.count > 0 %>
+				<div class="action"><a class="link" href="#" onclick="addTestTab('sub_tab_test_pmds_new', 'New Test Pmd', '<%= url_for(:action => "new", :query=>@fiber.id) %>', 'newIcon');" >Add New Test PMD </a></div>
+			<table class="envolved">
+					<th></th>
+					<th>Created at</th>
+					<th>Optical Length</th>
+					<th>SET 1A</th>
+					<th>SET 1B</th>
+					<th>SET 1C</th>
+					<th>SET 2A</th>
+					<th>SET 2B</th>
+					<th>SET 2C</th>
+					<th>SET 3A</th>
+					<th>SET 3B</th>
+					<th>SET 3C</th>
+					<th></th>
+					<th></th>
+					<% @fiber.test_pmds.each do |u| %>
+						<tr>
+							<td><a class="link" href="#" onclick="showTestPmdDetails(<%= u.id%> ); return false;"><img src="../images/show.png" title="Show" alt="Show" ></img></a></td>
+							<td><%= u.created_at%></td>
+							<td><%= u.optical_length%></td>
+							<td><%= u.pmd_set1_a%></td>
+							<td><%= u.pmd_set1_b%></td>
+							<td><%= u.pmd_set1_c%></td>
+							<td><%= u.pmd_set2_a%></td>
+							<td><%= u.pmd_set2_b%></td>
+							<td><%= u.pmd_set2_c%></td>
+							<td><%= u.pmd_set3_a%></td>
+							<td><%= u.pmd_set3_b%></td>
+							<td><%= u.pmd_set3_c%></td>
+							<td><a class="link" href="#" onclick="editTestPmd(<%= u.id%> ); return false;"><img src="../images/editar.png" title="Edit" alt="Edit" ></img></a></td>
+							<td><a class="link" href="#" onclick="deleteTestPmd(<%= u.id%> ); return false;"><img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img></a></td>
+						</tr>
+					<% end %>
+				</table>
+			<% else %>
+			<p class="tests">* No Tests PMD for fiber</p><br/>
+
+			<div class="action"><a class="link" href="#" onclick="addTestTab('sub_tab_test_pmds_new', 'New Test Pmd', '<%= url_for(:action => "new", :query=>@fiber.id) %>', 'newIcon');" >Add New Test PMD </a></div>
+			</div>
+
+	<% end %>
+
+	</div>
+</br></br>
+
+
+
+
+
+
+
+		<script type = "text/javascript">
+
+
+			function showTestPmdDetails(id){
+			addTestTab('tab_test_pmds_show_details_'+id, 'Showing TestPmd ' + id, '/test_pmds/show/' + id, 'editIcon');
+			return false;
+			}
+
+
+			function editTestPmd(id){
+				addTestTab('tab_test_pmds_edit_'+id, 'Editing TestPmd ' + id, '/test_pmds/edit/' + id, 'editIcon');
+				return false;
+			}
+
+			function deleteTestPmd(id){
+
+
+				Ext.Msg.confirm('Delete ', 'Confirm delete test_pmd: ' + id, function(btn) {
+				    if (btn == 'yes') {
+					   updateSubTab('tab_test_pmds', 'sub_tab_test_pmds_show_tests_for_fiber_<%= @fiber.id %>', 'Showing Tests PMD for fiber', '/test_pmds/destroy/'+ id);
+				       closeSubTab('tab_test_pmds', 'sub_tab_test_pmds_edit_' + id);
+				    }
+				  });
+				  return false;
+		   }
+		var store_Pmds = createStore('<%= url_for(:controller => "test_pmds", :action => "store", :id => "grid", :query=>@fiber.id) %>',
+													['id','fiber_id','created_at','pmd_set1_a','pmd_set1_b','pmd_set1_c',
+													'pmd_set2_a','pmd_set2_b','pmd_set2_c','pmd_set3_a','pmd_set3_b','pmd_set3_c'],
+													[{name: 'id',  mapping: 'id'},
+													{name: 'fiber_id',  mapping: 'fiber_id'},
+													{name: 'created_at',  mapping: 'created_at'},
+													{name: 'pmd_set1_a',  mapping: 'pmd_set1_a'},
+													{name: 'pmd_set1_b',  mapping: 'pmd_set1_b'},
+													{name: 'pmd_set1_c',  mapping: 'pmd_set1_c'},
+													{name: 'pmd_set2_a',  mapping: 'pmd_set2_a'},
+													{name: 'pmd_set2_b',  mapping: 'pmd_set2_b'},
+													{name: 'pmd_set2_c',  mapping: 'pmd_set2_c'},
+													{name: 'pmd_set3_a',  mapping: 'pmd_set3_a'},
+													{name: 'pmd_set3_b',  mapping: 'pmd_set3_b'},
+													{name: 'pmd_set3_c',  mapping: 'pmd_set3_c'}] );
+		var tabs = new Ext.TabPanel({
+				    renderTo: 'area_<%= @fiber.id %>',
+				    activeTab: 0,
+					id:"test_tab_panel",
+				    width: 800,
+				    items: [{
+						autoHeight: true,
+			    	    bodyCfg: {cls: 'tabContent'},
+			    	    id:"list_tests_pmds",
+				        title: 'List Tests for Fiber',
+				        contentEl: 'test_pmd_list_<%= @fiber.id %>'
+				    }]
+				});
+
+
+
+
+</script>
+
+<%= render :partial => "layouts/reports_footer" if params[:print] %>
+
+

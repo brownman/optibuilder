@@ -51,8 +51,9 @@
 	}
 
 	var store_Sites = createStore(	'<%= url_for(:controller => "sites", :action => "store", :id => "grid") %>',
-											['id', 'name', 'acronym'],
+											['id', 'name', 'acronym','owner_name'],
 											[{name: 'id',  mapping: 'id'}
+											,{name: 'owner_name',  mapping: 'owner_name'}
 											,{name: 'name',  mapping: 'name'}
 											,{name: 'acronym',  mapping: 'acronym'}]);
 
@@ -63,7 +64,8 @@
 	var cmdBar = createCmdBar(btnsSites);
 	var cols =
 			[
-       		{id: 'link', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'owner', header: 'Name', dataIndex: 'owner_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'site', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 220},
        		{id: 'acronym', header: 'Acronym', dataIndex: 'acronym', sortable: true, renderer: linkShow, width: 220},
       		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
       		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}

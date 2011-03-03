@@ -5,14 +5,14 @@
 		<head>
 		  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 		  <% unless params[:print] %>
-			  <title>Test Pmds: <%= controller.action_name %></title>
+			  <title>Sites: <%= controller.action_name %></title>
 		 <% end %>
 		</head>
 		<body>
 
 		<p style="color: green"><%= notice %></p>
 
-		<div class="ExtPage">
+		<div class="ExtPage<%= ' ShowPage' if action_name.downcase == 'show' %>">
 			<%= yield %>
 		</div>
 

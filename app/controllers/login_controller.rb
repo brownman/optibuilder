@@ -15,7 +15,7 @@ class LoginController < ApplicationController
         roles = []
         session[:user_id] = user.id
         user.users_projects.each do |p|
-          roles << { :project_id => p.project_id, :role_id => p.role }
+          roles << { :project_id => p.project_id, :role => p.role }
         end
         session[:roles] = roles
         redirect_to :controller => "home"

@@ -5,5 +5,5 @@ class Fiber < ActiveRecord::Base
   has_many :test_attenuation
   has_many :test_chromatic_disp
   has_many :test_orl
-  has_many :test_pmd
+  has_many :test_pmds
 end

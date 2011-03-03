@@ -20,6 +20,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def get_project_role(proj)
+     has_project = session[:roles].collect {|r| r[:project_id] }.include?(proj)
+     session[:roles][(session[:roles].collect {|r| r[:project_id] }.index(proj))][:role] if has_project
+  end
+
   def get_token
     "abc"+Time.now.strftime("%d%m%Y").to_s
   end

@@ -27,11 +27,12 @@ class FibersController < ApplicationController
          conditions = ""
          if session_user.id == 1
              conditions = ""
-             conditions = ["prj.name LIKE ? OR sitea.name LIKE ? OR siteb.name LIKE ?", "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
+             conditions = ["prj.name LIKE ? OR sitea.name LIKE ? OR siteb.name LIKE ? OR cab.name LIKE ?",
+                           "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
            else
              conditions = "project_id IN (SELECT project_id FROM users_projects WHERE user_id = "+session_user.id.to_s+")"
-             conditions =  ["(prj.id in (SELECT users_projects.project_id FROM users_projects WHERE users_projects.user_id="+session_user.id.to_s+")) AND (prj.name LIKE ? OR sitea.name LIKE ? OR siteb.name LIKE ?)",
-                            "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
+             conditions =  ["(prj.id in (SELECT users_projects.project_id FROM users_projects WHERE users_projects.user_id="+session_user.id.to_s+")) AND (prj.name LIKE ? OR sitea.name LIKE ? OR siteb.name LIKE ? OR cab.name LIKE ?)",
+                            "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
          end
 
          fibers = Fiber.all(
@@ -58,7 +59,7 @@ class FibersController < ApplicationController
     @lineA =    params[:lineA].to_s
     @rackA =    params[:rackA].to_s
     @subA =     params[:subA].to_s
-    @grupoA =   params[:grupoA].to_s
+    @groupA =   params[:groupA].to_s
     @connectA = params[:connectA].to_s
     @fiberA =   params[:fiberA].to_i
     @fiberB =   params[:fiberB].to_i
@@ -67,7 +68,7 @@ class FibersController < ApplicationController
     @lineB =    params[:lineB].to_s
     @rackB =    params[:rackB].to_s
     @subB =     params[:subB].to_s
-    @grupoB =   params[:grupoB].to_s
+    @groupB =   params[:groupB].to_s
     @connectB = params[:connectB].to_s
 
     render(:partial => "fibers_table", :locals => { :qty => @qty })
@@ -123,67 +124,68 @@ class FibersController < ApplicationController
   # POST /Fibers.xml
   def create_table
     fibers = params[:fiber]
-    puts ">>>>>>>>>>>>>>" + params[:fiber][1].to_s
     span_id = params[:span_id]
     site_a_id = params[:site_a_id]
     site_b_id = params[:site_b_id]
     @qty = params[:qty].to_i
 
     has_error = false
-    Fiber.transaction do
+#    Fiber.transaction do
 
-contador = 0
+#contador = 0
 
-    begin
-      fibers.each do |f|
-          cable = Cable.first(:conditions => ["name = ? AND span_id = ?", f[:cable_name], span_id])
-          subrack_A = Subrack.first(:conditions => ["name = ? AND site_id = ? AND floor = ? AND room = ? AND line = ? AND rack = ? AND grupo = ? AND connector = ? ",
-                                                  f[:subA], site_a_id, f[:floorA], f[:roomA], f[:lineA], f[:rackA], f[:grupoA], f[:connectA]])
-          subrack_B = Subrack.first(:conditions => ["name = ? AND site_id = ? AND floor = ? AND room = ? AND line = ? AND rack = ? AND grupo = ? AND connector = ? ",
-                                                  f[:subB], site_b_id, f[:floorB], f[:roomB], f[:lineB], f[:rackB], f[:grupoB], f[:connectB]])
+#    begin
+puts ">>>>>>>>>>>>>>" + @qty.to_s
+ #     fibers.each do |f|
+      1.upto(@qty) do |counter|    
+#          cable = Cable.first(:conditions => ["name = ? AND span_id = ?", f[:cable_name], span_id])
+#          subrack_A = Subrack.first(:conditions => ["name = ? AND site_id = ? AND floor = ? AND room = ? AND line = ? AND rack = ? AND grupo = ? AND connector = ? ",
+#                                                  f[:subA], site_a_id, f[:floorA], f[:roomA], f[:lineA], f[:rackA], f[:groupA], f[:connectA]])
+#          subrack_B = Subrack.first(:conditions => ["name = ? AND site_id = ? AND floor = ? AND room = ? AND line = ? AND rack = ? AND grupo = ? AND connector = ? ",
+#                                                  f[:subB], site_b_id, f[:floorB], f[:roomB], f[:lineB], f[:rackB], f[:groupB], f[:connectB]])
 
-contador = contador + 1
-puts "Iteração ==================> "+contador.to_s
+puts "Iteração ==================> "+counter.to_s
 
-puts "cable.name = "+f[:cable_name]
-puts "cable.span_id = "+span_id.to_s
-puts "subrack_A.name = "+f[:subA].to_s
-puts "subrack_A.floor = "+ f[:floorA].to_s
-puts "subrack_A.room = "+ f[:roomA].to_s
-puts "subrack_A.line = "+ f[:lineA].to_s
-puts "subrack_A.rack = "+ f[:rackA].to_s
-puts "subrack_A.grupo = "+ f[:grupoA].to_s
-puts "subrack_A.connector = "+ f[:connectA].to_s
-puts "subrack_A.site_id = "+ site_a_id
-puts "subrack_B.name = "+ f[:subB].to_s
-puts "subrack_B.floor = "+ f[:floorB].to_s
-puts "subrack_B.room = "+ f[:roomB].to_s
-puts "subrack_B.line = "+ f[:lineB].to_s
-puts "subrack_B.rack = "+ f[:rackB].to_s
-puts "subrack_B.grupo = "+ f[:grupoB].to_s
-puts "subrack_B.connector = "+ f[:connectB].to_s
-puts "subrack_B.site_id = "+ site_b_id
-#puts "fiber.cable_id = "+ cable.id.to_s
-puts "fiber.number_a = "+ f[:number_a].to_s
-puts "fiber.number_b = "+ f[:number_b].to_s
-#puts "fiber.subrack_a_id = "+ subrack_A.id.to_s
-#puts "fiber.subrack_b_id = "+ subrack_B.id.to_s
-#puts "fiber.status = "+ "C"
+puts "cable.name = "+ params[:fiber][counter-1]["cable_name"].to_s
+puts "cable.span_id = "+ params[:fiber][counter + counter-1].to_s
+#puts "subrack_A.name = "+f[:subA].to_s
+#puts "subrack_A.floor = "+ f[:floorA].to_s
+#puts "subrack_A.room = "+ f[:roomA].to_s
+#puts "subrack_A.line = "+ f[:lineA].to_s
+#puts "subrack_A.rack = "+ f[:rackA].to_s
+#puts "subrack_A.group = "+ f[:groupA].to_s
+#puts "subrack_A.connector = "+ f[:connectA].to_s
+#puts "subrack_A.site_id = "+ site_a_id
+#puts "subrack_B.name = "+ f[:subB].to_s
+#puts "subrack_B.floor = "+ f[:floorB].to_s
+#puts "subrack_B.room = "+ f[:roomB].to_s
+#puts "subrack_B.line = "+ f[:lineB].to_s
+#puts "subrack_B.rack = "+ f[:rackB].to_s
+#puts "subrack_B.group = "+ f[:groupB].to_s
+#puts "subrack_B.connector = "+ f[:connectB].to_s
+#puts "subrack_B.site_id = "+ site_b_id
+##puts "fiber.cable_id = "+ cable.id.to_s
+#puts "fiber.number_a = "+ f[:number_a].to_s
+#puts "fiber.number_b = "+ f[:number_b].to_s
+##puts "fiber.subrack_a_id = "+ subrack_A.id.to_s
+##puts "fiber.subrack_b_id = "+ subrack_B.id.to_s
+##puts "fiber.status = "+ "C"
+
 
 
       end
-      rescue
-        has_error = true
-        raise ActiveRecord::Rollback
-      end
-    end
-    return render(:text => "Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.');".to_js) if has_error
-    render(
-      :text =>
-      ( "Ext.Msg.alert('Fibers added','The fibers has been successfully created');"+
-        "closeTab('tab_fibers');"
-      ).to_js
-    )
+#      rescue
+#        has_error = true
+#        raise ActiveRecord::Rollback
+#      end
+#    end
+#    return render(:text => "Ext.Msg.alert('Error','There has been a problem while creating this request! Contact the system administrator.');".to_js) if has_error
+#    render(
+#      :text =>
+#      ( "Ext.Msg.alert('Fibers added','The fibers has been successfully created');"+
+#        "closeTab('tab_fibers');"
+#      ).to_js
+#    )
   end
 
   # POST /Fibers

@@ -162,6 +162,7 @@ function addTab(tabId, title, subtitle, url, icon){
 	}
 };
 
+
 /*************************************************************************
 * @method: Generic function to add a sub-tab into tab to tab panel
 * @author: Ronaldo Possan
@@ -301,6 +302,7 @@ function loadingFailed(el, success, response, options) {
 
 /*************************************************************************
 Function to print  a sub-tab
+* @author:Mariana Souza
 *************************************************************************/
 function printSubTab(mylink,windowname){
 	if (! window.focus)return true;
@@ -312,3 +314,103 @@ function printSubTab(mylink,windowname){
 	   window.open(href,  windowname,'location=0,menubar=1,toolbar=1,scrollbars=1');
 	return false;
 }
+/*************************************************************************
+* @method: Generic function to add a Tab in main tab Panel Test
+* @author: Mariana Souza
+* @since: 2011/03/02
+* @param: tabId(String) *Id for tab
+* @param: title(String) *Title to display on tab
+* @param: subTitle(String) *Subtab title
+* @param: url(String) *Url for page to show on tab content
+* @param: icon[optional](String / CSS Class) *Css class where contain icon for tab
+* @extends: Ext.grid.GridPanel
+* @return: void
+*************************************************************************/
+function addTestTab(tabId, title, url, icon){
+	if ( icon === undefined ) {
+	        icon = "tabIndexIcon";
+    }
+	var tabPanel = Ext.getCmp('test_tab_panel');
+	var tab = tabPanel.getItem(tabId);
+	if(tab){
+		tab.show();
+	}else{
+        tab = tabPanel.add({
+                   title: title,
+                   id: tabId,
+                   iconCls: icon,
+                   width:400,
+                   autoHeight:true,
+                   bodyCfg: {cls: 'tabContent'},
+                   closable:true,
+                   autoScroll:true,
+                   bodyStyle:{overflow:'auto'},
+                   activeTab: 0,
+				   autoLoad: {url: url, callback: loadingFailed, scope: this, scripts: true},
+                   });
+         tab.show();
+        // tabPanel.setActiveTab(tab);
+	}
+};
+
+/*************************************************************************
+* @method: Generic function to update a sub-tab into tab to test tab panel if exists
+* @author: Mariana Souza
+* @since: 2011/03/02
+* @param: tabId(String) *Id of tab
+* @param: subTabId(String) *Id of subtab
+* @param: title(String) *New title for subtab updated
+* @param: url(String) *Url for page to show on tab content
+* @param: icon[optional](String / CSS Class) *Css class where contain icon for tab
+* @extends: Ext.grid.GridPanel
+* @return: void
+*************************************************************************/
+function updateTestTab(tabId) {
+    var tabPanel = Ext.getCmp('test_tab_panel');
+    var tab = tabPanel.getItem(tabId);
+
+
+    if(tab){
+      tab.getUpdater().update({callback: loadingFailed});
+      tab.show();
+    }
+}
+
+/*************************************************************************
+Generic function to close a tab including yours dependentes in cascade for Tests
+* @author: Mariana Souza
+* @since: 2011/03/02
+*************************************************************************/
+function closeTestTab(tabId) {
+  var tabPanel = Ext.getCmp('test_tab_panel');
+  var tab = tabPanel.getItem(tabId);
+    if(tab){ tabPanel.remove(tab); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

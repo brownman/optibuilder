@@ -4,7 +4,7 @@
 	<% end %>
 	<fieldset class="fiberview">
 		<legend class="name">
-			Fiber
+			Fiber <%=h @fiber.number_a %>-<%=h @fiber.number_b %>
 		</legend>
 		<table class="fiberview">
 
@@ -46,8 +46,8 @@
 		  <% end %>
 		</tr>
 		<tr>
-		  <th>Fiber #:</th>
-		  <td><%=h @fiber.number_a %></td>
+		  <th class="p1" > Position A:</th>
+		  <td class="p1" ><%=h @fiber.number_a %></td>
 		</tr>
 		<tr>
 		  <th>Site B:</th>
@@ -59,7 +59,7 @@
 		  <% end %>
 		</tr>
 		<tr>
-		  <th>Fiber #:</th>
+		  <th>Position B:</th>
 		  <td><%=h @fiber.number_b %></td>
 		</tr>
 		</table>

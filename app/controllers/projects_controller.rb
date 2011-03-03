@@ -6,10 +6,12 @@ class ProjectsController < ApplicationController
         list = []
         if session_user.id == 1
             conditions = ""
-            conditions = ["projects.name LIKE ?", "%#{params[:query]}%"] if params[:query]
+            conditions = ["projects.name LIKE ? OR description LIKE ? OR companies.name LIKE ?",
+                         "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
         else
             conditions = "projects.id in (select project_id from users_projects where user_id = "+session_user.id.to_s+")"
-            conditions = ["projects.name LIKE ? and projects.id in (select project_id from users_projects where user_id = "+session_user.id.to_s+")", "%#{params[:query]}%"] if params[:query]
+            conditions = ["projects.name LIKE ? OR description LIKE ? OR companies.name LIKE ? and projects.id in (select project_id from users_projects where user_id = "+session_user.id.to_s+")",
+                         "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
         end
         projects = Project.all(:select =>  "projects.*
                                            ,companies.name AS companies_name",
@@ -18,7 +20,8 @@ class ProjectsController < ApplicationController
                                :limit => params[:limit],
                                :offset => params[:start],
                                :order => "projects.name"
-                        )
+        )
+        list
         total = Project.count(:joins => [:customer, :owner], :conditions => conditions)
         render(:json => {:success => true, :root => projects, :totalCount => total})
       end

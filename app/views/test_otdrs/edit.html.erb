@@ -1,0 +1,12 @@
+<h1>Editing test_otdr</h1>
+
+<% form_for(@test_otdr) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @test_otdr %> |
+<%= link_to 'Back', test_otdrs_path %>

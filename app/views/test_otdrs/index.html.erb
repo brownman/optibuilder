@@ -1,0 +1,107 @@
+<script type = "text/javascript">
+
+	function btnEdit(value, metaData, record, rowIndex){
+		var ret =  '<div align="center">'+
+					'<a href="#" onclick="editTestOtdr(' + rowIndex + ')">'+
+						'<img src="../images/editar.png" title="Edit" alt="Edit" ></img>'+
+					'</a>'+
+				'</div>';
+		return ret;
+	}
+
+	function btnDelete(value, metaData, record, rowIndex, colIndex, store){
+		var ret =
+		    '<div align="center">'+
+				'<a href="#" onclick="deleteTestOtdr(' + rowIndex + ')">'+
+					'<img src="../images/Recycle_empty.png" title="Delete" alt="Delete" ></img>'+
+				'</a>'+
+			'</div>';
+		return ret;
+	}
+
+	function linkShow(value, metaData, record, rowIndex, colIndex, store){
+		return '<div><a href="#" onclick="showTestOtdr(' + rowIndex + ')">' + value + '</a></div>';
+	}
+
+	function editTestOtdr(r){
+		var id = store_TestOtdrs.getAt(r).get('id');
+		var name = store_TestOtdrs.getAt(r).get('test_otdrs_name');
+		addSubTab('tab_test_otdrs', 'sub_tab_test_otdrs_edit_'+id, 'Editing TestOtdr ' + name, '/test_otdrs/edit/' + id, 'editIcon');
+	}
+
+	function deleteTestOtdr(r){
+		var id = store_TestOtdrs.getAt(r).get('id');
+		var name = store_TestOtdrs.getAt(r).get('test_otdrs_name');
+		Ext.Msg.confirm('Delete ', 'Confirm delete test_otdrs: ' + name, function(btn) {
+		    if (btn == 'yes') {
+		      updateSubTab('tab_test_otdrs', 'sub_tab_test_otdrs', 'List', '/TestOtdrs/destroy/' + id);
+		      closeSubTab('tab_test_otdrs', 'sub_tab_test_otdrs_edit_' + id);
+		      closeSubTab('tab_test_otdrs', 'sub_tab_test_otdrs_show_' + id);
+		    }
+		  });
+	}
+
+	function showTestOtdr(r){
+		var id = store_TestOtdrs.getAt(r).get('id');
+		var name = store_TestOtdrs.getAt(r).get('cable_name');
+		addSubTab('tab_test_otdrs', 'sub_tab_test_otdrs_show_'+id, 'Showing' + name, '/test_otdrs/show/' + id, 'showIcon');
+	}
+
+	function addTestOtdrFibers(r){
+		var id = store_TestOtdrs.getAt(r).get('span_id');
+		var test_otdrs_id = store_TestOtdrs.getAt(r).get('id');
+		var name = store_TestOtdrs.getAt(r).get('cable_name');
+		addTab('tab_fibers', 'Fibers', 'List', '<%= fibers_path %>', 'tabFibers');
+		addSubTab('tab_fibers', 'sub_tab_fibers_new_table'+id, 'Adding Tests to '+name, '/test_otdrs/new_table/'+id+'?test_otdrs_id='+test_otdrs_id, 'showIcon');
+	}
+
+	function newTestOtdr(){
+		      addSubTab('tab_test_otdrs', 'sub_tab_test_otdrs_new', 'New TestOtdr', '<%= url_for(:action => "new") %>', 'newIcon');
+	}
+
+	var store_TestOtdrs = createStore(	'<%= url_for(:controller => "test_otdrs", :action => "store", :id => "grid") %>',
+											['id', 'fiber_num_a', 'fiber_num_b', 'status', 'project_name'
+											, 'sub_a_name', 'sub_b_name', 'cable_name', 'site_a_name', 'site_b_name'
+											],
+											[{name: 'id',  mapping: 'id'}
+											,{name: 'project_name',  mapping: 'project_name'}
+											,{name: 'fiber_num_a',  mapping: 'fiber_num_a'}
+											,{name: 'fiber_num_b',  mapping: 'fiber_num_b'}
+											,{name: 'status',  mapping: 'status'}
+											,{name: 'cable_name',  mapping: 'cable_name'}
+											,{name: 'sub_a_name',  mapping: 'sub_a_name'}
+											,{name: 'sub_b_name',  mapping: 'sub_b_name'}
+											,{name: 'site_a_name',  mapping: 'site_a_name'}
+											,{name: 'site_b_name',  mapping: 'site_b_name'}
+                                            ]
+    );
+
+	var pBar = createPBar(store_TestOtdrs, 'TestOtdrs');
+
+	<%= include_buttons_TestOtdrs %>
+	var btnsTestOtdrs = createTestOtdrsBtns();
+	var cmdBar = createCmdBar(btnsTestOtdrs);
+	var cols =
+			[
+       		{id: 'link', header: 'Project', dataIndex: 'project_name', sortable: true, renderer: linkShow, width: 220},
+       		{id: 'link1', header: 'Site A', dataIndex: 'site_a_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link2', header: 'Subrack', dataIndex: 'sub_a_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link3', header: 'Fiber', dataIndex: 'fiber_num_a', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link4', header: 'Cable', dataIndex: 'cable_name', sortable: true, renderer: linkShow, width: 80},
+       		{id: 'link5', header: 'Site B', dataIndex: 'site_b_name', sortable: true, renderer: linkShow, width: 100},
+       		{id: 'link6', header: 'Subrack', dataIndex: 'sub_b_name', sortable: true, renderer: linkShow, width: 80},
+      		{id: 'link7', header: 'Fiber', dataIndex: 'fiber_num_b', sortable: true, renderer: linkShow, width: 50},
+       		{id: 'link8', header: 'Status', dataIndex: 'status', sortable: true, renderer: linkShow, width: 50},
+      		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
+      		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
+      		];
+
+  	var grid_TestOtdrs = createGrid(store_TestOtdrs, 'OTDR Tests Window', cmdBar, pBar, cols);
+	store_TestOtdrs.load({params: {start:0 , limit:10}});
+	grid_TestOtdrs.render('TestOtdrs_index_grid_content');
+
+</script>
+
+<div id = "TestOtdrs_index_grid_content">
+  	<!-- AREA TO RENDER GRID  -->
+</div>

@@ -51,9 +51,12 @@
 	}
 
 	var store_Projects = createStore(	'<%= url_for(:controller => "projects", :action => "store", :id => "grid") %>',
-											['id', 'name', 'description'],
+											['id', 'name', 'description', 'companies_name', 'begin_date', 'end_date'],
 											[{name: 'id',  mapping: 'id'}
 											,{name: 'name',  mapping: 'name'}
+											,{name: 'companies_name',  mapping: 'companies_name'}
+											,{name: 'begin_date',  mapping: 'begin_date'}
+											,{name: 'end_date',  mapping: 'end_date'}
 											,{name: 'description',  mapping: 'description'}]);
 
 	var pBar = createPBar(store_Projects, 'projects');
@@ -63,8 +66,11 @@
 	var cmdBar = createCmdBar(btnsProjects);
 	var cols =
 			[
-      		{id: 'link', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 220},
-      		{id: 'description', header: 'Description', dataIndex: 'description', sortable: true, renderer: linkShow, width: 500},
+      		{id: 'companies_name', header: 'Customer', dataIndex: 'companies_name', sortable: true, renderer: linkShow, width: 210},
+      		{id: 'project', header: 'Name', dataIndex: 'name', sortable: true, renderer: linkShow, width: 210},
+      		{id: 'description', header: 'Description', dataIndex: 'description', sortable: true, renderer: linkShow, width: 380},
+      		{id: 'begin_date', header: 'Begin Date', dataIndex: 'begin_date', sortable: true, width: 70},
+      		{id: 'end_date', header: 'End Date', dataIndex: 'end_date', sortable: true, width: 70},
       		{id: 'edit', dataIndex: 'edit', renderer: btnEdit, width: 40},
       		{id: 'delete', dataIndex: 'delete', renderer: btnDelete, width: 40}
       		];

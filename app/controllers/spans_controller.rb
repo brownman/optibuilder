@@ -5,10 +5,11 @@ class SpansController < ApplicationController
       list = []
       if session_user.id == 1
           conditions = ""
-          conditions = ["sites.name LIKE ?", "%#{params[:query]}%"] if params[:query]
+          conditions = ["sites.name LIKE ? OR site_bs_spans.name LIKE ? OR projects.name LIKE ? OR companies.name LIKE ?",
+                        "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
         else
           conditions = "project_id IN (SELECT project_id FROM users_projects WHERE user_id = "+session_user.id.to_s+")"
-          conditions =  ["(companies.name LIKE ? OR projects.name LIKE ? OR sites.name LIKE ? OR site_bs_spans.name LIKE ?) AND (project_id IN (SELECT project_id FROM users_projects WHERE user_id = "+session_user.id.to_s+"))",
+          conditions =  ["(sites.name LIKE ? OR site_bs_spans.name LIKE ? OR projects.name LIKE ? OR companies.name LIKE ?) AND (project_id IN (SELECT project_id FROM users_projects WHERE user_id = "+session_user.id.to_s+"))",
                          "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
       end
       conditions =  ["site_a_id = ? OR site_b_id = ?", "#{params[:site_id]}", "#{params[:site_id]}"] if params[:site_id]

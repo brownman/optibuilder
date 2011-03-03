@@ -1,71 +1,90 @@
-<h1>New test_pmd</h1>
 
-<% form_for(@test_pmd) do |f| %>
-  <%= f.error_messages %>
+<script type="text/javascript">
 
-  <p>
-    <%= f.label :fiber_id %><br />
-    <%= f.text_field :fiber_id %>
-  </p>
-  <p>
-    <%= f.label :pmd_set1_a %><br />
-    <%= f.text_field :pmd_set1_a %>
-  </p>
-  <p>
-    <%= f.label :pmd_set1_b %><br />
-    <%= f.text_field :pmd_set1_b %>
-  </p>
-  <p>
-    <%= f.label :pmd_set1_c %><br />
-    <%= f.text_field :pmd_set1_c %>
-  </p>
-  <p>
-    <%= f.label :pmd_set2_a %><br />
-    <%= f.text_field :pmd_set2_a %>
-  </p>
-  <p>
-    <%= f.label :pmd_set2_b %><br />
-    <%= f.text_field :pmd_set2_b %>
-  </p>
-  <p>
-    <%= f.label :pmd_set3_c %><br />
-    <%= f.text_field :pmd_set3_c %>
-  </p>
-  <p>
-    <%= f.label :pmd_set3_a %><br />
-    <%= f.text_field :pmd_set3_a %>
-  </p>
-  <p>
-    <%= f.label :pmd_set2_b %><br />
-    <%= f.text_field :pmd_set2_b %>
-  </p>
-  <p>
-    <%= f.label :pmd_set3_c %><br />
-    <%= f.text_field :pmd_set3_c %>
-  </p>
-  <p>
-    <%= f.label :pmd_mean %><br />
-    <%= f.text_field :pmd_mean %>
-  </p>
-  <p>
-    <%= f.label :pmd_max %><br />
-    <%= f.text_field :pmd_max %>
-  </p>
-  <p>
-    <%= f.label :pmd_std %><br />
-    <%= f.text_field :pmd_std %>
-  </p>
-  <p>
-    <%= f.label :pmd_span %><br />
-    <%= f.text_field :pmd_span %>
-  </p>
-  <p>
-    <%= f.label :pmd_coef %><br />
-    <%= f.text_field :pmd_coef %>
-  </p>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', test_pmds_path %>
+    var form_newTestPmd = new Ext.FormPanel
+	    ({labelWidth: 121,
+	      frame:true,
+	      title: 'Create a new Test PMD using the form below',
+	      bodyStyle:'padding:5px 5px 0',
+	      style: "margin: 0px auto 0px auto;",
+	      width: 400,
+	      defaultType: 'textfield',
+	      monitorValid: true,
+	      items: [{xtype:"fieldset",
+                   title:"Test PMD",
+                   autoHeight: true,
+                   width: 380,
+                   defaults: {width:200},
+                   items:[{xtype:'textfield',  fieldLabel: 'Optical Length', name: 'test_pmd[optical_length]', allowBlank:false},
+		                 ]
+                 },
+	      			{xtype:"fieldset", title:"PMD READING SET 1 ", autoHeight:true, width: 380,
+                    items:[{layout: 'column',
+                            items:[ {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield",fieldLabel: 'A', name: 'test_pmd[pmd_set1_a]', width: 70, allowBlank:false}]
+                                   },
+                                   {labelWidth:20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'B',name: 'test_pmd[pmd_set1_b]', width: 70, allowBlank:false}]
+                                   },
+                                    {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield",fieldLabel: 'C', name: 'test_pmd[pmd_set1_c]', width: 70, allowBlank:false}]
+                                   }]
+                          }]
+                   },{xtype:"fieldset", title:"PMD READING SET 2 ", autoHeight:true, width: 380,
+                    items:[{layout: 'column',
+                            items:[ {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield",fieldLabel: 'A', name: 'test_pmd[pmd_set2_a]', width: 70, allowBlank:false}]
+                                   },
+                                   {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'B',name: 'test_pmd[pmd_set2_b]', width: 70, allowBlank:false}]
+                                   },
+                                    {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield",fieldLabel: 'C', name: 'test_pmd[pmd_set2_c]', width: 70, allowBlank:false}]
+                                   }]
+                          }]
+                   },
+                   {xtype:"fieldset", title:"PMD READING SET 3 ", autoHeight:true, width: 380,
+                    items:[{layout: 'column',
+                            items:[ {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield", fieldLabel: 'A',name: 'test_pmd[pmd_set3_a]', width: 70, allowBlank:false}]
+                                   },
+                                   {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield",fieldLabel: 'B', name: 'test_pmd[pmd_set3_b]', width: 70, allowBlank:false}]
+                                   },
+                                    {labelWidth: 20, columnWidth:0.32, layout:'form'
+                                   ,items:[{xtype:"textfield",fieldLabel: 'C', name: 'test_pmd[pmd_set3_c]', width: 70, allowBlank:false}]
+                                   }]
+                          }]
+                   }
+               ],
+	      buttons: [{text: 'Create TestPMD',
+	                 handler:function()
+	                   {if (form_newTestPmd.getForm().isValid())
+	                       {form_newTestPmd.getForm().submit
+	                         ({url:'<%= url_for (:controller => 'test_pmds', :action => 'create') %>',
+	                           waitMsg:'Saving Data...',
+	                           success: function(){
+	                              Ext.Msg.alert('Test PMD added','The Test PMD  has been successfully created');
+									updateSubTab('tab_test_pmds','sub_tab_test_pmds_show_tests_for_fiber_<%= @fiber.id %>','Showing Tests PMD for fiber','/test_pmds/show_tests_for_fiber/<%= @fiber.id %>');
+	                                closeTestTab('sub_tab_test_pmds_new');
+	                                closeSubTab('tab_test_pmds','sub_tab_test_pmds_new');},
+	                           failure: function(form, action)
+	                              {if (action.failureType == 'server')
+	                                  {msg = String(Ext.util.JSON.decode(action.response.responseText));
+	                                   Ext.Msg.alert('Validation Error', msg);}
+	                               else
+	                                  {Ext.Msg.alert('Error', 'There has been a problem while creating this request. Contact the system administrator.');}
+	                              }
+	                         });
+	                       }
+	                   }
+	                },
+	                {text: 'Cancel',
+	                 handler:function(){closeTestTab('sub_tab_test_pmds_new');
+	                 					closeSubTab('tab_test_pmds','sub_tab_test_pmds_new');}
+	               }]
+	    });
+    form_newTestPmd.render('area_form_newTestPmd');
+</script>
+<br/>
+<div id="area_form_newTestPmd" style="float:left;"></div>

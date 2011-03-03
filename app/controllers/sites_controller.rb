@@ -6,11 +6,12 @@ class SitesController < ApplicationController
          list = []
          if session_user.id == 1
              conditions = ""
-             conditions = ["sites.name LIKE ?", "%#{params[:query]}%"] if params[:query]
+             conditions = ["sites.name LIKE ? OR sites.acronym LIKE ? OR companies.name LIKE ?",
+                           "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
          else
              conditions = "sites.id IN (SELECT site_a_id FROM spans s, users_projects u WHERE s.project_id = u.project_id AND u.user_id = "+session_user.id.to_s+" UNION SELECT site_b_id FROM spans s, users_projects u WHERE s.project_id = u.project_id AND u.user_id = "+session_user.id.to_s+")"
-             conditions = ["sites.name LIKE ? AND sites.id IN (SELECT site_a_id FROM spans s, users_projects u WHERE s.project_id = u.project_id AND u.user_id = "+session_user.id.to_s+" UNION SELECT site_b_id FROM spans s, users_projects u WHERE s.project_id = u.project_id AND u.user_id = "+session_user.id.to_s+")",
-                           "%#{params[:query]}%"] if params[:query]
+             conditions = ["sites.name LIKE ? OR sites.acronym LIKE ? OR companies.name LIKE ? AND sites.id IN (SELECT site_a_id FROM spans s, users_projects u WHERE s.project_id = u.project_id AND u.user_id = "+session_user.id.to_s+" UNION SELECT site_b_id FROM spans s, users_projects u WHERE s.project_id = u.project_id AND u.user_id = "+session_user.id.to_s+")",
+                           "%#{params[:query]}%", "%#{params[:query]}%", "%#{params[:query]}%"] if params[:query]
          end
 # APARENTEMENTE ISSO NÃO É USADO!!! deixei comentado pra ver se faz falta (18/01/2011)
 #         conditions = ["sites.id IN (SELECT site_a_id FROM spans WHERE project_id = ? UNION SELECT site_b_id FROM spans WHERE project_id = ? )",

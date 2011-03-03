@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110119191024) do
+ActiveRecord::Schema.define(:version => 20110303140947) do
 
   create_table "addresses", :force => true do |t|
     t.string   "country",    :limit => 20
@@ -23,18 +23,6 @@ ActiveRecord::Schema.define(:version => 20110119191024) do
     t.string   "longitude"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "attachments", :force => true do |t|
-    t.integer  "project_id"
-    t.integer  "span_id"
-    t.integer  "subrack_id"
-    t.integer  "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "file_name"
-    t.string   "content_type"
-    t.integer  "file_size"
   end
 
   create_table "cables", :force => true do |t|
@@ -68,15 +56,14 @@ ActiveRecord::Schema.define(:version => 20110119191024) do
   end
 
   create_table "fibers", :force => true do |t|
-    t.integer  "number"
-    t.integer  "status"
-    t.integer  "span_id"
-    t.integer  "fiber_end_id"
-    t.integer  "subrack_name_id"
-    t.boolean  "jumper"
+    t.integer  "number_a"
+    t.integer  "subrack_a_id"
+    t.integer  "number_b"
+    t.integer  "subrack_b_id"
+    t.string   "status",       :limit => 1
+    t.integer  "cable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cable_id"
   end
 
   create_table "jumpers", :force => true do |t|
@@ -152,21 +139,20 @@ ActiveRecord::Schema.define(:version => 20110119191024) do
   end
 
   create_table "subracks", :force => true do |t|
-    t.string   "name",            :limit => 20
+    t.integer  "site_id"
     t.string   "room",            :limit => 5
     t.string   "floor",           :limit => 5
     t.string   "line",            :limit => 5
     t.string   "rack",            :limit => 5
-    t.string   "group",           :limit => 5
+    t.string   "grupo",           :limit => 5
     t.string   "connector",       :limit => 5
-    t.integer  "total_fibers"
-    t.integer  "released_fibers"
-    t.integer  "broken_fibers"
-    t.integer  "site_id"
+    t.integer  "total_fibers",    :limit => 1
+    t.integer  "released_fibers", :limit => 1
+    t.integer  "broken_fibers",   :limit => 1
     t.integer  "diagram_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "grupo",           :limit => 5
+    t.string   "name",            :limit => 20
   end
 
   create_table "test_attenuations", :force => true do |t|
@@ -218,23 +204,29 @@ ActiveRecord::Schema.define(:version => 20110119191024) do
     t.datetime "updated_at"
   end
 
-  create_table "test_pmds", :force => true do |t|
-    t.integer  "fiber_id",   :limit => 10, :precision => 10, :scale => 0
-    t.integer  "test_type",  :limit => 1
-    t.decimal  "pmd_set1_a",               :precision => 6,  :scale => 2
-    t.decimal  "pmd_set1_b",               :precision => 6,  :scale => 2
-    t.decimal  "pmd_set1_c",               :precision => 6,  :scale => 2
-    t.decimal  "pmd_set2_a",               :precision => 6,  :scale => 2
-    t.decimal  "pmd_set2_b",               :precision => 6,  :scale => 2
-    t.decimal  "pmd_set3_c",               :precision => 6,  :scale => 2
-    t.decimal  "pmd_set3_a",               :precision => 6,  :scale => 2
-    t.decimal  "pmd_mean",                 :precision => 6,  :scale => 2
-    t.decimal  "pmd_max",                  :precision => 6,  :scale => 2
-    t.decimal  "pmd_std",                  :precision => 6,  :scale => 2
-    t.decimal  "pmd_span",                 :precision => 6,  :scale => 2
-    t.decimal  "pmd_coef",                 :precision => 6,  :scale => 2
+  create_table "test_otdrs", :id => false, :force => true do |t|
+    t.integer  "id",                                       :default => 0, :null => false
+    t.integer  "fiber_id"
+    t.decimal  "orl_ab",     :precision => 6, :scale => 2
+    t.decimal  "orl_ba",     :precision => 6, :scale => 2
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "test_pmds", :force => true do |t|
+    t.integer  "fiber_id",       :limit => 10, :precision => 10, :scale => 0
+    t.decimal  "pmd_set1_a",                   :precision => 6,  :scale => 2
+    t.decimal  "pmd_set1_b",                   :precision => 6,  :scale => 2
+    t.decimal  "pmd_set1_c",                   :precision => 6,  :scale => 2
+    t.decimal  "pmd_set2_a",                   :precision => 6,  :scale => 2
+    t.decimal  "pmd_set2_b",                   :precision => 6,  :scale => 2
+    t.decimal  "pmd_set3_c",                   :precision => 6,  :scale => 2
+    t.decimal  "pmd_set3_a",                   :precision => 6,  :scale => 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "pmd_set2_c",                   :precision => 6,  :scale => 2
+    t.decimal  "pmd_set3_b",                   :precision => 6,  :scale => 2
+    t.decimal  "optical_length",               :precision => 15, :scale => 6
   end
 
   create_table "users", :force => true do |t|
